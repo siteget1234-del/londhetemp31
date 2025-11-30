@@ -1007,7 +1007,28 @@ export default function AdminDashboard() {
                   {editingProduct && (
                     <button
                       onClick={() => {
-                        setProductForm({ id: '', name: '', price: '', description: '', category: '', image: '', featured: false, searchKeywords: [] });
+                        setProductForm({ 
+                          id: '', 
+                          name: '', 
+                          price: '', 
+                          mrp: '', 
+                          offer: '', 
+                          description: '', 
+                          category: '', 
+                          image: '', 
+                          videoUrl: '', 
+                          specifications: {
+                            ingredients: '',
+                            quantity: '',
+                            usageMethod: '',
+                            effectiveness: '',
+                            applicableCrops: '',
+                            additionalInfo: '',
+                            specialNotes: ''
+                          },
+                          featured: false, 
+                          searchKeywords: [] 
+                        });
                         setEditingProduct(false);
                       }}
                       className="px-6 bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-3 rounded-lg transition"
