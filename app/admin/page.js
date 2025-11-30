@@ -475,9 +475,13 @@ export default function AdminDashboard() {
         id: editingProduct ? productForm.id : uuidv4(),
         name: productForm.name,
         price: parseFloat(productForm.price),
+        mrp: productForm.mrp ? parseFloat(productForm.mrp) : null,
+        offer: productForm.offer || '',
         description: productForm.description,
         category: productForm.category,
         image: productForm.image,
+        videoUrl: productForm.videoUrl || '',
+        specifications: productForm.specifications || {},
         featured: productForm.featured || false,
         searchKeywords: searchKeywords,
         isPending: true // Mark as pending/staged
