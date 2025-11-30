@@ -985,15 +985,125 @@ export default function AdminDashboard() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Description</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Description (वर्णन)</label>
                   <textarea
                     value={productForm.description}
                     onChange={(e) => setProductForm(prev => ({ ...prev, description: e.target.value }))}
-                    placeholder="Enter product description"
+                    placeholder="उत्पादनाचे वर्णन"
                     rows={3}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   />
                 </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Video URL (YouTube)</label>
+                  <input
+                    type="url"
+                    value={productForm.videoUrl}
+                    onChange={(e) => setProductForm(prev => ({ ...prev, videoUrl: e.target.value }))}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">वापरण्याची पद्धत दाखवणारा YouTube video URL</p>
+                </div>
+                
+                {/* Specifications Section */}
+                <div className="border-t pt-4 mt-4">
+                  <h3 className="text-lg font-bold text-gray-800 mb-3">महत्वाचे गुणधर्म (Specifications)</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">घटक (Ingredients)</label>
+                      <input
+                        type="text"
+                        value={productForm.specifications.ingredients}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specifications: { ...prev.specifications, ingredients: e.target.value }
+                        }))}
+                        placeholder="उदा: NPK 19:19:19"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">प्रमाण (Quantity)</label>
+                      <input
+                        type="text"
+                        value={productForm.specifications.quantity}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specifications: { ...prev.specifications, quantity: e.target.value }
+                        }))}
+                        placeholder="उदा: 1 किग्रॅ"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">वापरण्याची पद्धत (Usage Method)</label>
+                      <input
+                        type="text"
+                        value={productForm.specifications.usageMethod}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specifications: { ...prev.specifications, usageMethod: e.target.value }
+                        }))}
+                        placeholder="उदा: फवारणी किंवा ड्रिप"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">परिणामकारकता (Effectiveness)</label>
+                      <input
+                        type="text"
+                        value={productForm.specifications.effectiveness}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specifications: { ...prev.specifications, effectiveness: e.target.value }
+                        }))}
+                        placeholder="उदा: 7-10 दिवसात"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">पिकांसाठी लागू (Applicable Crops)</label>
+                      <input
+                        type="text"
+                        value={productForm.specifications.applicableCrops}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specifications: { ...prev.specifications, applicableCrops: e.target.value }
+                        }))}
+                        placeholder="उदा: ऊस, कापूस, सोयाबीन"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">अतिरिक्त माहिती (Additional Info)</label>
+                      <input
+                        type="text"
+                        value={productForm.specifications.additionalInfo}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specifications: { ...prev.specifications, additionalInfo: e.target.value }
+                        }))}
+                        placeholder="कोणतीही अतिरिक्त माहिती"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                  <div className="mt-4">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">विशेष टिप्पनी (Special Notes)</label>
+                    <textarea
+                      value={productForm.specifications.specialNotes}
+                      onChange={(e) => setProductForm(prev => ({ 
+                        ...prev, 
+                        specifications: { ...prev.specifications, specialNotes: e.target.value }
+                      }))}
+                      placeholder="विशेष सूचना किंवा टिप्पणी"
+                      rows={2}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+                
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image (Max 100KB)</label>
                   <div className="space-y-3">
