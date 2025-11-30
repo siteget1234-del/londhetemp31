@@ -234,8 +234,22 @@ export default function Home() {
       }
     };
 
+    const discountPercent = selectedProduct.mrp && selectedProduct.price < selectedProduct.mrp 
+      ? Math.round(((selectedProduct.mrp - selectedProduct.price) / selectedProduct.mrp) * 100)
+      : null;
+
+    // Helper to extract YouTube video ID
+    const getYouTubeEmbedUrl = (url) => {
+      if (!url) return null;
+      const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+    };
+
+    const videoEmbedUrl = getYouTubeEmbedUrl(selectedProduct.videoUrl);
+
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 pb-24">
         {/* Header */}
         <header className="bg-emerald-700 text-white sticky top-0 z-50 shadow-lg">
           <div className="container mx-auto px-4 py-4">
@@ -243,69 +257,178 @@ export default function Home() {
               <button 
                 onClick={handleCloseModal}
                 className="flex items-center space-x-2 hover:bg-emerald-600 px-3 py-2 rounded-lg transition"
+                data-testid="back-btn"
               >
                 <ChevronLeft className="w-5 h-5" />
                 <span>परत</span>
               </button>
-              <button 
-                onClick={() => setShowCart(true)}
-                className="relative p-2 hover:bg-emerald-600 rounded-full transition"
-              >
-                <ShoppingCart className="w-6 h-6" />
-                {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
-                    {cartItemCount}
-                  </span>
-                )}
-              </button>
+              <span className="text-sm font-semibold">अ‍ॅग्रोस्टार : {selectedProduct.category}</span>
             </div>
           </div>
         </header>
 
-        {/* Product Detail */}
-        <div className="container mx-auto px-4 py-6">
-          <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+        {/* Product Detail - Modular Sections */}
+        <div className="container mx-auto px-4 py-6 space-y-4">
+          
+          {/* Product Image + Name */}
+          <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <img 
               src={selectedProduct.image || 'https://via.placeholder.com/400x300?text=Product+Image'} 
               alt={selectedProduct.name}
               className="w-full h-64 object-cover"
+              data-testid="product-detail-image"
             />
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <h1 className="text-2xl font-bold text-gray-800">{selectedProduct.name}</h1>
-                <span className="bg-emerald-100 text-emerald-700 px-4 py-2 rounded-full text-sm font-semibold">
-                  {selectedProduct.category}
+            <div className="p-4">
+              <h1 className="text-xl font-bold text-gray-800" data-testid="product-detail-name">
+                {selectedProduct.name}
+              </h1>
+              {selectedProduct.specifications?.quantity && (
+                <p className="text-sm text-gray-500 mt-1">प्रति युनिटचे मुल्य • सर्व कर लागू</p>
+              )}
+            </div>
+          </div>
+
+          {/* Price & Offers Section */}
+          <div className="bg-white rounded-xl shadow-md p-4 space-y-3">
+            <div className="flex items-baseline space-x-3">
+              <span className="text-3xl font-bold text-gray-900" data-testid="detail-selling-price">
+                ₹{selectedProduct.price}
+              </span>
+              {selectedProduct.mrp && selectedProduct.mrp > selectedProduct.price && (
+                <span className="text-lg text-gray-500 line-through" data-testid="detail-mrp">
+                  ₹{selectedProduct.mrp}
                 </span>
-              </div>
-              
-              <div className="text-3xl font-bold text-emerald-600 mb-6">₹{selectedProduct.price}</div>
-              
-              <div className="space-y-4 mb-6">
-                <div>
-                  <h3 className="font-bold text-gray-800 mb-2">वर्णन:</h3>
-                  <p className="text-gray-600 leading-relaxed">{selectedProduct.description}</p>
+              )}
+            </div>
+            
+            {/* Offer Blocks */}
+            {discountPercent && (
+              <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-3 flex items-center space-x-2">
+                <span className="text-2xl">💰</span>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-green-700">MH_{discountPercent}% OFF</p>
+                  <p className="text-xs text-green-600">उत्पादन सूट • सर्व ग्राहकांसाठी लागू आहे</p>
                 </div>
               </div>
-              
-              <div className="flex space-x-3">
-                <button
-                  onClick={() => {
-                    addToCart(selectedProduct);
-                    setShowCart(true);
-                  }}
-                  className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-4 px-6 rounded-xl transition flex items-center justify-center space-x-2"
-                >
-                  <Plus className="w-5 h-5" />
-                  <span>कार्टमध्ये जोडा</span>
-                </button>
-                <a
-                  href={`tel:${shopData?.shop_number}`}
-                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-6 rounded-xl transition flex items-center justify-center"
-                >
-                  <Phone className="w-6 h-6" />
-                </a>
+            )}
+            
+            {selectedProduct.offer && (
+              <div className="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg p-3 flex items-center space-x-2">
+                <span className="text-2xl">🎁</span>
+                <div className="flex-1">
+                  <p className="text-sm font-bold text-red-700">{selectedProduct.offer}</p>
+                  <p className="text-xs text-red-600">विशेष ऑफर किमान ऑर्डर खालील किंवा आर्डरची आर्डर</p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Video Section */}
+          {videoEmbedUrl && (
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-emerald-50 px-4 py-3 border-b border-emerald-100">
+                <h2 className="text-lg font-bold text-gray-800 flex items-center space-x-2">
+                  <span>📹</span>
+                  <span>वापराची पद्धत</span>
+                </h2>
+              </div>
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  src={videoEmbedUrl}
+                  title="Product Video"
+                  className="absolute top-0 left-0 w-full h-full"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  data-testid="product-video"
+                ></iframe>
               </div>
             </div>
+          )}
+
+          {/* Specifications Section */}
+          {selectedProduct.specifications && Object.values(selectedProduct.specifications).some(val => val) && (
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              <div className="bg-emerald-50 px-4 py-3 border-b border-emerald-100">
+                <h2 className="text-lg font-bold text-gray-800 flex items-center space-x-2">
+                  <span>⭐</span>
+                  <span>महत्वाचे गुणधर्म</span>
+                </h2>
+              </div>
+              <div className="p-4">
+                <table className="w-full text-sm" data-testid="specifications-table">
+                  <tbody className="divide-y divide-gray-200">
+                    {selectedProduct.specifications.ingredients && (
+                      <tr>
+                        <td className="py-3 pr-4 font-semibold text-gray-700">घटक</td>
+                        <td className="py-3 text-gray-600">{selectedProduct.specifications.ingredients}</td>
+                      </tr>
+                    )}
+                    {selectedProduct.specifications.quantity && (
+                      <tr>
+                        <td className="py-3 pr-4 font-semibold text-gray-700">प्रमाण</td>
+                        <td className="py-3 text-gray-600">{selectedProduct.specifications.quantity}</td>
+                      </tr>
+                    )}
+                    {selectedProduct.specifications.usageMethod && (
+                      <tr>
+                        <td className="py-3 pr-4 font-semibold text-gray-700">वापरण्याची पद्धत</td>
+                        <td className="py-3 text-gray-600">{selectedProduct.specifications.usageMethod}</td>
+                      </tr>
+                    )}
+                    {selectedProduct.specifications.effectiveness && (
+                      <tr>
+                        <td className="py-3 pr-4 font-semibold text-gray-700">परिणामकारकता</td>
+                        <td className="py-3 text-gray-600">{selectedProduct.specifications.effectiveness}</td>
+                      </tr>
+                    )}
+                    {selectedProduct.specifications.applicableCrops && (
+                      <tr>
+                        <td className="py-3 pr-4 font-semibold text-gray-700">पिकांसाठी लागू</td>
+                        <td className="py-3 text-gray-600">{selectedProduct.specifications.applicableCrops}</td>
+                      </tr>
+                    )}
+                    {selectedProduct.specifications.additionalInfo && (
+                      <tr>
+                        <td className="py-3 pr-4 font-semibold text-gray-700">अतिरिक्त माहिती</td>
+                        <td className="py-3 text-gray-600">{selectedProduct.specifications.additionalInfo}</td>
+                      </tr>
+                    )}
+                    {selectedProduct.specifications.specialNotes && (
+                      <tr>
+                        <td className="py-3 pr-4 font-semibold text-gray-700">विशेष टिप्पनी</td>
+                        <td className="py-3 text-gray-600">{selectedProduct.specifications.specialNotes}</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Description Section */}
+          {selectedProduct.description && (
+            <div className="bg-white rounded-xl shadow-md p-4">
+              <h3 className="font-bold text-gray-800 mb-2 text-sm">विस्तृत वर्णन</h3>
+              <p className="text-gray-600 leading-relaxed text-sm">{selectedProduct.description}</p>
+            </div>
+          )}
+        </div>
+
+        {/* Sticky Footer - Buy Now Button */}
+        <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-2xl z-40">
+          <div className="container mx-auto px-4 py-3">
+            <button
+              onClick={() => {
+                addToCart(selectedProduct);
+                setShowCart(true);
+              }}
+              className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 rounded-xl transition-all duration-200 shadow-lg flex items-center justify-center space-x-2"
+              data-testid="detail-buy-now-btn"
+            >
+              <span className="text-lg">खरेदी करा</span>
+              <span className="text-xl">→</span>
+            </button>
           </div>
         </div>
       </div>
