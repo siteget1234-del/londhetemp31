@@ -906,17 +906,39 @@ export default function AdminDashboard() {
                       type="text"
                       value={productForm.name}
                       onChange={(e) => setProductForm(prev => ({ ...prev, name: e.target.value }))}
-                      placeholder="Enter product name"
+                      placeholder="उत्पादनाचे नाव"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Price *</label>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Selling Price (विक्री किंमत) *</label>
                     <input
                       type="number"
                       value={productForm.price}
                       onChange={(e) => setProductForm(prev => ({ ...prev, price: e.target.value }))}
-                      placeholder="Enter price"
+                      placeholder="₹ विक्री किंमत"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">MRP (किरकोळ किंमत)</label>
+                    <input
+                      type="number"
+                      value={productForm.mrp}
+                      onChange={(e) => setProductForm(prev => ({ ...prev, mrp: e.target.value }))}
+                      placeholder="₹ MRP (strikethrough साठी)"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Text (ऑफर)</label>
+                    <input
+                      type="text"
+                      value={productForm.offer}
+                      onChange={(e) => setProductForm(prev => ({ ...prev, offer: e.target.value }))}
+                      placeholder="उदा: 10% सूट किंवा ₹50/युनिट"
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                     />
                   </div>
