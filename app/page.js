@@ -552,48 +552,71 @@ export default function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-2 gap-3">
-            {displayProducts.map(product => (
-              <div 
-                key={product.id} 
-                onClick={() => setSelectedProduct(product)}
-                className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.02] active:scale-[0.98]"
-              >
-                <div className="relative">
-                  <img 
-                    src={product.image || 'https://via.placeholder.com/400x300?text=Product+Image'} 
-                    alt={product.name}
-                    className="w-full h-36 object-cover"
-                  />
-                  <div className="absolute top-2 right-2 bg-emerald-600 text-white px-2 py-1 rounded-full text-xs font-bold shadow-lg">
-                    ₹{product.price}
+            {displayProducts.map(product => {
+              const discountPercent = product.mrp && product.price < product.mrp 
+                ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
+                : null;
+              
+              return (
+                <div 
+                  key={product.id} 
+                  onClick={() => setSelectedProduct(product)}
+                  className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.02] active:scale-[0.98]"
+                  data-testid={`product-card-${product.id}`}
+                >
+                  {/* Product Image - No overlay */}
+                  <div className="relative">
+                    <img 
+                      src={product.image || 'https://via.placeholder.com/400x300?text=Product+Image'} 
+                      alt={product.name}
+                      className="w-full h-36 object-cover"
+                    />
                   </div>
-                </div>
-                <div className="p-3">
-                  <h3 className="text-sm font-bold text-gray-800 mb-1 line-clamp-1">{product.name}</h3>
-                  <p className="text-gray-600 text-xs mb-3 line-clamp-2 leading-relaxed">{product.description}</p>
                   
-                  <div className="flex space-x-2">
+                  {/* Product Info */}
+                  <div className="p-3 space-y-2">
+                    {/* Product Name */}
+                    <h3 className="text-sm font-bold text-gray-800 line-clamp-2 leading-tight" data-testid="product-name">
+                      {product.name}
+                    </h3>
+                    
+                    {/* Price Section */}
+                    <div className="flex items-center space-x-2">
+                      <span className="text-lg font-bold text-gray-900" data-testid="product-price">
+                        ₹{product.price}
+                      </span>
+                      {product.mrp && product.mrp > product.price && (
+                        <span className="text-xs text-gray-500 line-through" data-testid="product-mrp">
+                          ₹{product.mrp}
+                        </span>
+                      )}
+                    </div>
+                    
+                    {/* Offer Badge */}
+                    {product.offer && (
+                      <div className="bg-red-50 border border-red-200 rounded-md px-2 py-1">
+                        <span className="text-xs font-bold text-red-600" data-testid="product-offer">
+                          {product.offer}
+                        </span>
+                      </div>
+                    )}
+                    
+                    {/* Buy Now Button - Full Width Dark Green */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         addToCart(product);
+                        setShowCart(true);
                       }}
-                      className="flex-1 bg-gradient-to-r from-emerald-600 to-emerald-500 hover:from-emerald-700 hover:to-emerald-600 text-white font-bold py-2.5 px-3 rounded-lg transition-all duration-200 flex items-center justify-center space-x-1 text-xs shadow-md"
+                      className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg transition-all duration-200 shadow-md"
+                      data-testid="buy-now-btn"
                     >
-                      <Plus className="w-4 h-4" />
-                      <span>जोडा</span>
+                      खरेदी करा
                     </button>
-                    <a
-                      href={`tel:${shopData?.shop_number}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white font-bold py-2.5 px-3 rounded-lg transition-all duration-200 flex items-center justify-center shadow-md"
-                    >
-                      <Phone className="w-4 h-4" />
-                    </a>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
       </section>
