@@ -1404,10 +1404,11 @@ export default function AdminDashboard() {
                 </div>
               )}
               
-              {shopData.products.length === 0 && pendingProducts.length === 0 ? (
-                <p className="text-gray-500 text-center py-8">No products added yet</p>
-              ) : (
-                <div className="space-y-6">
+              <div className="px-6 pb-6">
+                {shopData.products.length === 0 && pendingProducts.length === 0 ? (
+                  <p className="text-gray-500 text-center py-8">No products added yet</p>
+                ) : (
+                  <div className="space-y-6">
                   {/* Pending Products Section */}
                   {pendingProducts.length > 0 && (
                     <div>
