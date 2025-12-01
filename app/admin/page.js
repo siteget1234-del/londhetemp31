@@ -1346,33 +1346,33 @@ export default function AdminDashboard() {
             <div className="bg-white rounded-xl shadow-md overflow-hidden">
               {/* Contextual Action Bar - appears in selection mode at top of container */}
               {isSelectionMode ? (
-                <div className="sticky top-0 z-10 bg-gradient-to-r from-red-600 to-red-700 text-white shadow-xl -mx-6 -mt-6 mb-4 px-6 py-4">
+                <div className="sticky top-0 z-10 bg-gradient-to-r from-red-600 to-red-700 text-white shadow-xl -mx-6 -mt-6 mb-4 px-6 py-3">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-3">
                       <button
                         onClick={handleCancelSelection}
-                        className="hover:bg-red-800 p-2 rounded-full transition"
+                        className="hover:bg-red-800 p-1.5 rounded-full transition"
                       >
-                        <X className="w-6 h-6" />
+                        <X className="w-5 h-5" />
                       </button>
-                      <h3 className="text-lg font-bold">
+                      <h3 className="text-base font-semibold">
                         {selectedProducts.length} Selected
                       </h3>
                     </div>
                     <div className="flex items-center space-x-2">
                       <button
                         onClick={handleSelectAllProducts}
-                        className="bg-red-800 hover:bg-red-900 px-4 py-2 rounded-lg font-bold transition"
+                        className="bg-red-800 hover:bg-red-900 px-3 py-1.5 rounded-lg font-semibold transition text-sm"
                       >
                         {selectedProducts.length === shopData.products.length ? 'Deselect All' : 'Select All'}
                       </button>
                       <button
                         onClick={handleDeleteMultiple}
                         disabled={saving}
-                        className="bg-white text-red-600 hover:bg-gray-100 font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
+                        className="bg-white text-red-600 hover:bg-gray-100 font-semibold px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 disabled:opacity-50 text-sm"
                         data-testid="delete-selected-btn"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="w-4 h-4" />
                         <span>{saving ? 'Deleting...' : 'Delete'}</span>
                       </button>
                     </div>
@@ -1404,7 +1404,7 @@ export default function AdminDashboard() {
                 </div>
               )}
               
-              <div className="px-6 pb-6">
+              <div className={`px-6 pb-6 ${isSelectionMode ? 'pt-20' : ''}`}>
                 {shopData.products.length === 0 && pendingProducts.length === 0 ? (
                   <p className="text-gray-500 text-center py-8">No products added yet</p>
                 ) : (
