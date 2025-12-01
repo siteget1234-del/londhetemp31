@@ -464,12 +464,12 @@ export default function AdminDashboard() {
       return;
     }
 
-    // Check product limit - max 100 products (saved + pending)
-    const totalProducts = shopData.products.length + pendingProducts.length;
-    if (!editingProduct && totalProducts >= 100) {
-      showMessage('error', 'Maximum 100 products allowed');
-      return;
-    }
+    // No product limit - unlimited products allowed
+    // const totalProducts = shopData.products.length + pendingProducts.length;
+    // if (!editingProduct && totalProducts >= 100) {
+    //   showMessage('error', 'Maximum 100 products allowed');
+    //   return;
+    // }
 
     setSaving(true);
     try {
