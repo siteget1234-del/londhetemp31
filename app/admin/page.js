@@ -1390,6 +1390,13 @@ export default function AdminDashboard() {
                   {pendingProducts.length > 0 && (
                     <div>
                       <div className="flex items-center space-x-2 mb-3">
+                        <input
+                          type="checkbox"
+                          checked={selectedPendingProducts.length === pendingProducts.length && pendingProducts.length > 0}
+                          onChange={() => handleSelectAllProducts(true)}
+                          className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
+                          title="Select all pending products"
+                        />
                         <div className="h-px flex-1 bg-orange-200"></div>
                         <h4 className="text-sm font-bold text-orange-600 uppercase tracking-wide">
                           Pending Products (Not Saved Yet)
