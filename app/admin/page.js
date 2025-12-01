@@ -1142,7 +1142,7 @@ export default function AdminDashboard() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-gray-700 mb-2">Select Quantity</label>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Select Quantity (Batch Size)</label>
                       <select
                         value={productForm.specialOffer.quantity}
                         onChange={(e) => setProductForm(prev => ({ 
@@ -1152,13 +1152,9 @@ export default function AdminDashboard() {
                         className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                       >
                         <option value="">निवडा</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="5">5</option>
-                        <option value="10">10</option>
-                        <option value="20">20</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
+                        {Array.from({ length: 50 }, (_, i) => i + 1).map(num => (
+                          <option key={num} value={num}>{num}</option>
+                        ))}
                       </select>
                     </div>
                     <div>
