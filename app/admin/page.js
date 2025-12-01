@@ -26,9 +26,10 @@ export default function AdminDashboard() {
   // Pending Products Queue (from Local Storage)
   const [pendingProducts, setPendingProducts] = useState([]);
   
-  // Multiple select state
+  // Selection mode state (for saved products only)
+  const [isSelectionMode, setIsSelectionMode] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [selectedPendingProducts, setSelectedPendingProducts] = useState([]);
+  const [longPressTimer, setLongPressTimer] = useState(null);
 
   // Predefined Categories
   const PREDEFINED_CATEGORIES = [
