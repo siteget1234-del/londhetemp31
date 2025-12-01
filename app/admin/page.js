@@ -1020,28 +1020,76 @@ export default function AdminDashboard() {
                     />
                   </div>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">MRP (किरकोळ किंमत)</label>
-                    <input
-                      type="number"
-                      value={productForm.mrp}
-                      onChange={(e) => setProductForm(prev => ({ ...prev, mrp: e.target.value }))}
-                      placeholder="₹ MRP (strikethrough साठी)"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Text (ऑफर)</label>
-                    <input
-                      type="text"
-                      value={productForm.offer}
-                      onChange={(e) => setProductForm(prev => ({ ...prev, offer: e.target.value }))}
-                      placeholder="उदा: 10% सूट किंवा ₹50/युनिट"
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-                    />
-                  </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">MRP (किरकोळ किंमत)</label>
+                  <input
+                    type="number"
+                    value={productForm.mrp}
+                    onChange={(e) => setProductForm(prev => ({ ...prev, mrp: e.target.value }))}
+                    placeholder="₹ MRP (strikethrough साठी)"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
                 </div>
+                
+                {/* Special Offer Section - Moved here */}
+                <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-xl shadow-sm p-4 border-2 border-red-200">
+                  <div className="flex items-center space-x-2 mb-3">
+                    <span className="text-2xl">🎁</span>
+                    <h3 className="text-base font-bold text-gray-800">विशेष ऑफर (Special Offer)</h3>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Name</label>
+                      <input
+                        type="text"
+                        value={productForm.specialOffer.offerName}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specialOffer: { ...prev.specialOffer, offerName: e.target.value }
+                        }))}
+                        placeholder="उदा: खरेदी करा 10"
+                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Select Quantity (Batch Size)</label>
+                      <select
+                        value={productForm.specialOffer.quantity}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specialOffer: { ...prev.specialOffer, quantity: e.target.value }
+                        }))}
+                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                      >
+                        <option value="">निवडा</option>
+                        {Array.from({ length: 50 }, (_, i) => i + 1).map(num => (
+                          <option key={num} value={num}>{num}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-gray-700 mb-2">Offer Price - Per Unit</label>
+                      <input
+                        type="number"
+                        value={productForm.specialOffer.offerPricePerUnit}
+                        onChange={(e) => setProductForm(prev => ({ 
+                          ...prev, 
+                          specialOffer: { ...prev.specialOffer, offerPricePerUnit: e.target.value }
+                        }))}
+                        placeholder="₹ प्रति युनिट"
+                        className="w-full px-3 py-2 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                      />
+                    </div>
+                  </div>
+                  {productForm.specialOffer.offerName && productForm.specialOffer.quantity && productForm.specialOffer.offerPricePerUnit && (
+                    <div className="mt-3 bg-white border border-red-300 rounded-lg p-2">
+                      <p className="text-xs text-gray-700">
+                        <strong>Auto Description:</strong> {productForm.specialOffer.offerName} - {productForm.specialOffer.quantity} युनिट्स @ ₹{productForm.specialOffer.offerPricePerUnit}/युनिट (एकूण: ₹{productForm.specialOffer.quantity * productForm.specialOffer.offerPricePerUnit})
+                      </p>
+                    </div>
+                  )}
+                </div>
+                
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
