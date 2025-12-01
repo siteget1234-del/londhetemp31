@@ -1042,7 +1042,10 @@ export default function Home() {
                 <div className="space-y-4">
                   {cartTotals.items.map(item => {
                     const pricing = item.pricing;
-                    const hasOffer = item.specialOffer?.offerName && item.offerType === 'bulk';
+                    const hasSpecialOffer = item.specialOffer?.offerName && 
+                                           item.specialOffer?.quantity && 
+                                           item.specialOffer?.offerPricePerUnit;
+                    const currentOfferType = item.offerType || 'regular';
                     
                     return (
                       <div key={item.id} className="bg-white border-2 border-gray-200 rounded-xl p-4 hover:shadow-md transition">
@@ -1056,7 +1059,7 @@ export default function Home() {
                             <div className="flex items-start justify-between mb-2">
                               <div>
                                 <h3 className="font-bold text-gray-800 text-sm leading-tight">{item.name}</h3>
-                                {hasOffer && (
+                                {currentOfferType === 'bulk' && hasSpecialOffer && (
                                   <span className="inline-block mt-1 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">
                                     🎁 {item.specialOffer.offerName}
                                   </span>
@@ -1071,8 +1074,59 @@ export default function Home() {
                               </button>
                             </div>
                             
+                            {/* Offer Selection - Only show if special offer exists */}
+                            {hasSpecialOffer && (
+                              <div className="mb-2 space-y-1">
+                                <div className="flex items-center space-x-2">
+                                  {/* Regular Offer */}
+                                  <button
+                                    onClick={() => updateCartOfferType(item.id, 'regular')}
+                                    className={`flex-1 text-left rounded-md px-2 py-1.5 border text-xs transition ${
+                                      currentOfferType === 'regular' 
+                                        ? 'bg-orange-50 border-orange-400 font-bold' 
+                                        : 'bg-gray-50 border-gray-300'
+                                    }`}
+                                    data-testid="cart-offer-regular"
+                                  >
+                                    <div className="flex items-center space-x-1">
+                                      <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${
+                                        currentOfferType === 'regular' ? 'border-orange-600' : 'border-gray-400'
+                                      }`}>
+                                        {currentOfferType === 'regular' && (
+                                          <div className="w-1.5 h-1.5 rounded-full bg-orange-600"></div>
+                                        )}
+                                      </div>
+                                      <span>नियमित</span>
+                                    </div>
+                                  </button>
+                                  
+                                  {/* Bulk Offer */}
+                                  <button
+                                    onClick={() => updateCartOfferType(item.id, 'bulk')}
+                                    className={`flex-1 text-left rounded-md px-2 py-1.5 border text-xs transition ${
+                                      currentOfferType === 'bulk' 
+                                        ? 'bg-emerald-50 border-emerald-500 font-bold' 
+                                        : 'bg-gray-50 border-gray-300'
+                                    }`}
+                                    data-testid="cart-offer-bulk"
+                                  >
+                                    <div className="flex items-center space-x-1">
+                                      <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${
+                                        currentOfferType === 'bulk' ? 'border-emerald-600' : 'border-gray-400'
+                                      }`}>
+                                        {currentOfferType === 'bulk' && (
+                                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-600"></div>
+                                        )}
+                                      </div>
+                                      <span>बल्क ऑफर</span>
+                                    </div>
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                            
                             {/* Price Display */}
-                            {hasOffer && pricing.discount > 0 ? (
+                            {currentOfferType === 'bulk' && hasSpecialOffer && pricing.discount > 0 ? (
                               <div className="mb-2 space-y-1">
                                 <div className="flex items-center space-x-2">
                                   <p className="text-emerald-600 font-bold text-base">₹{Math.round(pricing.total)}</p>
