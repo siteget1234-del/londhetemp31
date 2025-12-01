@@ -1098,7 +1098,9 @@ export default function Home() {
               {deliveryAddress ? (
                 <div className="bg-white rounded-lg p-3 border border-gray-200" data-testid="address-display">
                   <p className="font-bold text-gray-800 text-sm">{deliveryAddress.name}</p>
-                  <p className="text-gray-600 text-xs mt-1">{deliveryAddress.address}</p>
+                  <p className="text-gray-600 text-xs mt-1">
+                    {deliveryAddress.addressLine}, {deliveryAddress.cityVillage}, {deliveryAddress.state}, {deliveryAddress.pincode}
+                  </p>
                 </div>
               ) : (
                 <div className="bg-red-50 border border-red-200 rounded-lg p-3 flex items-start space-x-2" data-testid="address-error">
