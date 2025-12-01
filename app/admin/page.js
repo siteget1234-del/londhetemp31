@@ -1351,25 +1351,9 @@ export default function AdminDashboard() {
                   </h3>
                   <p className="text-sm text-gray-500 mt-1">
                     Saved: {shopData.products.length} | Pending: {pendingProducts.length}
-                    {(selectedProducts.length > 0 || selectedPendingProducts.length > 0) && (
-                      <span className="ml-2 text-red-600 font-bold">
-                        • {selectedProducts.length + selectedPendingProducts.length} selected
-                      </span>
-                    )}
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
-                  {(selectedProducts.length > 0 || selectedPendingProducts.length > 0) && (
-                    <button
-                      onClick={handleDeleteMultiple}
-                      disabled={saving}
-                      className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
-                      data-testid="delete-selected-btn"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                      <span>{saving ? 'Deleting...' : `Delete Selected (${selectedProducts.length + selectedPendingProducts.length})`}</span>
-                    </button>
-                  )}
                   {pendingProducts.length > 0 && (
                     <button
                       onClick={handleBulkSaveProducts}
@@ -1383,6 +1367,42 @@ export default function AdminDashboard() {
                   )}
                 </div>
               </div>
+              
+              {/* Contextual Action Bar - appears in selection mode */}
+              {isSelectionMode && (
+                <div className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-r from-red-600 to-red-700 text-white shadow-2xl">
+                  <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <button
+                        onClick={handleCancelSelection}
+                        className="hover:bg-red-800 p-2 rounded-full transition"
+                      >
+                        <X className="w-6 h-6" />
+                      </button>
+                      <h3 className="text-lg font-bold">
+                        {selectedProducts.length} Selected
+                      </h3>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={handleSelectAllProducts}
+                        className="bg-red-800 hover:bg-red-900 px-4 py-2 rounded-lg font-bold transition"
+                      >
+                        {selectedProducts.length === shopData.products.length ? 'Deselect All' : 'Select All'}
+                      </button>
+                      <button
+                        onClick={handleDeleteMultiple}
+                        disabled={saving}
+                        className="bg-white text-red-600 hover:bg-gray-100 font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
+                        data-testid="delete-selected-btn"
+                      >
+                        <Trash2 className="w-5 h-5" />
+                        <span>{saving ? 'Deleting...' : 'Delete'}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
               
               {shopData.products.length === 0 && pendingProducts.length === 0 ? (
                 <p className="text-gray-500 text-center py-8">No products added yet</p>
