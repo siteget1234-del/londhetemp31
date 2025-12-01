@@ -25,6 +25,7 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [user, setUser] = useState(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [selectedOffers, setSelectedOffers] = useState({}); // Track which products have offer applied
   
   // Live data from Supabase
   const [shopData, setShopData] = useState(null);
