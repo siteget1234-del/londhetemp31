@@ -259,10 +259,10 @@ export default function AdminDashboard() {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file size - max 100KB for products
-    const maxSize = 100 * 1024; // 100KB in bytes
+    // Validate file size - max 3MB for products
+    const maxSize = 3 * 1024 * 1024; // 3MB in bytes
     if (file.size > maxSize) {
-      showMessage('error', 'Product image must be less than 100KB');
+      showMessage('error', 'Product image must be less than 3MB');
       e.target.value = ''; // Clear the input
       return;
     }
