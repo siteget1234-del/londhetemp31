@@ -724,23 +724,42 @@ export default function AdminDashboard() {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Validate file size - max 5MB for banners
-    const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-    if (file.size > maxSize) {
-      showMessage('error', 'Banner image must be less than 5MB');
-      e.target.value = ''; // Clear the input
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      showMessage('error', 'Please select a valid image file');
+      e.target.value = '';
       return;
     }
 
     setUploadingBannerImage(true);
+    setBannerCompressionProgress(null);
+    
     try {
-      const imageUrl = await uploadToCloudinary(file);
+      // Two-Step Compression for Banner (≤50KB)
+      const compressedFile = await compressImageTwoStep(file, 'banner', (progress) => {
+        setBannerCompressionProgress(progress);
+      });
+
+      // Upload compressed image to Cloudinary
+      setBannerCompressionProgress({ 
+        step: 3, 
+        message: 'Uploading to cloud...', 
+        progress: 95 
+      });
+      
+      const imageUrl = await uploadToCloudinary(compressedFile);
+      
       setBannerForm(prev => ({ ...prev, image: imageUrl }));
-      showMessage('success', 'Banner image uploaded successfully!');
+      
+      showMessage('success', `Banner compressed (${(compressedFile.size / 1024).toFixed(2)}KB) & uploaded!`);
+      setBannerCompressionProgress(null);
     } catch (error) {
-      showMessage('error', 'Failed to upload banner image');
+      console.error('Banner upload error:', error);
+      showMessage('error', 'Failed to compress/upload banner image');
+      setBannerCompressionProgress(null);
     } finally {
       setUploadingBannerImage(false);
+      e.target.value = ''; // Clear input
     }
   };
 
