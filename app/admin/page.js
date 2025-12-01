@@ -70,6 +70,7 @@ export default function AdminDashboard() {
   });
   const [editingProduct, setEditingProduct] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [compressionProgress, setCompressionProgress] = useState(null);
 
   // Banner Form
   const [bannerForm, setBannerForm] = useState({
@@ -80,6 +81,7 @@ export default function AdminDashboard() {
   });
   const [editingBanner, setEditingBanner] = useState(false);
   const [uploadingBannerImage, setUploadingBannerImage] = useState(false);
+  const [bannerCompressionProgress, setBannerCompressionProgress] = useState(null);
 
   useEffect(() => {
     checkAuth();
