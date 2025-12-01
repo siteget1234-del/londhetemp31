@@ -1003,11 +1003,9 @@ export default function Home() {
                     
                     {/* Special Offer Text */}
                     {hasSpecialOffer && (
-                      <div className="bg-red-50 border border-red-300 rounded-md px-2 py-1.5">
-                        <p className="text-xs font-bold text-red-700">
-                          ऑफर किंमत ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
-                        </p>
-                      </div>
+                      <p className="text-xs text-red-600">
+                        ऑफर किंमत ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
+                      </p>
                     )}
                     
                     {/* Buy Now Button - Full Width Dark Green */}
