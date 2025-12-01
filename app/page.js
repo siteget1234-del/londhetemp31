@@ -930,7 +930,7 @@ export default function Home() {
                                 <Plus className="w-4 h-4" />
                               </button>
                             </div>
-                            <span className="font-bold text-gray-800 text-lg">₹{item.price * item.quantity}</span>
+                            <span className="font-bold text-gray-800 text-lg">₹{(item.effectivePrice || item.price) * item.quantity}</span>
                           </div>
                         </div>
                       </div>
