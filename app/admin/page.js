@@ -1343,35 +1343,11 @@ export default function AdminDashboard() {
             </div>
 
             {/* Products List */}
-            <div className="bg-white rounded-xl shadow-md p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div>
-                  <h3 className="text-xl font-bold text-gray-800">
-                    All Products ({shopData.products.length + pendingProducts.length})
-                  </h3>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Saved: {shopData.products.length} | Pending: {pendingProducts.length}
-                  </p>
-                </div>
-                <div className="flex items-center space-x-2">
-                  {pendingProducts.length > 0 && (
-                    <button
-                      onClick={handleBulkSaveProducts}
-                      disabled={saving}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
-                      data-testid="save-all-btn"
-                    >
-                      <Save className="w-5 h-5" />
-                      <span>{saving ? 'Saving...' : `Save All (${pendingProducts.length})`}</span>
-                    </button>
-                  )}
-                </div>
-              </div>
-              
-              {/* Contextual Action Bar - appears in selection mode */}
-              {isSelectionMode && (
-                <div className="fixed top-0 left-0 right-0 z-[100] bg-gradient-to-r from-red-600 to-red-700 text-white shadow-2xl">
-                  <div className="max-w-full px-4 py-4 flex items-center justify-between">
+            <div className="bg-white rounded-xl shadow-md overflow-hidden">
+              {/* Contextual Action Bar - appears in selection mode at top of container */}
+              {isSelectionMode ? (
+                <div className="sticky top-0 z-10 bg-gradient-to-r from-red-600 to-red-700 text-white shadow-xl -mx-6 -mt-6 mb-4 px-6 py-4">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <button
                         onClick={handleCancelSelection}
@@ -1400,6 +1376,30 @@ export default function AdminDashboard() {
                         <span>{saving ? 'Deleting...' : 'Delete'}</span>
                       </button>
                     </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between mb-4 p-6">
+                  <div>
+                    <h3 className="text-xl font-bold text-gray-800">
+                      All Products ({shopData.products.length + pendingProducts.length})
+                    </h3>
+                    <p className="text-sm text-gray-500 mt-1">
+                      Saved: {shopData.products.length} | Pending: {pendingProducts.length}
+                    </p>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    {pendingProducts.length > 0 && (
+                      <button
+                        onClick={handleBulkSaveProducts}
+                        disabled={saving}
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
+                        data-testid="save-all-btn"
+                      >
+                        <Save className="w-5 h-5" />
+                        <span>{saving ? 'Saving...' : `Save All (${pendingProducts.length})`}</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
