@@ -1489,17 +1489,29 @@ export default function AdminDashboard() {
                         {shopData.products.map(product => (
                           <div 
                             key={product.id} 
-                            className={`border rounded-lg p-3 hover:shadow-lg transition relative cursor-pointer ${
+                            className={`border rounded-lg p-3 transition relative select-none ${
                               selectedProducts.includes(product.id) 
-                                ? 'border-red-500 bg-red-50 border-2' 
-                                : 'border-gray-200'
-                            }`}
-                            onMouseDown={() => handleLongPressStart(product.id)}
+                                ? 'border-red-500 bg-red-50 border-2 shadow-lg' 
+                                : 'border-gray-200 hover:shadow-lg cursor-pointer'
+                            } ${isSelectionMode ? 'cursor-pointer' : ''}`}
+                            onMouseDown={(e) => {
+                              if (!isSelectionMode && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                                handleLongPressStart(product.id);
+                              }
+                            }}
                             onMouseUp={handleLongPressEnd}
                             onMouseLeave={handleLongPressEnd}
-                            onTouchStart={() => handleLongPressStart(product.id)}
+                            onTouchStart={(e) => {
+                              if (!isSelectionMode && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                                handleLongPressStart(product.id);
+                              }
+                            }}
                             onTouchEnd={handleLongPressEnd}
-                            onClick={() => handleProductClick(product.id, product)}
+                            onClick={(e) => {
+                              if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+                                handleProductClick(product.id, product);
+                              }
+                            }}
                           >
                             {selectedProducts.includes(product.id) && (
                               <div className="absolute top-2 left-2 z-10">
