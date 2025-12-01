@@ -1279,6 +1279,64 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Address Dialog */}
+      {showAddressDialog && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
+          <div className="absolute inset-0 bg-black bg-opacity-60" onClick={() => setShowAddressDialog(false)}></div>
+          <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
+            {/* Dialog Header */}
+            <div className="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white p-5 flex items-center justify-between">
+              <h2 className="text-xl font-bold">डिलिव्हरी पत्ता जोडा</h2>
+              <button 
+                onClick={() => setShowAddressDialog(false)} 
+                className="hover:bg-emerald-600 p-2 rounded-full transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Dialog Body */}
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  नाव <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={addressForm.name}
+                  onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
+                  placeholder="आपले पूर्ण नाव"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-emerald-500 focus:outline-none transition"
+                  data-testid="address-name-input"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-gray-700 mb-2">
+                  पत्ता <span className="text-red-500">*</span>
+                </label>
+                <textarea
+                  value={addressForm.address}
+                  onChange={(e) => setAddressForm({ ...addressForm, address: e.target.value })}
+                  placeholder="पूर्ण पत्ता (गाव, तालुका, जिल्हा, पिनकोड)"
+                  rows="4"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-emerald-500 focus:outline-none transition resize-none"
+                  data-testid="address-input"
+                />
+              </div>
+
+              <button
+                onClick={handleSaveAddress}
+                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-lg transition shadow-md"
+                data-testid="save-address-btn"
+              >
+                पत्ता सेव्ह करा
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
