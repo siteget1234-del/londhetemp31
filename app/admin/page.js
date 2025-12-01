@@ -1515,7 +1515,7 @@ export default function AdminDashboard() {
                           >
                             {selectedProducts.includes(product.id) && (
                               <div className="absolute top-2 left-2 z-10">
-                                <div className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+                                <div className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center shadow-lg">
                                   <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                   </svg>
@@ -1523,7 +1523,7 @@ export default function AdminDashboard() {
                               </div>
                             )}
                             <div className="flex gap-3">
-                              <div className="flex-1">
+                              <div className={`flex-1 ${selectedProducts.includes(product.id) ? 'pl-8' : ''}`}>
                                 <h4 className="font-bold text-gray-800 mb-1 pr-20">{product.name}</h4>
                                 <p className="text-emerald-600 font-bold text-lg mb-1">₹{product.price}</p>
                                 <p className="text-sm text-gray-600 mb-2 line-clamp-2">{product.description}</p>
