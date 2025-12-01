@@ -289,8 +289,32 @@ export default function Home() {
       alert('कृपया प्रथम कार्टमध्ये उत्पादने जोडा!');
       return;
     }
+    if (!deliveryAddress) {
+      alert('कृपया प्रथम डिलिव्हरी पत्ता जोडा!');
+      return;
+    }
     const whatsappUrl = `https://wa.me/${shopData?.shop_number}?text=${generateWhatsAppMessage()}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  const handleSaveAddress = () => {
+    if (!addressForm.name.trim() || !addressForm.address.trim()) {
+      alert('कृपया नाव आणि पत्ता भरा!');
+      return;
+    }
+    setDeliveryAddress({
+      name: addressForm.name.trim(),
+      address: addressForm.address.trim()
+    });
+    setShowAddressDialog(false);
+  };
+
+  const handleEditAddress = () => {
+    setAddressForm({
+      name: deliveryAddress?.name || '',
+      address: deliveryAddress?.address || ''
+    });
+    setShowAddressDialog(true);
   };
 
   const handleSignOut = async () => {
