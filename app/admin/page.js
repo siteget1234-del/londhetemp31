@@ -1528,24 +1528,32 @@ export default function AdminDashboard() {
                                 className="absolute top-3 right-3 w-16 h-16 object-cover rounded-lg"
                               />
                             </div>
-                            <div className="flex space-x-2 mt-2">
-                              <button
-                                onClick={() => handleEditProduct(product)}
-                                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
-                                data-testid={`edit-saved-${product.id}`}
-                              >
-                                <Edit2 className="w-4 h-4" />
-                                <span>Edit</span>
-                              </button>
-                              <button
-                                onClick={() => handleDeleteProduct(product.id, false)}
-                                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
-                                data-testid={`delete-saved-${product.id}`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                                <span>Delete</span>
-                              </button>
-                            </div>
+                            {!isSelectionMode && (
+                              <div className="flex space-x-2 mt-2">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleEditProduct(product);
+                                  }}
+                                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
+                                  data-testid={`edit-saved-${product.id}`}
+                                >
+                                  <Edit2 className="w-4 h-4" />
+                                  <span>Edit</span>
+                                </button>
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDeleteProduct(product.id, false);
+                                  }}
+                                  className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
+                                  data-testid={`delete-saved-${product.id}`}
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                  <span>Delete</span>
+                                </button>
+                              </div>
+                            )}
                           </div>
                         ))}
                       </div>
