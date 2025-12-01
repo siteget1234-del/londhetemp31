@@ -998,7 +998,7 @@ export default function Home() {
                   {/* Product Info */}
                   <div className="p-3 space-y-2">
                     {/* Product Name */}
-                    <h3 className="text-xs font-normal text-gray-800 line-clamp-2 leading-tight" data-testid="product-name">
+                    <h3 className="text-base font-normal text-gray-800 line-clamp-2 leading-tight" data-testid="product-name">
                       {product.name}
                     </h3>
                     
