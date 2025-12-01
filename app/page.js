@@ -413,7 +413,7 @@ export default function Home() {
                 <ChevronLeft className="w-5 h-5" />
                 <span>परत</span>
               </button>
-              <span className="text-sm font-semibold">अ‍ॅग्रोस्टार : {selectedProduct.category}</span>
+              <span className="text-sm font-semibold">{shopData?.shop_name} : {selectedProduct.category}</span>
             </div>
           </div>
         </header>
