@@ -5,6 +5,7 @@ import { ShoppingCart, Search, Phone, Plus, X, ChevronLeft, ChevronRight, Minus,
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase, getCurrentUser } from '@/lib/supabase';
+import { calculateOfferPricing, calculateCartTotal, formatDiscount } from '@/lib/offerCalculations';
 
 // Predefined Categories - Always show these 4
 const PREDEFINED_CATEGORIES = [
@@ -25,7 +26,8 @@ export default function Home() {
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [user, setUser] = useState(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [selectedOffers, setSelectedOffers] = useState({}); // Track which products have offer applied
+  const [selectedOffers, setSelectedOffers] = useState({}); // Track offer type: 'regular' or 'bulk'
+  const [productQuantity, setProductQuantity] = useState(1); // Quantity for product detail page
   
   // Live data from Supabase
   const [shopData, setShopData] = useState(null);
@@ -47,6 +49,7 @@ export default function Home() {
         // Close modal/view when back button is pressed
         if (selectedProduct) {
           setSelectedProduct(null);
+          setProductQuantity(1);
         } else if (selectedCategory) {
           setSelectedCategory(null);
         } else if (showSearch) {
@@ -62,6 +65,28 @@ export default function Home() {
       };
     }
   }, [selectedProduct, showSearch, selectedCategory]);
+
+  // Reset quantity when product changes
+  useEffect(() => {
+    if (selectedProduct) {
+      setProductQuantity(1);
+      // Default to regular price
+      setSelectedOffers(prev => ({
+        ...prev,
+        [selectedProduct.id]: 'regular'
+      }));
+    }
+  }, [selectedProduct?.id]);
+
+  // Auto-select regular when quantity is 1, keep selection otherwise
+  useEffect(() => {
+    if (selectedProduct && productQuantity === 1) {
+      setSelectedOffers(prev => ({
+        ...prev,
+        [selectedProduct.id]: 'regular'
+      }));
+    }
+  }, [productQuantity, selectedProduct?.id]);
 
   // Check authentication state
   useEffect(() => {
@@ -146,22 +171,17 @@ export default function Home() {
     });
   }, [searchQuery, products]);
 
-  const addToCart = (product, useOfferPrice = false) => {
+  const addToCart = (product, quantity = 1, offerType = 'regular') => {
     const existingItem = cart.find(item => item.id === product.id);
-    
-    // Determine the effective price
-    const effectivePrice = useOfferPrice && product.specialOffer?.offerPricePerUnit 
-      ? parseFloat(product.specialOffer.offerPricePerUnit) 
-      : product.price;
     
     if (existingItem) {
       setCart(cart.map(item => 
         item.id === product.id 
-          ? { ...item, quantity: item.quantity + 1, effectivePrice, isOfferApplied: useOfferPrice }
+          ? { ...item, quantity: item.quantity + quantity, offerType }
           : item
       ));
     } else {
-      setCart([...cart, { ...product, quantity: 1, effectivePrice, isOfferApplied: useOfferPrice }]);
+      setCart([...cart, { ...product, quantity, offerType }]);
     }
   };
 
@@ -173,24 +193,54 @@ export default function Home() {
     if (newQuantity === 0) {
       removeFromCart(productId);
     } else {
-      setCart(cart.map(item => 
-        item.id === productId 
-          ? { ...item, quantity: newQuantity }
-          : item
-      ));
+      setCart(cart.map(item => {
+        if (item.id === productId) {
+          // Auto-adjust offer type based on quantity
+          const product = products.find(p => p.id === productId);
+          const batchSize = product?.specialOffer?.quantity || 0;
+          
+          // If quantity drops to 1 and batch size > 1, auto-select regular
+          let adjustedOfferType = item.offerType;
+          if (newQuantity === 1 && batchSize > 1) {
+            adjustedOfferType = 'regular';
+          }
+          
+          return { ...item, quantity: newQuantity, offerType: adjustedOfferType };
+        }
+        return item;
+      }));
     }
   };
 
-  const totalAmount = cart.reduce((sum, item) => sum + ((item.effectivePrice || item.price) * item.quantity), 0);
+  // Calculate cart total using new algorithm
+  const cartTotals = useMemo(() => {
+    return calculateCartTotal(cart);
+  }, [cart]);
+
+  const totalAmount = cartTotals.total;
+  const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const generateWhatsAppMessage = () => {
     let message = 'मला खरेदी करायची आहे:\n\n';
-    cart.forEach((item, index) => {
-      const price = item.effectivePrice || item.price;
-      const priceLabel = item.isOfferApplied ? `₹${price} (ऑफर किंमत)` : `₹${price}`;
-      message += `${index + 1}) ${item.name} - ${priceLabel} × ${item.quantity} = ₹${price * item.quantity}\n`;
+    
+    cartTotals.items.forEach((item, index) => {
+      const pricing = item.pricing;
+      if (pricing.itemsAtOfferPrice > 0 && pricing.itemsAtRegularPrice > 0) {
+        message += `${index + 1}) ${item.name}:\n`;
+        message += `   - ${pricing.itemsAtOfferPrice} @ ₹${item.specialOffer.offerPricePerUnit} (ऑफर) = ₹${pricing.itemsAtOfferPrice * item.specialOffer.offerPricePerUnit}\n`;
+        message += `   - ${pricing.itemsAtRegularPrice} @ ₹${item.price} (नियमित) = ₹${pricing.itemsAtRegularPrice * item.price}\n`;
+      } else if (pricing.itemsAtOfferPrice > 0) {
+        message += `${index + 1}) ${item.name} - ₹${item.specialOffer.offerPricePerUnit} (ऑफर) × ${item.quantity} = ₹${pricing.total}\n`;
+      } else {
+        message += `${index + 1}) ${item.name} - ₹${item.price} × ${item.quantity} = ₹${pricing.total}\n`;
+      }
     });
-    message += `\nएकूण: ₹${totalAmount}`;
+    
+    if (cartTotals.discount > 0) {
+      message += `\nमूल्य: ₹${Math.round(cartTotals.subtotal)}\n`;
+      message += `डिस्काउंट: -₹${Math.round(cartTotals.discount)}\n`;
+    }
+    message += `\nएकूण: ₹${Math.round(totalAmount)}`;
     return encodeURIComponent(message);
   };
 
@@ -222,8 +272,6 @@ export default function Home() {
     ? categoryProducts 
     : featuredProducts;
 
-  const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
-
   // Always show predefined categories with product counts
   const categoriesWithCounts = useMemo(() => {
     return PREDEFINED_CATEGORIES.map(cat => ({
@@ -240,6 +288,7 @@ export default function Home() {
         window.history.back();
       } else {
         setSelectedProduct(null);
+        setProductQuantity(1);
       }
     };
 
@@ -256,6 +305,15 @@ export default function Home() {
     };
 
     const videoEmbedUrl = getYouTubeEmbedUrl(selectedProduct.videoUrl);
+    
+    const currentOfferType = selectedOffers[selectedProduct.id] || 'regular';
+    const hasSpecialOffer = selectedProduct.specialOffer?.offerName && 
+                           selectedProduct.specialOffer?.quantity && 
+                           selectedProduct.specialOffer?.offerPricePerUnit;
+    
+    // Calculate pricing for current selection
+    const regularPricing = calculateOfferPricing(selectedProduct, productQuantity, 'regular');
+    const bulkPricing = hasSpecialOffer ? calculateOfferPricing(selectedProduct, productQuantity, 'bulk') : null;
 
     return (
       <div className="min-h-screen bg-gray-50 pb-24">
@@ -331,42 +389,130 @@ export default function Home() {
               </div>
             )}
 
-            {/* Special Bulk Offer */}
-            {selectedProduct.specialOffer?.offerName && selectedProduct.specialOffer?.quantity && selectedProduct.specialOffer?.offerPricePerUnit && (
-              <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-orange-300 rounded-lg p-4 flex items-start space-x-3">
-                <span className="text-3xl">🎁</span>
-                <div className="flex-1">
-                  <div className="flex items-center justify-between mb-2">
+            {/* Special Bulk Offer - Radio Buttons */}
+            {hasSpecialOffer && (
+              <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border-2 border-orange-300 rounded-xl p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-2xl">🎁</span>
                     <p className="text-base font-bold text-orange-800">{selectedProduct.specialOffer.offerName}</p>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelectedOffers(prev => ({
-                          ...prev,
-                          [selectedProduct.id]: !prev[selectedProduct.id]
-                        }));
-                      }}
-                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition ${
-                        selectedOffers[selectedProduct.id] ? 'bg-orange-600' : 'bg-gray-300'
-                      }`}
-                      data-testid="detail-offer-toggle"
-                    >
-                      <span
-                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition ${
-                          selectedOffers[selectedProduct.id] ? 'translate-x-6' : 'translate-x-1'
-                        }`}
-                      />
-                    </button>
                   </div>
-                  <p className="text-sm text-orange-700 font-semibold">
-                    {selectedProduct.specialOffer.quantity} युनिट्स फक्त ₹{selectedProduct.specialOffer.offerPricePerUnit}/युनिट मध्ये
-                  </p>
-                  <p className="text-xs text-orange-600 mt-1">
-                    एकूण: ₹{selectedProduct.specialOffer.quantity * selectedProduct.specialOffer.offerPricePerUnit} (नियमित किंमत: ₹{selectedProduct.specialOffer.quantity * selectedProduct.price})
-                  </p>
+                </div>
+                
+                <div className="space-y-2">
+                  {/* Option 1: Regular Price */}
+                  <button
+                    onClick={() => setSelectedOffers(prev => ({ ...prev, [selectedProduct.id]: 'regular' }))}
+                    disabled={productQuantity === 1}
+                    className={`w-full text-left rounded-lg p-3 border-2 transition ${
+                      currentOfferType === 'regular' 
+                        ? 'bg-white border-orange-400 shadow-sm' 
+                        : 'bg-orange-50/50 border-orange-200 opacity-60'
+                    } ${productQuantity === 1 ? 'cursor-not-allowed' : 'cursor-pointer hover:border-orange-400'}`}
+                    data-testid="offer-radio-regular"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                          currentOfferType === 'regular' ? 'border-orange-600' : 'border-gray-400'
+                        }`}>
+                          {currentOfferType === 'regular' && (
+                            <div className="w-3 h-3 rounded-full bg-orange-600"></div>
+                          )}
+                        </div>
+                        <div>
+                          <p className="font-bold text-gray-800 text-sm">उपलब्ध: 1 नगवर</p>
+                          <p className="text-xs text-gray-600">किंमत ₹{selectedProduct.price}/ प्रति नग</p>
+                        </div>
+                      </div>
+                      {productQuantity > 1 && regularPricing.discount === 0 && (
+                        <div className="text-right">
+                          <p className="text-sm font-bold text-gray-700">₹{Math.round(regularPricing.total)}</p>
+                        </div>
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Option 2: Bulk Offer */}
+                  <button
+                    onClick={() => {
+                      if (productQuantity >= selectedProduct.specialOffer.quantity) {
+                        setSelectedOffers(prev => ({ ...prev, [selectedProduct.id]: 'bulk' }));
+                      }
+                    }}
+                    disabled={productQuantity < selectedProduct.specialOffer.quantity}
+                    className={`w-full text-left rounded-lg p-3 border-2 transition ${
+                      currentOfferType === 'bulk' 
+                        ? 'bg-emerald-50 border-emerald-500 shadow-md' 
+                        : 'bg-white border-orange-200'
+                    } ${
+                      productQuantity < selectedProduct.specialOffer.quantity 
+                        ? 'cursor-not-allowed opacity-50' 
+                        : 'cursor-pointer hover:border-emerald-400'
+                    }`}
+                    data-testid="offer-radio-bulk"
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                          currentOfferType === 'bulk' ? 'border-emerald-600' : 'border-gray-400'
+                        }`}>
+                          {currentOfferType === 'bulk' && (
+                            <div className="w-3 h-3 rounded-full bg-emerald-600"></div>
+                          )}
+                        </div>
+                        <div>
+                          <p className="font-bold text-emerald-800 text-sm">उपलब्ध: {selectedProduct.specialOffer.quantity} नगवर</p>
+                          <p className="text-xs text-emerald-700 font-semibold">
+                            ऑफर किंमत ₹{selectedProduct.specialOffer.offerPricePerUnit}/ प्रति नग
+                          </p>
+                        </div>
+                      </div>
+                      {bulkPricing && bulkPricing.discount > 0 && (
+                        <div className="text-right">
+                          <div className="flex items-center space-x-1 mb-1">
+                            <span className="text-xl">💰</span>
+                            <span className="text-emerald-700 font-bold text-sm">{formatDiscount(bulkPricing.discount)}</span>
+                          </div>
+                          <p className="text-xs text-gray-600">एकूण: ₹{Math.round(bulkPricing.total)}</p>
+                        </div>
+                      )}
+                    </div>
+                  </button>
                 </div>
               </div>
             )}
+          </div>
+
+          {/* Quantity Selector */}
+          <div className="bg-white rounded-xl shadow-md p-4">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-bold text-gray-800 mb-1">प्रमाण निवडा</p>
+                {hasSpecialOffer && productQuantity >= selectedProduct.specialOffer.quantity && currentOfferType === 'bulk' && (
+                  <p className="text-xs text-emerald-600">
+                    {bulkPricing.itemsAtOfferPrice} ऑफर + {bulkPricing.itemsAtRegularPrice > 0 ? `${bulkPricing.itemsAtRegularPrice} नियमित` : ''}
+                  </p>
+                )}
+              </div>
+              <div className="flex items-center space-x-4 bg-gray-100 rounded-lg px-3 py-2">
+                <button
+                  onClick={() => setProductQuantity(Math.max(1, productQuantity - 1))}
+                  className="bg-white hover:bg-gray-200 w-9 h-9 rounded-md flex items-center justify-center font-bold text-gray-700 transition shadow-sm"
+                  data-testid="detail-quantity-minus"
+                >
+                  <Minus className="w-5 h-5" />
+                </button>
+                <span className="font-bold text-gray-800 text-xl w-10 text-center" data-testid="detail-quantity-value">{productQuantity}</span>
+                <button
+                  onClick={() => setProductQuantity(productQuantity + 1)}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white w-9 h-9 rounded-md flex items-center justify-center font-bold transition shadow-sm"
+                  data-testid="detail-quantity-plus"
+                >
+                  <Plus className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Video Section */}
@@ -466,7 +612,7 @@ export default function Home() {
           <div className="container mx-auto px-4 py-3">
             <button
               onClick={() => {
-                addToCart(selectedProduct, selectedOffers[selectedProduct.id]);
+                addToCart(selectedProduct, productQuantity, currentOfferType);
                 setShowCart(true);
               }}
               className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-4 rounded-xl transition-all duration-200 shadow-lg flex items-center justify-center space-x-2"
@@ -542,6 +688,7 @@ export default function Home() {
               <button 
                 onClick={() => setShowCart(true)}
                 className="relative p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
+                data-testid="cart-button"
               >
                 <ShoppingCart className="w-6 h-6" />
                 {cartItemCount > 0 && (
@@ -726,6 +873,10 @@ export default function Home() {
                 ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
                 : null;
               
+              const hasSpecialOffer = product.specialOffer?.offerName && 
+                                     product.specialOffer?.quantity && 
+                                     product.specialOffer?.offerPricePerUnit;
+              
               return (
                 <div 
                   key={product.id} 
@@ -733,7 +884,7 @@ export default function Home() {
                   className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.02] active:scale-[0.98]"
                   data-testid={`product-card-${product.id}`}
                 >
-                  {/* Product Image - No overlay */}
+                  {/* Product Image */}
                   <div className="relative">
                     <img 
                       src={product.image || 'https://via.placeholder.com/400x300?text=Product+Image'} 
@@ -770,36 +921,11 @@ export default function Home() {
                       </div>
                     )}
                     
-                    {/* Special Offer Section */}
-                    {product.specialOffer?.offerName && product.specialOffer?.quantity && product.specialOffer?.offerPricePerUnit && (
-                      <div className="bg-gradient-to-r from-orange-50 to-red-50 border border-orange-300 rounded-lg px-2 py-2">
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="flex items-center space-x-1">
-                            <span className="text-base">🎁</span>
-                            <span className="text-xs font-bold text-orange-700">{product.specialOffer.offerName}</span>
-                          </div>
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setSelectedOffers(prev => ({
-                                ...prev,
-                                [product.id]: !prev[product.id]
-                              }));
-                            }}
-                            className={`relative inline-flex h-5 w-9 items-center rounded-full transition ${
-                              selectedOffers[product.id] ? 'bg-orange-600' : 'bg-gray-300'
-                            }`}
-                            data-testid={`offer-toggle-${product.id}`}
-                          >
-                            <span
-                              className={`inline-block h-3 w-3 transform rounded-full bg-white transition ${
-                                selectedOffers[product.id] ? 'translate-x-5' : 'translate-x-1'
-                              }`}
-                            />
-                          </button>
-                        </div>
-                        <p className="text-[10px] text-orange-600">
-                          {product.specialOffer.quantity} युनिट्स @ ₹{product.specialOffer.offerPricePerUnit}/युनिट
+                    {/* Special Offer Text */}
+                    {hasSpecialOffer && (
+                      <div className="bg-red-50 border border-red-300 rounded-md px-2 py-1.5">
+                        <p className="text-xs font-bold text-red-700">
+                          ऑफर किंमत ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
                         </p>
                       </div>
                     )}
@@ -808,7 +934,7 @@ export default function Home() {
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        addToCart(product, selectedOffers[product.id]);
+                        addToCart(product, 1, 'regular');
                         setShowCart(true);
                       }}
                       className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg transition-all duration-200 shadow-md"
@@ -883,83 +1009,113 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {cart.map(item => (
-                    <div key={item.id} className="bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition">
-                      <div className="flex space-x-3">
-                        <img 
-                          src={item.image || 'https://via.placeholder.com/80x80?text=Product'} 
-                          alt={item.name}
-                          className="w-20 h-20 object-cover rounded-lg"
-                        />
-                        <div className="flex-1">
-                          <div className="flex items-start justify-between mb-2">
-                            <div>
-                              <h3 className="font-bold text-gray-800 text-sm leading-tight">{item.name}</h3>
-                              {item.isOfferApplied && (
-                                <span className="inline-block mt-1 bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full font-bold">
-                                  🎁 ऑफर लागू
-                                </span>
-                              )}
+                  {cartTotals.items.map(item => {
+                    const pricing = item.pricing;
+                    const hasOffer = item.specialOffer?.offerName && item.offerType === 'bulk';
+                    
+                    return (
+                      <div key={item.id} className="bg-white border-2 border-gray-200 rounded-xl p-4 hover:shadow-md transition">
+                        <div className="flex space-x-3">
+                          <img 
+                            src={item.image || 'https://via.placeholder.com/80x80?text=Product'} 
+                            alt={item.name}
+                            className="w-20 h-20 object-cover rounded-lg"
+                          />
+                          <div className="flex-1">
+                            <div className="flex items-start justify-between mb-2">
+                              <div>
+                                <h3 className="font-bold text-gray-800 text-sm leading-tight">{item.name}</h3>
+                                {hasOffer && (
+                                  <span className="inline-block mt-1 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">
+                                    🎁 {item.specialOffer.offerName}
+                                  </span>
+                                )}
+                              </div>
+                              <button
+                                onClick={() => removeFromCart(item.id)}
+                                className="text-red-500 hover:text-red-700 ml-2 p-1 hover:bg-red-50 rounded transition"
+                                data-testid="cart-remove-item"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
                             </div>
-                            <button
-                              onClick={() => removeFromCart(item.id)}
-                              className="text-red-500 hover:text-red-700 ml-2 p-1 hover:bg-red-50 rounded transition"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
-                          </div>
-                          <div className="flex items-center space-x-2 mb-2">
-                            <p className="text-emerald-600 font-bold text-lg">₹{item.effectivePrice || item.price}</p>
-                            {item.isOfferApplied && item.effectivePrice !== item.price && (
-                              <p className="text-gray-400 text-sm line-through">₹{item.price}</p>
+                            
+                            {/* Price Display */}
+                            {hasOffer && pricing.discount > 0 ? (
+                              <div className="mb-2 space-y-1">
+                                <div className="flex items-center space-x-2">
+                                  <p className="text-emerald-600 font-bold text-base">₹{Math.round(pricing.total)}</p>
+                                  <p className="text-gray-400 text-xs line-through">₹{Math.round(pricing.subtotal)}</p>
+                                </div>
+                                {pricing.itemsAtOfferPrice > 0 && (
+                                  <p className="text-xs text-emerald-700">
+                                    {pricing.itemsAtOfferPrice} @ ₹{item.specialOffer.offerPricePerUnit}
+                                    {pricing.itemsAtRegularPrice > 0 && ` + ${pricing.itemsAtRegularPrice} @ ₹${item.price}`}
+                                  </p>
+                                )}
+                              </div>
+                            ) : (
+                              <p className="text-emerald-600 font-bold text-base mb-2">₹{item.price} × {item.quantity}</p>
                             )}
-                          </div>
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-3 bg-gray-100 rounded-lg p-1">
-                              <button
-                                onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                                className="bg-white hover:bg-gray-200 w-7 h-7 rounded-md flex items-center justify-center font-bold text-gray-700 transition"
-                              >
-                                <Minus className="w-4 h-4" />
-                              </button>
-                              <span className="font-bold text-gray-800 w-8 text-center">{item.quantity}</span>
-                              <button
-                                onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                className="bg-emerald-600 hover:bg-emerald-700 text-white w-7 h-7 rounded-md flex items-center justify-center font-bold transition"
-                              >
-                                <Plus className="w-4 h-4" />
-                              </button>
+                            
+                            {/* Quantity Controls */}
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center space-x-3 bg-gray-100 rounded-lg p-1">
+                                <button
+                                  onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                  className="bg-white hover:bg-gray-200 w-7 h-7 rounded-md flex items-center justify-center font-bold text-gray-700 transition"
+                                  data-testid="cart-quantity-minus"
+                                >
+                                  <Minus className="w-4 h-4" />
+                                </button>
+                                <span className="font-bold text-gray-800 w-8 text-center" data-testid="cart-quantity-value">{item.quantity}</span>
+                                <button
+                                  onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                  className="bg-emerald-600 hover:bg-emerald-700 text-white w-7 h-7 rounded-md flex items-center justify-center font-bold transition"
+                                  data-testid="cart-quantity-plus"
+                                >
+                                  <Plus className="w-4 h-4" />
+                                </button>
+                              </div>
                             </div>
-                            <span className="font-bold text-gray-800 text-lg">₹{(item.effectivePrice || item.price) * item.quantity}</span>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
 
             {cart.length > 0 && (
-              <div className="border-t border-gray-200 bg-white p-5 space-y-4">
+              <div className="border-t border-gray-200 bg-amber-50 p-5 space-y-4">
+                {/* Bill Breakdown */}
                 <div className="space-y-2">
-                  <div className="flex items-center justify-between text-gray-600">
-                    <span>एकूण वस्तू:</span>
-                    <span className="font-semibold">{cartItemCount}</span>
+                  <div className="flex items-center justify-between text-gray-700">
+                    <span className="font-semibold">मुल्य:</span>
+                    <span className="font-bold">₹{Math.round(cartTotals.subtotal)}</span>
                   </div>
-                  <div className="flex items-center justify-between text-2xl font-bold">
-                    <span className="text-gray-800">एकूण:</span>
-                    <span className="text-emerald-600">₹{totalAmount}</span>
+                  {cartTotals.discount > 0 && (
+                    <div className="flex items-center justify-between text-emerald-700">
+                      <span className="font-semibold">डिस्काउंट:</span>
+                      <span className="font-bold">- ₹{Math.round(cartTotals.discount)}</span>
+                    </div>
+                  )}
+                  <div className="border-t-2 border-dashed border-gray-300 pt-2"></div>
+                  <div className="flex items-center justify-between text-xl">
+                    <span className="font-bold text-gray-800">एकूण रक्कम:</span>
+                    <span className="font-bold text-emerald-700">₹{Math.round(totalAmount)}</span>
                   </div>
+                  <p className="text-xs text-gray-600 text-center">देय रक्कमेमध्ये जीएसटी व अन्य करांचा समावेश</p>
                 </div>
                 <button
                   onClick={handleWhatsAppCheckout}
                   className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-bold py-4 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg"
+                  data-testid="whatsapp-order-btn"
                 >
-                  <span className="text-lg">व्हाट्सअ‍ॅपद्वारे ऑर्डर करा</span>
+                  <span className="text-lg">ऑर्डर करा</span>
                   <span className="text-xl">💬</span>
                 </button>
-                <p className="text-center text-xs text-gray-500">आम्ही लवकरच तुमच्याशी संपर्क साधू</p>
               </div>
             )}
           </div>
