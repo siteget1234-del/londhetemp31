@@ -1412,13 +1412,6 @@ export default function AdminDashboard() {
                   {pendingProducts.length > 0 && (
                     <div>
                       <div className="flex items-center space-x-2 mb-3">
-                        <input
-                          type="checkbox"
-                          checked={selectedPendingProducts.length === pendingProducts.length && pendingProducts.length > 0}
-                          onChange={() => handleSelectAllProducts(true)}
-                          className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
-                          title="Select all pending products"
-                        />
                         <div className="h-px flex-1 bg-orange-200"></div>
                         <h4 className="text-sm font-bold text-orange-600 uppercase tracking-wide">
                           Pending Products (Not Saved Yet)
@@ -1428,14 +1421,7 @@ export default function AdminDashboard() {
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {pendingProducts.map(product => (
                           <div key={product.id} className="border-2 border-orange-300 bg-orange-50 rounded-lg p-3 hover:shadow-lg transition relative">
-                            <div className="absolute top-2 left-2 z-10 flex items-center space-x-2">
-                              <input
-                                type="checkbox"
-                                checked={selectedPendingProducts.includes(product.id)}
-                                onChange={() => handleSelectProduct(product.id, true)}
-                                onClick={(e) => e.stopPropagation()}
-                                className="w-5 h-5 text-orange-600 rounded focus:ring-orange-500"
-                              />
+                            <div className="absolute top-2 left-2 z-10">
                               <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold shadow-md">
                                 ⏳ PENDING
                               </span>
