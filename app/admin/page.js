@@ -1265,7 +1265,7 @@ export default function AdminDashboard() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <h3 className="text-xl font-bold text-gray-800">
-                    All Products ({shopData.products.length + pendingProducts.length}/100)
+                    All Products ({shopData.products.length + pendingProducts.length})
                   </h3>
                   <p className="text-sm text-gray-500 mt-1">
                     Saved: {shopData.products.length} | Pending: {pendingProducts.length}
