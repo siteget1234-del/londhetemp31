@@ -1473,13 +1473,6 @@ export default function AdminDashboard() {
                     <div>
                       {pendingProducts.length > 0 && (
                         <div className="flex items-center space-x-2 mb-3">
-                          <input
-                            type="checkbox"
-                            checked={selectedProducts.length === shopData.products.length && shopData.products.length > 0}
-                            onChange={() => handleSelectAllProducts(false)}
-                            className="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500"
-                            title="Select all saved products"
-                          />
                           <div className="h-px flex-1 bg-emerald-200"></div>
                           <h4 className="text-sm font-bold text-emerald-600 uppercase tracking-wide">
                             Saved Products
@@ -1487,33 +1480,37 @@ export default function AdminDashboard() {
                           <div className="h-px flex-1 bg-emerald-200"></div>
                         </div>
                       )}
-                      {!pendingProducts.length && (
-                        <div className="flex items-center space-x-2 mb-3">
-                          <input
-                            type="checkbox"
-                            checked={selectedProducts.length === shopData.products.length && shopData.products.length > 0}
-                            onChange={() => handleSelectAllProducts(false)}
-                            className="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500"
-                            title="Select all saved products"
-                          />
-                          <h4 className="text-sm font-bold text-gray-800">
-                            Select All
-                          </h4>
-                        </div>
+                      {!isSelectionMode && (
+                        <p className="text-xs text-gray-500 mb-3 text-center italic">
+                          💡 Long press on any product to activate selection mode
+                        </p>
                       )}
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                         {shopData.products.map(product => (
-                          <div key={product.id} className="border border-gray-200 rounded-lg p-3 hover:shadow-lg transition relative">
-                            <div className="absolute top-2 left-2 z-10">
-                              <input
-                                type="checkbox"
-                                checked={selectedProducts.includes(product.id)}
-                                onChange={() => handleSelectProduct(product.id, false)}
-                                onClick={(e) => e.stopPropagation()}
-                                className="w-5 h-5 text-emerald-600 rounded focus:ring-emerald-500"
-                              />
-                            </div>
-                            <div className="flex gap-3 mt-4">
+                          <div 
+                            key={product.id} 
+                            className={`border rounded-lg p-3 hover:shadow-lg transition relative cursor-pointer ${
+                              selectedProducts.includes(product.id) 
+                                ? 'border-red-500 bg-red-50 border-2' 
+                                : 'border-gray-200'
+                            }`}
+                            onMouseDown={() => handleLongPressStart(product.id)}
+                            onMouseUp={handleLongPressEnd}
+                            onMouseLeave={handleLongPressEnd}
+                            onTouchStart={() => handleLongPressStart(product.id)}
+                            onTouchEnd={handleLongPressEnd}
+                            onClick={() => handleProductClick(product.id, product)}
+                          >
+                            {selectedProducts.includes(product.id) && (
+                              <div className="absolute top-2 left-2 z-10">
+                                <div className="w-6 h-6 bg-red-600 rounded-full flex items-center justify-center">
+                                  <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                  </svg>
+                                </div>
+                              </div>
+                            )}
+                            <div className="flex gap-3">
                               <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 mb-1 pr-20">{product.name}</h4>
                                 <p className="text-emerald-600 font-bold text-lg mb-1">₹{product.price}</p>
