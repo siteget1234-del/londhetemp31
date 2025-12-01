@@ -893,7 +893,14 @@ export default function Home() {
                         />
                         <div className="flex-1">
                           <div className="flex items-start justify-between mb-2">
-                            <h3 className="font-bold text-gray-800 text-sm leading-tight">{item.name}</h3>
+                            <div>
+                              <h3 className="font-bold text-gray-800 text-sm leading-tight">{item.name}</h3>
+                              {item.isOfferApplied && (
+                                <span className="inline-block mt-1 bg-orange-100 text-orange-700 text-[10px] px-2 py-0.5 rounded-full font-bold">
+                                  🎁 ऑफर लागू
+                                </span>
+                              )}
+                            </div>
                             <button
                               onClick={() => removeFromCart(item.id)}
                               className="text-red-500 hover:text-red-700 ml-2 p-1 hover:bg-red-50 rounded transition"
@@ -901,7 +908,12 @@ export default function Home() {
                               <X className="w-4 h-4" />
                             </button>
                           </div>
-                          <p className="text-emerald-600 font-bold text-lg mb-2">₹{item.price}</p>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <p className="text-emerald-600 font-bold text-lg">₹{item.effectivePrice || item.price}</p>
+                            {item.isOfferApplied && item.effectivePrice !== item.price && (
+                              <p className="text-gray-400 text-sm line-through">₹{item.price}</p>
+                            )}
+                          </div>
                           <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-3 bg-gray-100 rounded-lg p-1">
                               <button
