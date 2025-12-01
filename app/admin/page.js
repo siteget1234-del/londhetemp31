@@ -648,10 +648,8 @@ export default function AdminDashboard() {
           ? prev.filter(id => id !== productId)
           : [...prev, productId]
       );
-    } else {
-      // Normal mode, edit product
-      handleEditProduct(product);
     }
+    // Removed: Normal mode edit behavior - users should use Edit button instead
   };
 
   const handleSelectAllProducts = () => {
