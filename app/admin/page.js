@@ -1291,20 +1291,50 @@ export default function AdminDashboard() {
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image (Max 3MB)</label>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Product Image (Target: ≤20KB)</label>
                   <div className="space-y-3">
                     <input
                       type="file"
                       accept="image/*"
                       onChange={handleImageUpload}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      disabled={uploadingImage}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
                     />
-                    {uploadingImage && (
-                      <div className="flex items-center space-x-2 text-emerald-600">
-                        <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-emerald-600"></div>
-                        <span className="text-sm">Uploading image...</span>
+                    
+                    {/* Compression Progress Indicator */}
+                    {uploadingImage && compressionProgress && (
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-semibold text-blue-800">
+                            {compressionProgress.step === 1 ? '⚡ Step 1: Fast Compression' : 
+                             compressionProgress.step === 2 ? '🎯 Step 2: Precise Compression' : 
+                             compressionProgress.step === 3 ? '☁️ Uploading...' : 
+                             '🔄 Processing...'}
+                          </span>
+                          {compressionProgress.progress && (
+                            <span className="text-xs font-bold text-blue-600">
+                              {Math.round(compressionProgress.progress)}%
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-blue-700">{compressionProgress.message}</p>
+                        {compressionProgress.progress && (
+                          <div className="w-full bg-blue-200 rounded-full h-2 overflow-hidden">
+                            <div 
+                              className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                              style={{ width: `${compressionProgress.progress}%` }}
+                            ></div>
+                          </div>
+                        )}
+                        {compressionProgress.originalSize && (
+                          <p className="text-xs text-gray-600">
+                            Original: {compressionProgress.originalSize}KB
+                            {compressionProgress.finalSize && ` → Compressed: ${compressionProgress.finalSize}KB`}
+                          </p>
+                        )}
                       </div>
                     )}
+                    
                     {productForm.image && (
                       <div className="relative w-32 h-32">
                         <img src={productForm.image} alt="Preview" className="w-full h-full object-cover rounded-lg" />
