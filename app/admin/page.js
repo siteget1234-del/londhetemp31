@@ -623,74 +623,75 @@ export default function AdminDashboard() {
     }
   };
 
-  // Multiple select handlers
-  const handleSelectProduct = (productId, isPending = false) => {
-    if (isPending) {
-      setSelectedPendingProducts(prev => 
-        prev.includes(productId) 
-          ? prev.filter(id => id !== productId)
-          : [...prev, productId]
-      );
-    } else {
+  // Long press and selection handlers
+  const handleLongPressStart = (productId) => {
+    const timer = setTimeout(() => {
+      // Activate selection mode and select this product
+      setIsSelectionMode(true);
+      setSelectedProducts([productId]);
+    }, 500); // 500ms long press
+    setLongPressTimer(timer);
+  };
+
+  const handleLongPressEnd = () => {
+    if (longPressTimer) {
+      clearTimeout(longPressTimer);
+      setLongPressTimer(null);
+    }
+  };
+
+  const handleProductClick = (productId, product) => {
+    if (isSelectionMode) {
+      // In selection mode, toggle selection
       setSelectedProducts(prev => 
         prev.includes(productId) 
           ? prev.filter(id => id !== productId)
           : [...prev, productId]
       );
+    } else {
+      // Normal mode, edit product
+      handleEditProduct(product);
     }
   };
 
-  const handleSelectAllProducts = (isPending = false) => {
-    if (isPending) {
-      if (selectedPendingProducts.length === pendingProducts.length) {
-        setSelectedPendingProducts([]);
-      } else {
-        setSelectedPendingProducts(pendingProducts.map(p => p.id));
-      }
+  const handleSelectAllProducts = () => {
+    if (selectedProducts.length === shopData.products.length) {
+      setSelectedProducts([]);
     } else {
-      if (selectedProducts.length === shopData.products.length) {
-        setSelectedProducts([]);
-      } else {
-        setSelectedProducts(shopData.products.map(p => p.id));
-      }
+      setSelectedProducts(shopData.products.map(p => p.id));
     }
+  };
+
+  const handleCancelSelection = () => {
+    setIsSelectionMode(false);
+    setSelectedProducts([]);
   };
 
   const handleDeleteMultiple = async () => {
-    const totalToDelete = selectedProducts.length + selectedPendingProducts.length;
-    if (totalToDelete === 0) {
+    if (selectedProducts.length === 0) {
       showMessage('error', 'Please select at least one product to delete');
       return;
     }
 
-    if (!confirm(`Are you sure you want to delete ${totalToDelete} product(s)?`)) return;
+    if (!confirm(`Are you sure you want to delete ${selectedProducts.length} product(s)?`)) return;
 
     setSaving(true);
     try {
-      // Delete pending products from localStorage
-      if (selectedPendingProducts.length > 0) {
-        selectedPendingProducts.forEach(productId => {
-          removePendingProductFromStorage(productId);
-        });
-        setSelectedPendingProducts([]);
-      }
+      const updatedProducts = shopData.products.filter(p => !selectedProducts.includes(p.id));
 
-      // Delete saved products from Supabase
-      if (selectedProducts.length > 0) {
-        const updatedProducts = shopData.products.filter(p => !selectedProducts.includes(p.id));
+      const { error } = await supabase
+        .from('shop_data')
+        .update({ products: updatedProducts, updated_at: new Date().toISOString() })
+        .eq('admin_id', user.id);
 
-        const { error } = await supabase
-          .from('shop_data')
-          .update({ products: updatedProducts, updated_at: new Date().toISOString() })
-          .eq('admin_id', user.id);
+      if (error) throw error;
 
-        if (error) throw error;
-
-        setShopData(prev => ({ ...prev, products: updatedProducts }));
-        setSelectedProducts([]);
-      }
-
-      showMessage('success', `${totalToDelete} product(s) deleted successfully!`);
+      setShopData(prev => ({ ...prev, products: updatedProducts }));
+      showMessage('success', `${selectedProducts.length} product(s) deleted successfully!`);
+      
+      // Exit selection mode
+      setIsSelectionMode(false);
+      setSelectedProducts([]);
     } catch (error) {
       console.error('Error deleting products:', error);
       showMessage('error', 'Failed to delete some products');
