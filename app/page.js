@@ -78,13 +78,27 @@ export default function Home() {
     }
   }, [selectedProduct?.id]);
 
-  // Auto-select regular when quantity is 1, keep selection otherwise
+  // Auto-adjust offer type based on quantity changes
   useEffect(() => {
-    if (selectedProduct && productQuantity === 1) {
-      setSelectedOffers(prev => ({
-        ...prev,
-        [selectedProduct.id]: 'regular'
-      }));
+    if (selectedProduct) {
+      const bulkRequiredQty = selectedProduct.specialOffer?.quantity || 0;
+      
+      if (bulkRequiredQty > 0) {
+        // Auto-select bulk if quantity equals or exceeds bulkRequiredQty
+        if (productQuantity >= bulkRequiredQty) {
+          setSelectedOffers(prev => ({
+            ...prev,
+            [selectedProduct.id]: 'bulk'
+          }));
+        } 
+        // Auto-select regular if quantity is below bulkRequiredQty
+        else {
+          setSelectedOffers(prev => ({
+            ...prev,
+            [selectedProduct.id]: 'regular'
+          }));
+        }
+      }
     }
   }, [productQuantity, selectedProduct?.id]);
 
