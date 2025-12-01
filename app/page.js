@@ -186,7 +186,9 @@ export default function Home() {
   const generateWhatsAppMessage = () => {
     let message = 'मला खरेदी करायची आहे:\n\n';
     cart.forEach((item, index) => {
-      message += `${index + 1}) ${item.name} - ₹${item.price} × ${item.quantity} = ₹${item.price * item.quantity}\n`;
+      const price = item.effectivePrice || item.price;
+      const priceLabel = item.isOfferApplied ? `₹${price} (ऑफर किंमत)` : `₹${price}`;
+      message += `${index + 1}) ${item.name} - ${priceLabel} × ${item.quantity} = ₹${price * item.quantity}\n`;
     });
     message += `\nएकूण: ₹${totalAmount}`;
     return encodeURIComponent(message);
