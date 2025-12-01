@@ -181,7 +181,7 @@ export default function Home() {
     }
   };
 
-  const totalAmount = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  const totalAmount = cart.reduce((sum, item) => sum + ((item.effectivePrice || item.price) * item.quantity), 0);
 
   const generateWhatsAppMessage = () => {
     let message = 'मला खरेदी करायची आहे:\n\n';
