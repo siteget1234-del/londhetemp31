@@ -1349,19 +1349,37 @@ export default function AdminDashboard() {
                   </h3>
                   <p className="text-sm text-gray-500 mt-1">
                     Saved: {shopData.products.length} | Pending: {pendingProducts.length}
+                    {(selectedProducts.length > 0 || selectedPendingProducts.length > 0) && (
+                      <span className="ml-2 text-red-600 font-bold">
+                        • {selectedProducts.length + selectedPendingProducts.length} selected
+                      </span>
+                    )}
                   </p>
                 </div>
-                {pendingProducts.length > 0 && (
-                  <button
-                    onClick={handleBulkSaveProducts}
-                    disabled={saving}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
-                    data-testid="save-all-btn"
-                  >
-                    <Save className="w-5 h-5" />
-                    <span>{saving ? 'Saving...' : `Save All (${pendingProducts.length})`}</span>
-                  </button>
-                )}
+                <div className="flex items-center space-x-2">
+                  {(selectedProducts.length > 0 || selectedPendingProducts.length > 0) && (
+                    <button
+                      onClick={handleDeleteMultiple}
+                      disabled={saving}
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
+                      data-testid="delete-selected-btn"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                      <span>{saving ? 'Deleting...' : `Delete Selected (${selectedProducts.length + selectedPendingProducts.length})`}</span>
+                    </button>
+                  )}
+                  {pendingProducts.length > 0 && (
+                    <button
+                      onClick={handleBulkSaveProducts}
+                      disabled={saving}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
+                      data-testid="save-all-btn"
+                    >
+                      <Save className="w-5 h-5" />
+                      <span>{saving ? 'Saving...' : `Save All (${pendingProducts.length})`}</span>
+                    </button>
+                  )}
+                </div>
               </div>
               
               {shopData.products.length === 0 && pendingProducts.length === 0 ? (
