@@ -146,16 +146,22 @@ export default function Home() {
     });
   }, [searchQuery, products]);
 
-  const addToCart = (product) => {
+  const addToCart = (product, useOfferPrice = false) => {
     const existingItem = cart.find(item => item.id === product.id);
+    
+    // Determine the effective price
+    const effectivePrice = useOfferPrice && product.specialOffer?.offerPricePerUnit 
+      ? parseFloat(product.specialOffer.offerPricePerUnit) 
+      : product.price;
+    
     if (existingItem) {
       setCart(cart.map(item => 
         item.id === product.id 
-          ? { ...item, quantity: item.quantity + 1 }
+          ? { ...item, quantity: item.quantity + 1, effectivePrice, isOfferApplied: useOfferPrice }
           : item
       ));
     } else {
-      setCart([...cart, { ...product, quantity: 1 }]);
+      setCart([...cart, { ...product, quantity: 1, effectivePrice, isOfferApplied: useOfferPrice }]);
     }
   };
 
