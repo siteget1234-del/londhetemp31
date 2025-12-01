@@ -489,6 +489,13 @@ export default function AdminDashboard() {
         specifications: productForm.specifications || {},
         featured: productForm.featured || false,
         searchKeywords: searchKeywords,
+        specialOffer: (productForm.specialOffer.offerName && productForm.specialOffer.quantity && productForm.specialOffer.offerPricePerUnit) 
+          ? {
+              offerName: productForm.specialOffer.offerName,
+              quantity: parseInt(productForm.specialOffer.quantity),
+              offerPricePerUnit: parseFloat(productForm.specialOffer.offerPricePerUnit)
+            }
+          : null,
         isPending: true // Mark as pending/staged
       };
 
