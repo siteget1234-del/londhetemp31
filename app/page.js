@@ -1025,7 +1025,7 @@ export default function Home() {
                     
                     {/* Special Offer Text */}
                     {hasSpecialOffer && (
-                      <p className="text-xs text-red-600">
+                      <p className="text-xs font-normal text-red-600">
                         ऑफर किंमत ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
                       </p>
                     )}
