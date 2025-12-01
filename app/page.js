@@ -416,13 +416,15 @@ export default function Home() {
                 <div className="space-y-2">
                   {/* Option 1: Regular Price */}
                   <button
-                    onClick={() => setSelectedOffers(prev => ({ ...prev, [selectedProduct.id]: 'regular' }))}
-                    disabled={productQuantity === 1}
+                    onClick={() => {
+                      setSelectedOffers(prev => ({ ...prev, [selectedProduct.id]: 'regular' }));
+                      setProductQuantity(1); // Auto-set quantity to 1
+                    }}
                     className={`w-full text-left rounded-lg p-3 border-2 transition ${
                       currentOfferType === 'regular' 
                         ? 'bg-white border-orange-400 shadow-sm' 
                         : 'bg-orange-50/50 border-orange-200 opacity-60'
-                    } ${productQuantity === 1 ? 'cursor-not-allowed' : 'cursor-pointer hover:border-orange-400'}`}
+                    } cursor-pointer hover:border-orange-400`}
                     data-testid="offer-radio-regular"
                   >
                     <div className="flex items-center justify-between">
