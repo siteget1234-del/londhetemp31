@@ -1872,48 +1872,54 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center justify-between mb-4 p-6">
-                  <div>
+                <div className="p-6 pb-4">
+                  {/* Header Row with Title and Buttons */}
+                  <div className="flex items-center justify-between mb-2">
                     <h3 className="text-xl font-bold text-gray-800">
                       All Products ({shopData.products.length + pendingProducts.length})
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1">
+                    <div className="flex items-center space-x-2">
+                      {/* Import Button */}
+                      <button
+                        onClick={() => setShowImportModal(true)}
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-lg transition flex items-center space-x-2"
+                        data-testid="import-products-btn"
+                      >
+                        <FileUp className="w-4 h-4" />
+                        <span>Import</span>
+                      </button>
+                      
+                      {/* Export Button */}
+                      <button
+                        onClick={handleExportProducts}
+                        disabled={shopData.products.length === 0}
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-4 py-2.5 rounded-lg transition flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        data-testid="export-products-btn"
+                      >
+                        <Download className="w-4 h-4" />
+                        <span>Export</span>
+                      </button>
+                    </div>
+                  </div>
+                  
+                  {/* Stats Row */}
+                  <div className="flex items-center justify-between">
+                    <p className="text-sm text-gray-500">
                       Saved: {shopData.products.length} | Pending: {pendingProducts.length}
                     </p>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    {/* Import Button */}
-                    <button
-                      onClick={() => setShowImportModal(true)}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-2 rounded-lg transition flex items-center space-x-1.5 text-sm"
-                      data-testid="import-products-btn"
-                    >
-                      <FileUp className="w-4 h-4" />
-                      <span>Import</span>
-                    </button>
-                    
-                    {/* Export Button */}
-                    <button
-                      onClick={handleExportProducts}
-                      disabled={shopData.products.length === 0}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-2 rounded-lg transition flex items-center space-x-1.5 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
-                      data-testid="export-products-btn"
-                    >
-                      <Download className="w-4 h-4" />
-                      <span>Export</span>
-                    </button>
-                    
-                    {pendingProducts.length > 0 && (
-                      <button
-                        onClick={handleBulkSaveProducts}
-                        disabled={saving}
-                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
-                        data-testid="save-all-btn"
-                      >
-                        <Save className="w-5 h-5" />
-                        <span>{saving ? 'Saving...' : `Save All (${pendingProducts.length})`}</span>
-                      </button>
-                    )}
+                    <div>
+                      {pendingProducts.length > 0 && (
+                        <button
+                          onClick={handleBulkSaveProducts}
+                          disabled={saving}
+                          className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-lg transition flex items-center space-x-2 disabled:opacity-50"
+                          data-testid="save-all-btn"
+                        >
+                          <Save className="w-5 h-5" />
+                          <span>{saving ? 'Saving...' : `Save All (${pendingProducts.length})`}</span>
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
               )}
