@@ -653,7 +653,6 @@ export default function AdminDashboard() {
         price: '', 
         mrp: '', 
         offer: '', 
-        description: '', 
         category: '', 
         image: '', 
         videoUrl: '', 
