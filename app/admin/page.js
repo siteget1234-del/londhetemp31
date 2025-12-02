@@ -305,8 +305,14 @@ export default function AdminDashboard() {
 
   const handleCropComplete = async (croppedBlob) => {
     setShowCropModal(false);
-    setUploadingImage(true);
-    setCompressionProgress(null);
+    
+    if (cropType === 'product') {
+      setUploadingImage(true);
+      setCompressionProgress(null);
+    } else if (cropType === 'banner') {
+      setUploadingBannerImage(true);
+      setBannerCompressionProgress(null);
+    }
     
     try {
       // Convert blob to file
@@ -315,22 +321,27 @@ export default function AdminDashboard() {
       const fileSizeKB = croppedFile.size / 1024;
       let fileToUpload = croppedFile;
       
-      // Skip compression if image is already under 20KB
-      if (fileSizeKB < 20) {
-        setCompressionProgress({ 
+      // Determine target size and progress setter
+      const isProduct = cropType === 'product';
+      const targetSize = isProduct ? 20 : 50;
+      const progressSetter = isProduct ? setCompressionProgress : setBannerCompressionProgress;
+      
+      // Skip compression if image is already under target size
+      if (fileSizeKB < targetSize) {
+        progressSetter({ 
           step: 1, 
           message: `Image already optimized (${fileSizeKB.toFixed(2)}KB). Skipping compression...`, 
           progress: 50 
         });
       } else {
         // Two-Step Compression
-        fileToUpload = await compressImageTwoStep(croppedFile, 'product', (progress) => {
-          setCompressionProgress(progress);
+        fileToUpload = await compressImageTwoStep(croppedFile, cropType, (progress) => {
+          progressSetter(progress);
         });
       }
 
       // Upload image to Cloudinary
-      setCompressionProgress({ 
+      progressSetter({ 
         step: 3, 
         message: 'Uploading to cloud...', 
         progress: 95 
@@ -344,18 +355,27 @@ export default function AdminDashboard() {
         setBannerForm(prev => ({ ...prev, image: imageUrl }));
       }
       
-      if (fileSizeKB < 20) {
+      const finalSizeKB = fileToUpload.size / 1024;
+      if (fileSizeKB < targetSize) {
         showMessage('success', `Image cropped & uploaded (${fileSizeKB.toFixed(2)}KB)!`);
       } else {
-        showMessage('success', `Image cropped, compressed (${(fileToUpload.size / 1024).toFixed(2)}KB) & uploaded!`);
+        showMessage('success', `Image cropped, compressed (${finalSizeKB.toFixed(2)}KB) & uploaded!`);
       }
-      setCompressionProgress(null);
+      progressSetter(null);
     } catch (error) {
       console.error('Image upload error:', error);
       showMessage('error', 'Failed to compress/upload image');
-      setCompressionProgress(null);
+      if (cropType === 'product') {
+        setCompressionProgress(null);
+      } else {
+        setBannerCompressionProgress(null);
+      }
     } finally {
-      setUploadingImage(false);
+      if (cropType === 'product') {
+        setUploadingImage(false);
+      } else if (cropType === 'banner') {
+        setUploadingBannerImage(false);
+      }
       setCropFile(null);
       setCropType(null);
     }
