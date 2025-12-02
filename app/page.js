@@ -379,7 +379,7 @@ export default function Home() {
     return encodeURIComponent(message);
   };
 
-  const handleWhatsAppCheckout = () => {
+  const handleWhatsAppCheckout = async () => {
     if (cart.length === 0) {
       alert('कृपया प्रथम कार्टमध्ये उत्पादने जोडा!');
       return;
@@ -388,8 +388,63 @@ export default function Home() {
       alert('कृपया प्रथम डिलिव्हरी पत्ता जोडा!');
       return;
     }
+    
+    // Track order before opening WhatsApp
+    await trackOrder();
+    
     const whatsappUrl = `https://wa.me/${shopData?.shop_number}?text=${generateWhatsAppMessage()}`;
     window.open(whatsappUrl, '_blank');
+  };
+
+  // Track order in overview
+  const trackOrder = async () => {
+    try {
+      if (!shopData?.id) return;
+
+      // Get current overview data
+      const { data, error } = await supabase
+        .from('shop_data')
+        .select('overview')
+        .eq('id', shopData.id)
+        .single();
+
+      if (error) throw error;
+
+      const currentOverview = data?.overview || { totalViews: 0, totalOrders: 0, orderHistory: [] };
+      
+      // Prepare order details
+      const orderDetails = {
+        id: `order_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        orderDate: new Date().toISOString(),
+        customerName: deliveryAddress.name,
+        customerAddress: `${deliveryAddress.addressLine}, ${deliveryAddress.cityVillage}, ${deliveryAddress.state}, ${deliveryAddress.pincode}`,
+        products: cartTotals.items.map(item => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.pricing.itemsAtOfferPrice > 0 ? item.specialOffer.offerPricePerUnit : item.price,
+          total: item.pricing.total
+        })),
+        subtotal: cartTotals.subtotal,
+        discount: cartTotals.discount,
+        totalAmount: totalAmount
+      };
+
+      // Update overview with new order
+      const updatedOverview = {
+        ...currentOverview,
+        totalOrders: (currentOverview.totalOrders || 0) + 1,
+        orderHistory: [...(currentOverview.orderHistory || []), orderDetails]
+      };
+
+      // Save to database
+      await supabase
+        .from('shop_data')
+        .update({ overview: updatedOverview })
+        .eq('id', shopData.id);
+
+    } catch (error) {
+      console.error('Error tracking order:', error);
+    }
   };
 
   const handleSaveAddress = () => {
