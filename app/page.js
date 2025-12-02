@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
-import { ShoppingCart, Search, Phone, Plus, X, ChevronLeft, ChevronRight, Minus, Menu, LogOut, Settings } from 'lucide-react';
+import { ShoppingCart, Search, Phone, Plus, X, ChevronLeft, ChevronRight, Minus, Menu, LogOut, Settings, Share2 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase, getCurrentUser } from '@/lib/supabase';
