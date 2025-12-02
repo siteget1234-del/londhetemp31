@@ -960,6 +960,260 @@ export default function AdminDashboard() {
     }
   };
 
+  // Export Products to CSV
+  const handleExportProducts = () => {
+    if (shopData.products.length === 0) {
+      showMessage('error', 'No products to export');
+      return;
+    }
+
+    try {
+      // Define CSV headers (all fields)
+      const headers = [
+        'id', 'name', 'price', 'mrp', 'offer', 'description', 'category', 
+        'image', 'videoUrl', 'stockQuantity', 'featured',
+        'spec_ingredients', 'spec_quantity', 'spec_usageMethod', 
+        'spec_effectiveness', 'spec_applicableCrops', 'spec_additionalInfo', 'spec_specialNotes',
+        'specialOffer_name', 'specialOffer_quantity', 'specialOffer_pricePerUnit'
+      ];
+
+      // Convert products to CSV rows
+      const rows = shopData.products.map(product => {
+        return [
+          product.id || '',
+          product.name || '',
+          product.price || '',
+          product.mrp || '',
+          product.offer || '',
+          product.description || '',
+          product.category || '',
+          product.image || '',
+          product.videoUrl || '',
+          product.stockQuantity || '',
+          product.featured ? 'true' : 'false',
+          product.specifications?.ingredients || '',
+          product.specifications?.quantity || '',
+          product.specifications?.usageMethod || '',
+          product.specifications?.effectiveness || '',
+          product.specifications?.applicableCrops || '',
+          product.specifications?.additionalInfo || '',
+          product.specifications?.specialNotes || '',
+          product.specialOffer?.offerName || '',
+          product.specialOffer?.quantity || '',
+          product.specialOffer?.offerPricePerUnit || ''
+        ].map(field => {
+          // Escape quotes and wrap in quotes if contains comma or newline
+          const stringField = String(field);
+          if (stringField.includes(',') || stringField.includes('\n') || stringField.includes('"')) {
+            return `"${stringField.replace(/"/g, '""')}"`;
+          }
+          return stringField;
+        }).join(',');
+      });
+
+      // Combine headers and rows
+      const csvContent = [headers.join(','), ...rows].join('\n');
+
+      // Create blob and download
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', `products_export_${new Date().toISOString().split('T')[0]}.csv`);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      showMessage('success', `Exported ${shopData.products.length} products successfully!`);
+    } catch (error) {
+      console.error('Export error:', error);
+      showMessage('error', 'Failed to export products');
+    }
+  };
+
+  // Generate Sample CSV for download
+  const handleDownloadSampleCSV = () => {
+    const headers = [
+      'id', 'name', 'price', 'mrp', 'offer', 'description', 'category', 
+      'image', 'videoUrl', 'stockQuantity', 'featured',
+      'spec_ingredients', 'spec_quantity', 'spec_usageMethod', 
+      'spec_effectiveness', 'spec_applicableCrops', 'spec_additionalInfo', 'spec_specialNotes',
+      'specialOffer_name', 'specialOffer_quantity', 'specialOffer_pricePerUnit'
+    ];
+
+    const sampleRow = [
+      uuidv4(),
+      'Sample Product नमुना',
+      '100',
+      '120',
+      '16% OFF',
+      'Product description',
+      'बीज',
+      'https://example.com/image.jpg',
+      'https://youtube.com/watch?v=example',
+      '50',
+      'true',
+      'NPK 19:19:19',
+      '1 किग्रॅ',
+      'फवारणी',
+      '7-10 दिवसात',
+      'ऊस, कापूस',
+      'Additional info',
+      'Special notes',
+      'खरेदी करा 10',
+      '10',
+      '90'
+    ];
+
+    const csvContent = [headers.join(','), sampleRow.join(',')].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', 'sample_products_import.csv');
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Parse CSV and Import Products
+  const handleImportProducts = async () => {
+    if (!importFile) {
+      showMessage('error', 'Please select a CSV file');
+      return;
+    }
+
+    setImporting(true);
+    try {
+      const text = await importFile.text();
+      const lines = text.split('\n').filter(line => line.trim());
+      
+      if (lines.length < 2) {
+        showMessage('error', 'CSV file is empty or invalid');
+        setImporting(false);
+        return;
+      }
+
+      // Parse CSV
+      const headers = lines[0].split(',').map(h => h.trim().replace(/^"(.*)"$/, '$1'));
+      const products = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const values = [];
+        let currentValue = '';
+        let insideQuotes = false;
+
+        // Handle CSV with quoted values
+        for (let char of lines[i]) {
+          if (char === '"') {
+            insideQuotes = !insideQuotes;
+          } else if (char === ',' && !insideQuotes) {
+            values.push(currentValue.trim().replace(/^"(.*)"$/, '$1').replace(/""/g, '"'));
+            currentValue = '';
+          } else {
+            currentValue += char;
+          }
+        }
+        values.push(currentValue.trim().replace(/^"(.*)"$/, '$1').replace(/""/g, '"'));
+
+        if (values.length !== headers.length) {
+          console.warn(`Skipping row ${i + 1}: column count mismatch`);
+          continue;
+        }
+
+        const rowData = {};
+        headers.forEach((header, index) => {
+          rowData[header] = values[index];
+        });
+
+        // Construct product object
+        const product = {
+          id: rowData.id || uuidv4(),
+          name: rowData.name || '',
+          price: parseFloat(rowData.price) || 0,
+          mrp: rowData.mrp ? parseFloat(rowData.mrp) : null,
+          offer: rowData.offer || '',
+          description: rowData.description || '',
+          category: rowData.category || '',
+          image: rowData.image || '',
+          videoUrl: rowData.videoUrl || '',
+          stockQuantity: parseInt(rowData.stockQuantity) || 0,
+          featured: rowData.featured === 'true',
+          specifications: {
+            ingredients: rowData.spec_ingredients || '',
+            quantity: rowData.spec_quantity || '',
+            usageMethod: rowData.spec_usageMethod || '',
+            effectiveness: rowData.spec_effectiveness || '',
+            applicableCrops: rowData.spec_applicableCrops || '',
+            additionalInfo: rowData.spec_additionalInfo || '',
+            specialNotes: rowData.spec_specialNotes || ''
+          },
+          searchKeywords: generateSearchKeywords(rowData.name || ''),
+          specialOffer: (rowData.specialOffer_name && rowData.specialOffer_quantity && rowData.specialOffer_pricePerUnit) ? {
+            offerName: rowData.specialOffer_name,
+            quantity: parseInt(rowData.specialOffer_quantity),
+            offerPricePerUnit: parseFloat(rowData.specialOffer_pricePerUnit)
+          } : null
+        };
+
+        // Validate required fields
+        if (!product.name || !product.price || !product.category) {
+          console.warn(`Skipping row ${i + 1}: missing required fields (name, price, or category)`);
+          continue;
+        }
+
+        products.push(product);
+      }
+
+      if (products.length === 0) {
+        showMessage('error', 'No valid products found in CSV');
+        setImporting(false);
+        return;
+      }
+
+      // Update or add products
+      const existingProducts = [...shopData.products];
+      let updatedCount = 0;
+      let addedCount = 0;
+
+      products.forEach(newProduct => {
+        const existingIndex = existingProducts.findIndex(p => p.id === newProduct.id);
+        if (existingIndex !== -1) {
+          // Update existing product
+          existingProducts[existingIndex] = newProduct;
+          updatedCount++;
+        } else {
+          // Add new product
+          existingProducts.push(newProduct);
+          addedCount++;
+        }
+      });
+
+      // Save to database
+      const { error } = await supabase
+        .from('shop_data')
+        .update({ products: existingProducts, updated_at: new Date().toISOString() })
+        .eq('admin_id', user.id);
+
+      if (error) throw error;
+
+      setShopData(prev => ({ ...prev, products: existingProducts }));
+      setShowImportModal(false);
+      setImportFile(null);
+      
+      showMessage('success', `Import successful! Added: ${addedCount}, Updated: ${updatedCount}`);
+    } catch (error) {
+      console.error('Import error:', error);
+      showMessage('error', 'Failed to import products. Please check CSV format.');
+    } finally {
+      setImporting(false);
+    }
+  };
+
   const handleSignOut = async () => {
     await supabase.auth.signOut();
     router.push('/login');
