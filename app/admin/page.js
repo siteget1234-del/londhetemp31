@@ -1040,40 +1040,93 @@ export default function AdminDashboard() {
     }
   };
 
-  // Generate Sample CSV for download
+  // Generate Sample CSV for download with ALL fields populated
   const handleDownloadSampleCSV = () => {
+    // Headers matching export format (ALL fields organized logically)
     const headers = [
-      'id', 'name', 'price', 'mrp', 'offer', 'category', 
-      'image', 'videoUrl', 'stockQuantity', 'featured',
+      // Basic Product Information
+      'id', 'name', 'category', 'featured',
+      // Pricing & Stock
+      'price', 'mrp', 'offer', 'stockQuantity',
+      // Media
+      'image', 'videoUrl',
+      // Specifications (महत्वाचे गुणधर्म)
       'spec_ingredients', 'spec_quantity', 'spec_usageMethod', 
       'spec_effectiveness', 'spec_applicableCrops', 'spec_additionalInfo', 'spec_specialNotes',
+      // Special Offers (विशेष ऑफर)
       'specialOffer_name', 'specialOffer_quantity', 'specialOffer_pricePerUnit'
     ];
 
-    const sampleRow = [
-      uuidv4(),
-      'Sample Product नमुना',
-      '100',
-      '120',
-      '16% OFF',
-      'बीज',
-      'https://example.com/image.jpg',
-      'https://youtube.com/watch?v=example',
-      '50',
-      'true',
-      'NPK 19:19:19',
-      '1 किग्रॅ',
-      'फवारणी',
-      '7-10 दिवसात',
-      'ऊस, कापूस',
-      'Additional info',
-      'Special notes',
-      'खरेदी करा 10',
-      '10',
-      '90'
+    // Comprehensive sample rows with ALL fields properly filled
+    const sampleRows = [
+      [
+        // Basic Product Information
+        uuidv4(),
+        'कटाई लप भारी देरी (Sample Product)',
+        'बीज',
+        'true',
+        // Pricing & Stock
+        '120',
+        '150',
+        '20% OFF',
+        '100',
+        // Media
+        'https://example.com/product-image-compressed.jpg',
+        'https://www.youtube.com/watch?v=sample123',
+        // Specifications (महत्वाचे गुणधर्म) - ALL FIELDS
+        'NPK 19:19:19, Zinc 2%',
+        '1 किलो (1 Kg)',
+        'फवारणी किंवा ड्रिप (Spray or Drip)',
+        '7-10 दिवसांत परिणाम (Results in 7-10 days)',
+        'ऊस, कापूस, सोयाबीन, भाजीपाला (Sugarcane, Cotton, Soybean, Vegetables)',
+        'पाण्यात विरघळणारे, जैविक (Water soluble, Organic)',
+        'थंड जागी साठवा, मुलांपासून दूर ठेवा (Store in cool place, keep away from children)',
+        // Special Offers (विशेष ऑफर) - ALL FIELDS
+        'खरेदी करा 10 युनिट्स (Buy 10 Units)',
+        '10',
+        '110'
+      ],
+      [
+        // Second sample product with different data
+        uuidv4(),
+        'Premium Fertilizer उत्तम खत',
+        'पोषण',
+        'false',
+        // Pricing & Stock
+        '250',
+        '300',
+        '16% OFF',
+        '50',
+        // Media
+        'https://example.com/fertilizer-image.jpg',
+        '',
+        // Specifications (ALL FIELDS - showing different examples)
+        'Nitrogen 20%, Phosphorus 10%, Potassium 10%',
+        '5 किलो बॅग (5 Kg Bag)',
+        'जमिनीत मिसळा (Mix with soil)',
+        '15-20 दिवसांत सुधारणा दिसेल (Improvement visible in 15-20 days)',
+        'सर्व पिकांसाठी (For all crops)',
+        'एकर प्रति 10-15 किलो वापरा (Use 10-15 kg per acre)',
+        'पाऊस येण्यापूर्वी वापरा (Use before rainfall)',
+        // Special Offers
+        '',
+        '',
+        ''
+      ]
     ];
 
-    const csvContent = [headers.join(','), sampleRow.join(',')].join('\n');
+    // Escape and format each cell
+    const formatCell = (field) => {
+      const stringField = String(field);
+      if (stringField.includes(',') || stringField.includes('\n') || stringField.includes('"')) {
+        return `"${stringField.replace(/"/g, '""')}"`;
+      }
+      return stringField;
+    };
+
+    const formattedRows = sampleRows.map(row => row.map(formatCell).join(','));
+    const csvContent = [headers.join(','), ...formattedRows].join('\n');
+    
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
@@ -1084,6 +1137,8 @@ export default function AdminDashboard() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    
+    showMessage('success', 'Sample CSV downloaded! Contains 2 example products with ALL fields filled.');
   };
 
   // Parse CSV and Import Products
