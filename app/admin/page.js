@@ -70,6 +70,7 @@ export default function AdminDashboard() {
     }
   });
   const [editingProduct, setEditingProduct] = useState(false);
+  const [editingProductType, setEditingProductType] = useState(null); // 'saved' or 'pending'
   const [uploadingImage, setUploadingImage] = useState(false);
   const [compressionProgress, setCompressionProgress] = useState(null);
 
