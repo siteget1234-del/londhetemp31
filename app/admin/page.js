@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase, getCurrentUser } from '@/lib/supabase';
-import { Store, Package, Image as ImageIcon, User, LogOut, Save, Plus, X, Edit2, Trash2, Upload } from 'lucide-react';
+import { Store, Package, Image as ImageIcon, User, LogOut, Save, Plus, X, Edit2, Trash2, Upload, BarChart3 } from 'lucide-react';
 import { v4 as uuidv4 } from 'uuid';
 import { compressImageTwoStep } from '@/lib/imageCompression';
 import CropModal from '@/components/CropModal';
