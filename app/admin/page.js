@@ -589,7 +589,25 @@ export default function AdminDashboard() {
   };
 
   const handleEditProduct = (product, productType = 'pending') => {
-    setProductForm(product);
+    // Ensure specialOffer is properly initialized
+    const formattedProduct = {
+      ...product,
+      specialOffer: product.specialOffer || {
+        offerName: '',
+        quantity: '',
+        offerPricePerUnit: ''
+      },
+      specifications: product.specifications || {
+        ingredients: '',
+        quantity: '',
+        usageMethod: '',
+        effectiveness: '',
+        applicableCrops: '',
+        additionalInfo: '',
+        specialNotes: ''
+      }
+    };
+    setProductForm(formattedProduct);
     setEditingProduct(true);
     setEditingProductType(productType);
     window.scrollTo({ top: 0, behavior: 'smooth' });
