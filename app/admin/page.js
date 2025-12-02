@@ -525,12 +525,30 @@ export default function AdminDashboard() {
               quantity: parseInt(productForm.specialOffer.quantity),
               offerPricePerUnit: parseFloat(productForm.specialOffer.offerPricePerUnit)
             }
-          : null,
-        isPending: true // Mark as pending/staged
+          : null
       };
 
-      // Save to Local Storage instead of Supabase
-      savePendingProductToStorage(newProduct);
+      // Check if we're editing a saved product (directly update to database)
+      if (editingProduct && editingProductType === 'saved') {
+        const updatedProducts = shopData.products.map(p => 
+          p.id === newProduct.id ? newProduct : p
+        );
+
+        const { error } = await supabase
+          .from('shop_data')
+          .update({ products: updatedProducts, updated_at: new Date().toISOString() })
+          .eq('admin_id', user.id);
+
+        if (error) throw error;
+
+        setShopData(prev => ({ ...prev, products: updatedProducts }));
+        showMessage('success', 'Product updated successfully!');
+      } else {
+        // Save to Local Storage for pending products
+        newProduct.isPending = true; // Mark as pending/staged
+        savePendingProductToStorage(newProduct);
+        showMessage('success', editingProduct ? 'Product updated in queue!' : 'Product added to queue! Click "Save All" to commit.');
+      }
 
       setProductForm({ 
         id: '', 
@@ -561,10 +579,10 @@ export default function AdminDashboard() {
         }
       });
       setEditingProduct(false);
-      showMessage('success', editingProduct ? 'Product updated in queue!' : 'Product added to queue! Click "Save All" to commit.');
+      setEditingProductType(null);
     } catch (error) {
-      console.error('Error staging product:', error);
-      showMessage('error', 'Failed to stage product');
+      console.error('Error saving product:', error);
+      showMessage('error', 'Failed to save product');
     } finally {
       setSaving(false);
     }
