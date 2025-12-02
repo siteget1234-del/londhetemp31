@@ -20,7 +20,7 @@ export default function CropModal({ file, aspectRatio, title, onCropComplete, on
   const [processing, setProcessing] = useState(false);
 
   // Load image from file
-  useState(() => {
+  useEffect(() => {
     if (file) {
       const reader = new FileReader();
       reader.addEventListener('load', () => setImageSrc(reader.result));
