@@ -1065,7 +1065,7 @@ export default function Home() {
             )}
           </div>
         ) : (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-2">
             {displayProducts.map(product => {
               const discountPercent = product.mrp && product.price < product.mrp 
                 ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
@@ -1079,7 +1079,7 @@ export default function Home() {
                 <div 
                   key={product.id} 
                   onClick={() => setSelectedProduct(product)}
-                  className="bg-white rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.02] active:scale-[0.98]"
                   data-testid={`product-card-${product.id}`}
                 >
                   {/* Product Image */}
@@ -1087,20 +1087,20 @@ export default function Home() {
                     <img 
                       src={product.image || 'https://via.placeholder.com/400x300?text=Product+Image'} 
                       alt={product.name}
-                      className="w-full h-36 object-cover"
+                      className="w-full h-28 object-cover"
                     />
                   </div>
                   
                   {/* Product Info */}
-                  <div className="p-3 space-y-2">
+                  <div className="p-2 space-y-1.5">
                     {/* Product Name */}
-                    <h3 className="text-base font-normal text-gray-800 line-clamp-2 leading-tight min-h-[3rem]" data-testid="product-name">
+                    <h3 className="text-sm font-normal text-gray-800 line-clamp-2 leading-tight min-h-[2.5rem]" data-testid="product-name">
                       {product.name}
                     </h3>
                     
                     {/* Price Section */}
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg font-bold text-gray-900" data-testid="product-price">
+                    <div className="flex items-center space-x-1.5">
+                      <span className="text-base font-bold text-gray-900" data-testid="product-price">
                         ₹{product.price}
                       </span>
                       {product.mrp && product.mrp > product.price && (
@@ -1112,8 +1112,8 @@ export default function Home() {
                     
                     {/* Offer Badge */}
                     {product.offer && (
-                      <div className="bg-red-50 border border-red-200 rounded-md px-2 py-1">
-                        <span className="text-xs font-bold text-red-600" data-testid="product-offer">
+                      <div className="bg-red-50 border border-red-200 rounded-md px-1.5 py-0.5">
+                        <span className="text-[10px] font-bold text-red-600" data-testid="product-offer">
                           {product.offer}
                         </span>
                       </div>
@@ -1121,11 +1121,11 @@ export default function Home() {
                     
                     {/* Special Offer Text or Discount */}
                     {hasSpecialOffer ? (
-                      <p className="text-xs font-bold text-red-600">
+                      <p className="text-[10px] font-bold text-red-600">
                         ऑफर किंमत ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
                       </p>
                     ) : discountPercent ? (
-                      <p className="text-xs font-bold text-red-600" data-testid="product-discount">
+                      <p className="text-[10px] font-bold text-red-600" data-testid="product-discount">
                         खास {discountPercent}% सूट
                       </p>
                     ) : null}
@@ -1137,7 +1137,7 @@ export default function Home() {
                         addToCart(product, 1, 'regular');
                         setShowCart(true);
                       }}
-                      className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2.5 rounded-lg transition-all duration-200 shadow-md"
+                      className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-md text-sm"
                       data-testid="buy-now-btn"
                     >
                       खरेदी करा
