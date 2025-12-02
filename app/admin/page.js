@@ -32,7 +32,12 @@ export default function AdminDashboard() {
       youtube: ''
     },
     products: [],
-    banners: []
+    banners: [],
+    overview: {
+      totalViews: 0,
+      totalOrders: 0,
+      orderHistory: []
+    }
   });
 
   // Pending Products Queue (from Local Storage)
