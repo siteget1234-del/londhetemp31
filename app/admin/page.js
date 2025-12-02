@@ -965,28 +965,38 @@ export default function AdminDashboard() {
     }
 
     try {
-      // Define CSV headers (all fields)
+      // Define CSV headers (ALL fields from product form - organized logically)
       const headers = [
-        'id', 'name', 'price', 'mrp', 'offer', 'category', 
-        'image', 'videoUrl', 'stockQuantity', 'featured',
+        // Basic Product Information
+        'id', 'name', 'category', 'featured',
+        // Pricing & Stock
+        'price', 'mrp', 'offer', 'stockQuantity',
+        // Media
+        'image', 'videoUrl',
+        // Specifications (महत्वाचे गुणधर्म)
         'spec_ingredients', 'spec_quantity', 'spec_usageMethod', 
         'spec_effectiveness', 'spec_applicableCrops', 'spec_additionalInfo', 'spec_specialNotes',
+        // Special Offers (विशेष ऑफर)
         'specialOffer_name', 'specialOffer_quantity', 'specialOffer_pricePerUnit'
       ];
 
       // Convert products to CSV rows
       const rows = shopData.products.map(product => {
         return [
+          // Basic Product Information
           product.id || '',
           product.name || '',
+          product.category || '',
+          product.featured ? 'true' : 'false',
+          // Pricing & Stock
           product.price || '',
           product.mrp || '',
           product.offer || '',
-          product.category || '',
+          product.stockQuantity || '',
+          // Media
           product.image || '',
           product.videoUrl || '',
-          product.stockQuantity || '',
-          product.featured ? 'true' : 'false',
+          // Specifications (महत्वाचे गुणधर्म)
           product.specifications?.ingredients || '',
           product.specifications?.quantity || '',
           product.specifications?.usageMethod || '',
@@ -994,6 +1004,7 @@ export default function AdminDashboard() {
           product.specifications?.applicableCrops || '',
           product.specifications?.additionalInfo || '',
           product.specifications?.specialNotes || '',
+          // Special Offers (विशेष ऑफर)
           product.specialOffer?.offerName || '',
           product.specialOffer?.quantity || '',
           product.specialOffer?.offerPricePerUnit || ''
