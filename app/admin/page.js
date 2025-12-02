@@ -967,7 +967,7 @@ export default function AdminDashboard() {
     try {
       // Define CSV headers (all fields)
       const headers = [
-        'id', 'name', 'price', 'mrp', 'offer', 'description', 'category', 
+        'id', 'name', 'price', 'mrp', 'offer', 'category', 
         'image', 'videoUrl', 'stockQuantity', 'featured',
         'spec_ingredients', 'spec_quantity', 'spec_usageMethod', 
         'spec_effectiveness', 'spec_applicableCrops', 'spec_additionalInfo', 'spec_specialNotes',
@@ -982,7 +982,6 @@ export default function AdminDashboard() {
           product.price || '',
           product.mrp || '',
           product.offer || '',
-          product.description || '',
           product.category || '',
           product.image || '',
           product.videoUrl || '',
