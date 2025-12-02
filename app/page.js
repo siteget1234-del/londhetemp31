@@ -203,13 +203,19 @@ export default function Home() {
     }
   }, [banners]);
 
-  // Enhanced search functionality with keyword mapping
+  // Enhanced search functionality with keyword mapping - Category Aware
   const searchResults = useMemo(() => {
     if (!searchQuery.trim()) return [];
     
     const query = searchQuery.toLowerCase();
     
-    return products.filter(product => {
+    // First filter products by category if on category page
+    const productsToSearch = selectedCategory 
+      ? products.filter(p => p.category === selectedCategory)
+      : products;
+    
+    // Then apply search filter
+    return productsToSearch.filter(product => {
       const matchesName = product.name?.toLowerCase().includes(query);
       const matchesDescription = product.description?.toLowerCase().includes(query);
       const matchesCategory = product.category?.toLowerCase().includes(query);
@@ -221,7 +227,7 @@ export default function Home() {
       
       return matchesName || matchesDescription || matchesCategory || matchesKeywords;
     });
-  }, [searchQuery, products]);
+  }, [searchQuery, products, selectedCategory]);
 
   const addToCart = (product, quantity = 1, offerType = 'regular') => {
     const existingItem = cart.find(item => item.id === product.id);
