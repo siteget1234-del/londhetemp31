@@ -1608,6 +1608,11 @@ export default function AdminDashboard() {
                               <div className={`flex-1 ${selectedProducts.includes(product.id) ? 'pl-8' : ''}`}>
                                 <h4 className="font-bold text-gray-800 mb-1 pr-20">{product.name}</h4>
                                 <p className="text-emerald-600 font-bold text-lg mb-1">₹{product.price}</p>
+                                {product.stockQuantity !== undefined && (
+                                  <p className="text-sm text-blue-600 font-semibold mb-1">
+                                    📦 Stock: {product.stockQuantity} units
+                                  </p>
+                                )}
                                 <p className="text-sm text-gray-600 mb-2 line-clamp-2">{product.description}</p>
                                 <div className="flex items-center justify-between mb-2">
                                   <p className="text-xs text-gray-500">Category: {product.category}</p>
