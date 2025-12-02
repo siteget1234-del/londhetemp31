@@ -1421,6 +1421,7 @@ export default function AdminDashboard() {
                           }
                         });
                         setEditingProduct(false);
+                        setEditingProductType(null);
                       }}
                       className="px-6 bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-3 rounded-lg transition"
                     >
