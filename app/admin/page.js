@@ -1108,6 +1108,62 @@ export default function AdminDashboard() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
+              
+              {/* Social Media Links Section */}
+              <div className="border-t pt-4 mt-4">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                  <span>🔗</span>
+                  <span>Social Media Links</span>
+                </h3>
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Instagram URL
+                    </label>
+                    <input
+                      type="url"
+                      value={shopData.social_links?.instagram || ''}
+                      onChange={(e) => setShopData(prev => ({ 
+                        ...prev, 
+                        social_links: { ...prev.social_links, instagram: e.target.value }
+                      }))}
+                      placeholder="https://instagram.com/yourshop"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Facebook URL
+                    </label>
+                    <input
+                      type="url"
+                      value={shopData.social_links?.facebook || ''}
+                      onChange={(e) => setShopData(prev => ({ 
+                        ...prev, 
+                        social_links: { ...prev.social_links, facebook: e.target.value }
+                      }))}
+                      placeholder="https://facebook.com/yourshop"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      YouTube URL
+                    </label>
+                    <input
+                      type="url"
+                      value={shopData.social_links?.youtube || ''}
+                      onChange={(e) => setShopData(prev => ({ 
+                        ...prev, 
+                        social_links: { ...prev.social_links, youtube: e.target.value }
+                      }))}
+                      placeholder="https://youtube.com/@yourshop"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    />
+                  </div>
+                </div>
+              </div>
+              
               <button
                 onClick={handleSaveShopInfo}
                 disabled={saving}
