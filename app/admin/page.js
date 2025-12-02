@@ -2005,6 +2005,130 @@ export default function AdminDashboard() {
             </div>
           </div>
         )}
+
+        {/* Overview Tab */}
+        {activeTab === 'overview' && (
+          <div className="space-y-6">
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Total Views Card */}
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg p-6 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-blue-100 text-sm font-semibold mb-1">Total Views</p>
+                    <h3 className="text-4xl font-bold">{shopData.overview?.totalViews || 0}</h3>
+                    <p className="text-blue-100 text-xs mt-2">Homepage visits</p>
+                  </div>
+                  <div className="bg-white/20 p-4 rounded-full">
+                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              {/* Total Orders Card */}
+              <div className="bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-xl shadow-lg p-6 text-white">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-emerald-100 text-sm font-semibold mb-1">Total Orders</p>
+                    <h3 className="text-4xl font-bold">{shopData.overview?.totalOrders || 0}</h3>
+                    <p className="text-emerald-100 text-xs mt-2">WhatsApp orders placed</p>
+                  </div>
+                  <div className="bg-white/20 p-4 rounded-full">
+                    <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Order History */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center space-x-2">
+                <span>📋</span>
+                <span>Order History</span>
+              </h2>
+              
+              {!shopData.overview?.orderHistory || shopData.overview.orderHistory.length === 0 ? (
+                <div className="text-center py-12">
+                  <div className="text-6xl mb-4">📦</div>
+                  <p className="text-gray-500 text-lg">No orders yet</p>
+                  <p className="text-gray-400 text-sm mt-2">Orders will appear here when customers place orders via WhatsApp</p>
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gray-50 border-b-2 border-gray-200">
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Date & Time</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Customer</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Address</th>
+                        <th className="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase tracking-wider">Products</th>
+                        <th className="px-4 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Subtotal</th>
+                        <th className="px-4 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Discount</th>
+                        <th className="px-4 py-3 text-right text-xs font-bold text-gray-700 uppercase tracking-wider">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {shopData.overview.orderHistory.slice().reverse().map((order, index) => (
+                        <tr key={order.id || index} className="hover:bg-gray-50 transition">
+                          <td className="px-4 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                              {new Date(order.orderDate).toLocaleDateString('en-IN', { 
+                                day: '2-digit', 
+                                month: 'short', 
+                                year: 'numeric' 
+                              })}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {new Date(order.orderDate).toLocaleTimeString('en-IN', { 
+                                hour: '2-digit', 
+                                minute: '2-digit' 
+                              })}
+                            </div>
+                          </td>
+                          <td className="px-4 py-4">
+                            <div className="text-sm font-semibold text-gray-900">{order.customerName}</div>
+                          </td>
+                          <td className="px-4 py-4">
+                            <div className="text-sm text-gray-600 max-w-xs truncate" title={order.customerAddress}>
+                              {order.customerAddress}
+                            </div>
+                          </td>
+                          <td className="px-4 py-4">
+                            <div className="text-sm text-gray-900">
+                              {order.products.map((product, idx) => (
+                                <div key={idx} className="mb-1">
+                                  <span className="font-medium">{product.name}</span>
+                                  <span className="text-gray-500"> × {product.quantity}</span>
+                                  <span className="text-gray-400 text-xs"> @ ₹{product.price}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 text-right">
+                            <div className="text-sm font-medium text-gray-900">₹{order.subtotal.toFixed(2)}</div>
+                          </td>
+                          <td className="px-4 py-4 text-right">
+                            <div className="text-sm font-medium text-red-600">
+                              {order.discount > 0 ? `-₹${order.discount.toFixed(2)}` : '-'}
+                            </div>
+                          </td>
+                          <td className="px-4 py-4 text-right">
+                            <div className="text-sm font-bold text-emerald-600">₹{order.totalAmount.toFixed(2)}</div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Crop Modal */}
