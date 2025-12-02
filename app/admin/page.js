@@ -1526,18 +1526,10 @@ export default function AdminDashboard() {
                                 className="absolute top-3 right-3 w-16 h-16 object-cover rounded-lg"
                               />
                             </div>
-                            <div className="flex space-x-2 mt-2">
-                              <button
-                                onClick={() => handleEditProduct(product)}
-                                className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
-                                data-testid={`edit-pending-${product.id}`}
-                              >
-                                <Edit2 className="w-4 h-4" />
-                                <span>Edit</span>
-                              </button>
+                            <div className="mt-2">
                               <button
                                 onClick={() => handleDeleteProduct(product.id, true)}
-                                className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
+                                className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
                                 data-testid={`delete-pending-${product.id}`}
                               >
                                 <Trash2 className="w-4 h-4" />
