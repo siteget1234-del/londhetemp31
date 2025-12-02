@@ -101,6 +101,11 @@ export default function AdminDashboard() {
   const [uploadingBannerImage, setUploadingBannerImage] = useState(false);
   const [bannerCompressionProgress, setBannerCompressionProgress] = useState(null);
 
+  // Import/Export States
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importFile, setImportFile] = useState(null);
+  const [importing, setImporting] = useState(false);
+
   useEffect(() => {
     checkAuth();
     loadPendingProducts();
