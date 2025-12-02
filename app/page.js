@@ -1246,6 +1246,89 @@ export default function Home() {
         )}
       </section>
 
+      {/* FAQ Section - SEO Optimized */}
+      {!showSearch && !selectedCategory && (
+        <section className="bg-gradient-to-b from-gray-50 to-white py-12 mt-8">
+          <div className="container mx-auto px-4 max-w-4xl">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-800 mb-2" data-testid="faq-title">
+                वारंवार विचारले जाणारे प्रश्न
+              </h2>
+              <p className="text-gray-600">श्री ॲग्रो कृषी सेवा केंद्र - चाळीसगाव, जळगाव</p>
+            </div>
+            
+            <Accordion type="single" collapsible className="bg-white rounded-2xl shadow-lg overflow-hidden">
+              {/* Question 1 - Location */}
+              <AccordionItem value="item-1" className="border-b border-gray-200">
+                <AccordionTrigger className="px-6 py-5 hover:bg-emerald-50 text-base font-semibold text-gray-800" data-testid="faq-q1">
+                  श्री ॲग्रो कृषी सेवा केंद्र कुठे आहे?
+                </AccordionTrigger>
+                <AccordionContent className="px-6 py-4 text-gray-700 leading-relaxed" data-testid="faq-a1">
+                  आमचे कृषी केंद्र सायगाव (बगळी), ता. चाळीसगाव, जि. जळगाव येथे स्थित आहे. आम्ही मराठी शाळेजवळ, बँक ऑफ बडोदा समोर आहोत. आमच्या दुकानात सर्व प्रकारचे शेतीचे बियाणे, खत, हार्डवेअर, औषधे आणि व्यावसायिक मार्गदर्शन सेवा उपलब्ध आहेत. संपर्क करण्यासाठी 9850703747 या नंबरवर कॉल करा. आम्ही सकाळी 8:00 ते संध्याकाळी 8:00 पर्यंत सेवा देतो आणि शेतकऱ्यांना सर्वोत्तम कृषी उत्पादने व तांत्रिक मार्गदर्शन प्रदान करतो.
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Question 2 - Best Agrishop */}
+              <AccordionItem value="item-2" className="border-b border-gray-200">
+                <AccordionTrigger className="px-6 py-5 hover:bg-emerald-50 text-base font-semibold text-gray-800" data-testid="faq-q2">
+                  चाळीसगाव जळगाव जवळ सर्वोत्तम कृषी दुकान कोणते आहे?
+                </AccordionTrigger>
+                <AccordionContent className="px-6 py-4 text-gray-700 leading-relaxed" data-testid="faq-a2">
+                  श्री ॲग्रो कृषी सेवा केंद्र हे चाळीसगाव आणि जळगाव परिसरातील सर्वोत्तम व विश्वासार्ह कृषी दुकान आहे. आमच्याकडे शेतीचे प्रमाणित बियाणे, सेंद्रिय व रासायनिक खते, कीटक व रोग नियंत्रण औषधे, शेती हार्डवेअर साधने आणि आधुनिक कृषी उपकरणे मोठ्या प्रमाणात उपलब्ध आहेत. आमची खासियत म्हणजे प्रत्येक उत्पादनासाठी तज्ञ मार्गदर्शन, स्पर्धात्मक किमती, घरपोच वितरण सेवा आणि शेतकऱ्यांना पिक व्यवस्थापनाचा मोफत सल्ला. आम्ही शेतकरी बांधवांना केवळ उत्पादने विकत नाही तर त्यांच्या शेतीच्या यशासाठी सतत मार्गदर्शन करतो.
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Question 3 - Products Available */}
+              <AccordionItem value="item-3" className="border-b border-gray-200">
+                <AccordionTrigger className="px-6 py-5 hover:bg-emerald-50 text-base font-semibold text-gray-800" data-testid="faq-q3">
+                  श्री ॲग्रो येथे कोणत्या प्रकारची बियाणे, खते आणि औषधे उपलब्ध आहेत?
+                </AccordionTrigger>
+                <AccordionContent className="px-6 py-4 text-gray-700 leading-relaxed" data-testid="faq-a3">
+                  आमच्याकडे संपूर्ण कृषी उत्पादनांची विस्तृत श्रेणी उपलब्ध आहे. बियाणे विभागात भाजीपाला बियाणे, हायब्रीड पीक बियाणे, भात, ज्वारी, बाजरी, कापूस व इतर सर्व हंगामी पिकांचे प्रमाणित बियाणे मिळते. खते विभागात युरिया, डीएपी, एनपीके, सेंद्रिय खत, जैविक खते व सूक्ष्म पोषक द्रव्ये उपलब्ध आहेत. औषधे विभागात कीटकनाशके, बुरशीनाशके, तणनाशके आणि वाढ नियामक औषधे सर्व कंपन्यांचे उपलब्ध आहेत. याशिवाय शेतीसाठी आवश्यक हार्डवेअर साधने, स्प्रे पंप, ड्रिप इरिगेशन साहित्य आणि आधुनिक कृषी तंत्रज्ञान उत्पादने देखील मिळतात.
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Question 4 - Technical Guidance */}
+              <AccordionItem value="item-4" className="border-b border-gray-200">
+                <AccordionTrigger className="px-6 py-5 hover:bg-emerald-50 text-base font-semibold text-gray-800" data-testid="faq-q4">
+                  आम्हाला तांत्रिक मार्गदर्शन किंवा शेती सल्ला मिळतो का?
+                </AccordionTrigger>
+                <AccordionContent className="px-6 py-4 text-gray-700 leading-relaxed" data-testid="faq-a4">
+                  होय, नक्कीच! श्री ॲग्रो कृषी सेवा केंद्रात आम्ही केवळ उत्पादने विकत नाही तर शेतकऱ्यांना संपूर्ण तांत्रिक मार्गदर्शन व शेती सल्लामसलत मोफत देतो. आमच्याकडे अनुभवी कृषी तज्ञ आहेत जे पिक निवड, खत व्यवस्थापन, कीटक-रोग नियंत्रण, योग्य औषधांचा वापर, मृदा परीक्षण, पाण्याचे व्यवस्थापन आणि उत्पन्न वाढीसाठी आधुनिक तंत्रज्ञान यावर सविस्तर मार्गदर्शन करतात. तुम्ही कोणत्याही शेती समस्येसाठी 9850703747 वर संपर्क करू शकता किंवा थेट आमच्या केंद्रावर येऊन तज्ञांशी चर्चा करू शकता. आम्ही शेतकऱ्यांच्या यशासाठी कटिबद्ध आहोत.
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Question 5 - Delivery Service */}
+              <AccordionItem value="item-5" className="border-b border-gray-200">
+                <AccordionTrigger className="px-6 py-5 hover:bg-emerald-50 text-base font-semibold text-gray-800" data-testid="faq-q5">
+                  घरपोच वितरण सेवा उपलब्ध आहे का?
+                </AccordionTrigger>
+                <AccordionContent className="px-6 py-4 text-gray-700 leading-relaxed" data-testid="faq-a5">
+                  होय, आम्ही चाळीसगाव, सायगाव, बगळी आणि आजूबाजूच्या सर्व गावांमध्ये घरपोच वितरण सेवा पुरवतो. तुम्ही WhatsApp (9850703747) द्वारे किंवा फोन कॉलवर तुमची ऑर्डर देऊ शकता आणि आम्ही लवकरात लवकर तुमच्या शेतावर किंवा घरी उत्पादने पोहोचवतो. मोठ्या ऑर्डरसाठी मोफत डिलिव्हरी सेवा उपलब्ध आहे. आमचे वाहन दररोज जळगाव जिल्ह्यातील विविध गावांमध्ये जाते आणि शेतकऱ्यांना त्यांच्या दारात आवश्यक बियाणे, खते, औषधे पोहोचवते. यामुळे शेतकऱ्यांना वेळ आणि वाहतूक खर्च वाचतो. आपल्या सेवेत आपले समाधान हा आमचा ध्यास आहे.
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Question 6 - Order Process & Payment */}
+              <AccordionItem value="item-6">
+                <AccordionTrigger className="px-6 py-5 hover:bg-emerald-50 text-base font-semibold text-gray-800" data-testid="faq-q6">
+                  ऑर्डर कशी करावी आणि पेमेंटची पद्धत काय आहे?
+                </AccordionTrigger>
+                <AccordionContent className="px-6 py-4 text-gray-700 leading-relaxed" data-testid="faq-a6">
+                  ऑर्डर करणे अगदी सोपे आहे! तुम्ही आमच्या वेबसाईटवर उत्पादने निवडून कार्टमध्ये जोडा आणि WhatsApp द्वारे थेट ऑर्डर पाठवा. किंवा तुम्ही 9850703747 या नंबरवर फोन करून किंवा WhatsApp मेसेज पाठवून तुमची गरज सांगू शकता. पेमेंटसाठी आम्ही सर्व पद्धती स्वीकारतो - रोख, UPI, PhonePe, Google Pay, बँक ट्रान्सफर आणि विश्वासू ग्राहकांसाठी उधारी सुविधा देखील उपलब्ध आहे. आमच्या दुकानात थेट येऊन देखील उत्पादने खरेदी करू शकता. प्रत्येक उत्पादनासाठी योग्य बिल व हमी दिली जाते. तुमच्या सोयीनुसार कोणत्याही पद्धतीने खरेदी करा आणि तुमच्या शेतीला उत्तम उत्पादने मिळवा.
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+            
+            {/* SEO Keywords Footer */}
+            <div className="mt-8 text-center">
+              <p className="text-sm text-gray-500">
+                श्री ॲग्रो कृषी सेवा केंद्र | सायगाव बगळी | चाळीसगाव | जळगाव | शेतीचे बियाणे | खत | औषधे | हार्डवेअर | कृषी मार्गदर्शन
+              </p>
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Footer */}
       {!showSearch && !selectedCategory && (
         <footer className="bg-emerald-700 text-white py-8 mt-12">
