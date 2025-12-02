@@ -1132,7 +1132,6 @@ export default function AdminDashboard() {
           price: parseFloat(rowData.price) || 0,
           mrp: rowData.mrp ? parseFloat(rowData.mrp) : null,
           offer: rowData.offer || '',
-          description: rowData.description || '',
           category: rowData.category || '',
           image: rowData.image || '',
           videoUrl: rowData.videoUrl || '',
