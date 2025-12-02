@@ -181,7 +181,8 @@ export default function Home() {
       setShopData({
         shop_name: 'Shop Name',
         shop_number: '0000000000',
-        shop_address: 'Shop Address'
+        shop_address: 'Shop Address',
+        social_links: { instagram: '', facebook: '', youtube: '' }
       });
       setProducts([]);
       setBanners([]);
