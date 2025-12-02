@@ -51,6 +51,7 @@ export default function AdminDashboard() {
     category: '',
     image: '',
     videoUrl: '',
+    stockQuantity: '', // Stock quantity for inventory management
     specifications: {
       ingredients: '',
       quantity: '',
