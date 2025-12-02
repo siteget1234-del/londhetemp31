@@ -1032,7 +1032,7 @@ export default function AdminDashboard() {
   // Generate Sample CSV for download
   const handleDownloadSampleCSV = () => {
     const headers = [
-      'id', 'name', 'price', 'mrp', 'offer', 'description', 'category', 
+      'id', 'name', 'price', 'mrp', 'offer', 'category', 
       'image', 'videoUrl', 'stockQuantity', 'featured',
       'spec_ingredients', 'spec_quantity', 'spec_usageMethod', 
       'spec_effectiveness', 'spec_applicableCrops', 'spec_additionalInfo', 'spec_specialNotes',
@@ -1045,7 +1045,6 @@ export default function AdminDashboard() {
       '100',
       '120',
       '16% OFF',
-      'Product description',
       'बीज',
       'https://example.com/image.jpg',
       'https://youtube.com/watch?v=example',
