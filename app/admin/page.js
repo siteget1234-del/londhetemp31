@@ -2550,8 +2550,8 @@ export default function AdminDashboard() {
                   <Download className="w-5 h-5" />
                   <span>Download Sample CSV Template</span>
                 </button>
-                <p className="text-xs text-gray-500 mt-2">
-                  This file contains one sample product with all fields populated correctly
+                <p className="text-xs text-gray-600 mt-2 font-medium">
+                  ✅ Contains 2 example products with <strong>ALL fields</strong> populated: name, price, category, specifications (महत्वाचे गुणधर्म), special offers (विशेष ऑफर), and more
                 </p>
               </div>
 
