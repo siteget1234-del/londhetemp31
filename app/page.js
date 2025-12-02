@@ -174,6 +174,9 @@ export default function Home() {
         setShopData(parsedData);
         setProducts(data.products || []);
         setBanners(data.banners || []);
+        
+        // Track homepage view (only once per session)
+        trackView(data.id);
       }
     } catch (error) {
       console.log('No shop data yet:', error.message);
@@ -188,6 +191,43 @@ export default function Home() {
       setBanners([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Track homepage view
+  const trackView = async (shopId) => {
+    try {
+      // Check if already viewed in this session
+      const viewedKey = `shop_viewed_${shopId}`;
+      if (sessionStorage.getItem(viewedKey)) {
+        return; // Already counted this session
+      }
+
+      // Get current overview data
+      const { data, error } = await supabase
+        .from('shop_data')
+        .select('overview')
+        .eq('id', shopId)
+        .single();
+
+      if (error) throw error;
+
+      const currentOverview = data?.overview || { totalViews: 0, totalOrders: 0, orderHistory: [] };
+      const updatedOverview = {
+        ...currentOverview,
+        totalViews: (currentOverview.totalViews || 0) + 1
+      };
+
+      // Update view count
+      await supabase
+        .from('shop_data')
+        .update({ overview: updatedOverview })
+        .eq('id', shopId);
+
+      // Mark as viewed in this session
+      sessionStorage.setItem(viewedKey, 'true');
+    } catch (error) {
+      console.error('Error tracking view:', error);
     }
   };
 
