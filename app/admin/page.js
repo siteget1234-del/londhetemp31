@@ -1641,13 +1641,24 @@ export default function AdminDashboard() {
                               />
                             </div>
                             {!isSelectionMode && (
-                              <div className="mt-2">
+                              <div className="mt-2 flex gap-2">
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleEditProduct(product, 'saved');
+                                  }}
+                                  className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
+                                  data-testid={`edit-saved-${product.id}`}
+                                >
+                                  <Edit2 className="w-4 h-4" />
+                                  <span>Edit</span>
+                                </button>
                                 <button
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     handleDeleteProduct(product.id, false);
                                   }}
-                                  className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
+                                  className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
                                   data-testid={`delete-saved-${product.id}`}
                                 >
                                   <Trash2 className="w-4 h-4" />
