@@ -4,8 +4,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
-  title: 'योगेश कृषी केंद्र - किनगाव अहमदपूर',
-  description: 'कृषी उत्पादने, बियाणे, खते, संरक्षण साधने - लातूर, महाराष्ट्र',
+  title: 'श्री ॲग्रो कृषी केंद्र - सायगाव (बगळी) चाळीसगांव जळगाव ',
+  description: 'कृषी उत्पादने, बियाणे, खते, संरक्षण साधने - जळगाव, महाराष्ट्र',
 };
 
 export default function RootLayout({ children }) {
