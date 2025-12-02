@@ -570,9 +570,10 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleEditProduct = (product) => {
+  const handleEditProduct = (product, productType = 'pending') => {
     setProductForm(product);
     setEditingProduct(true);
+    setEditingProductType(productType);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
