@@ -836,12 +836,24 @@ export default function AdminDashboard() {
       return;
     }
 
+    // Open crop modal
+    setCropFile(file);
+    setCropType('banner');
+    setShowCropModal(true);
+    e.target.value = ''; // Clear input
+  };
+
+  const handleBannerCropComplete = async (croppedBlob) => {
+    setShowCropModal(false);
     setUploadingBannerImage(true);
     setBannerCompressionProgress(null);
     
     try {
-      const fileSizeKB = file.size / 1024;
-      let fileToUpload = file;
+      // Convert blob to file
+      const croppedFile = new File([croppedBlob], cropFile.name, { type: 'image/jpeg' });
+      
+      const fileSizeKB = croppedFile.size / 1024;
+      let fileToUpload = croppedFile;
       
       // Skip compression if banner is already under 50KB
       if (fileSizeKB < 50) {
@@ -852,7 +864,7 @@ export default function AdminDashboard() {
         });
       } else {
         // Two-Step Compression for Banner (≤50KB)
-        fileToUpload = await compressImageTwoStep(file, 'banner', (progress) => {
+        fileToUpload = await compressImageTwoStep(croppedFile, 'banner', (progress) => {
           setBannerCompressionProgress(progress);
         });
       }
@@ -869,9 +881,9 @@ export default function AdminDashboard() {
       setBannerForm(prev => ({ ...prev, image: imageUrl }));
       
       if (fileSizeKB < 50) {
-        showMessage('success', `Banner uploaded (${fileSizeKB.toFixed(2)}KB - no compression needed)!`);
+        showMessage('success', `Banner cropped & uploaded (${fileSizeKB.toFixed(2)}KB)!`);
       } else {
-        showMessage('success', `Banner compressed (${(fileToUpload.size / 1024).toFixed(2)}KB) & uploaded!`);
+        showMessage('success', `Banner cropped, compressed (${(fileToUpload.size / 1024).toFixed(2)}KB) & uploaded!`);
       }
       setBannerCompressionProgress(null);
     } catch (error) {
@@ -880,7 +892,8 @@ export default function AdminDashboard() {
       setBannerCompressionProgress(null);
     } finally {
       setUploadingBannerImage(false);
-      e.target.value = ''; // Clear input
+      setCropFile(null);
+      setCropType(null);
     }
   };
 
