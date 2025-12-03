@@ -1336,8 +1336,8 @@ export default function Home() {
       {!showSearch && !selectedCategory && blogs.length > 0 && (
         <section className="container mx-auto px-4 py-12">
           <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-gray-800 mb-2">ब्लॉग्स</h2>
-            <p className="text-gray-600">आमचे अलीकडील अपडेट्स</p>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">कृषी माहिती</h2>
+            <p className="text-gray-600">शेती संबंधित माहिती, तंत्रज्ञान, सल्ले</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogs.map(blog => {
