@@ -277,7 +277,7 @@ export default function AdminDashboard() {
     }
   };
 
-  const uploadToCloudinary = async (file) => {
+  const uploadToCloudinary = async (file, applyTransformations = false) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
@@ -292,7 +292,15 @@ export default function AdminDashboard() {
       );
 
       const data = await response.json();
-      return data.secure_url;
+      let imageUrl = data.secure_url;
+      
+      // Apply Cloudinary transformations for auto-compression and auto-format
+      if (applyTransformations && imageUrl) {
+        // Insert transformation parameters after '/upload/'
+        imageUrl = imageUrl.replace('/upload/', '/upload/f_auto,q_auto/');
+      }
+      
+      return imageUrl;
     } catch (error) {
       console.error('Cloudinary upload error:', error);
       throw error;
