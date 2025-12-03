@@ -1524,6 +1524,17 @@ export default function AdminDashboard() {
             <span>Banners ({shopData.banners.length})</span>
           </button>
           <button
+            onClick={() => setActiveTab('blogs')}
+            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
+              activeTab === 'blogs' 
+                ? 'bg-emerald-600 text-white' 
+                : 'text-gray-600 hover:bg-gray-100'
+            }`}
+          >
+            <ImageIcon className="w-5 h-5" />
+            <span>Blogs ({shopData.blogs.length})</span>
+          </button>
+          <button
             onClick={() => setActiveTab('overview')}
             className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
               activeTab === 'overview' 
