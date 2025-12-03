@@ -176,6 +176,7 @@ export default function Home() {
         setShopData(parsedData);
         setProducts(data.products || []);
         setBanners(data.banners || []);
+        setBlogs(data.blogs || []);
         
         // Track homepage view (only once per session)
         trackView(data.id);
@@ -191,6 +192,7 @@ export default function Home() {
       });
       setProducts([]);
       setBanners([]);
+      setBlogs([]);
     } finally {
       setLoading(false);
     }
