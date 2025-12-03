@@ -1721,7 +1721,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-black bg-opacity-60" onClick={() => setShowAddressDialog(false)}></div>
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
             {/* Dialog Header */}
-            <div className="bg-gradient-to-r from-emerald-700 to-emerald-600 text-white p-5 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white p-5 flex items-center justify-between">
               <h2 className="text-xl font-bold">डिलिव्हरी पत्ता जोडा</h2>
               <button 
                 onClick={() => setShowAddressDialog(false)} 
