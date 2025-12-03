@@ -1181,7 +1181,7 @@ export default function Home() {
                 <div 
                   key={product.id} 
                   onClick={() => setSelectedProduct(product)}
-                  className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.03] active:scale-[0.98] border border-gray-100"
                   data-testid={`product-card-${product.id}`}
                 >
                   {/* Product Image */}
