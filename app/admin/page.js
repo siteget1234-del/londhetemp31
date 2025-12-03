@@ -224,6 +224,7 @@ export default function AdminDashboard() {
           social_links: socialLinks,
           products: data.products || [],
           banners: data.banners || [],
+          blogs: data.blogs || [],
           overview: data.overview || {
             totalViews: 0,
             totalOrders: 0,
