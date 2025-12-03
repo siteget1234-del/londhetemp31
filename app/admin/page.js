@@ -1005,6 +1005,14 @@ export default function AdminDashboard() {
     }
   };
 
+  // Blog Layout Configurations
+  const BLOG_LAYOUTS = {
+    standard: { name: 'Standard (16:9)', aspect: 16/9, description: 'Landscape banner style' },
+    portrait: { name: 'Portrait (4:5)', aspect: 4/5, description: 'Instagram-like vertical' },
+    square: { name: 'Square (1:1)', aspect: 1, description: 'Balanced square format' },
+    wide: { name: 'Wide (21:9)', aspect: 21/9, description: 'Cinematic ultra-wide' }
+  };
+
   // Blog Handlers
   const handleBlogImageUpload = async (e) => {
     const file = e.target.files[0];
@@ -1017,19 +1025,21 @@ export default function AdminDashboard() {
       return;
     }
 
-    setUploadingBlogImage(true);
-    try {
-      // Upload directly without compression as per user requirement
-      const imageUrl = await uploadToCloudinary(file, false);
-      setBlogForm(prev => ({ ...prev, image: imageUrl }));
-      showMessage('success', 'Blog image uploaded!');
-    } catch (error) {
-      console.error('Blog image upload error:', error);
-      showMessage('error', 'Failed to upload blog image');
-    } finally {
-      setUploadingBlogImage(false);
+    // Validate file size - 200KB limit
+    const maxSizeKB = 200;
+    const fileSizeKB = file.size / 1024;
+    if (fileSizeKB > maxSizeKB) {
+      showMessage('error', `Image size (${fileSizeKB.toFixed(0)}KB) exceeds 200KB limit. Please select a smaller image.`);
       e.target.value = '';
+      return;
     }
+
+    // Open crop modal with blog layout aspect ratio
+    setBlogImageFile(file);
+    setCropFile(file);
+    setCropType('blog');
+    setShowCropModal(true);
+    e.target.value = '';
   };
 
   const handleAddBlog = async () => {
