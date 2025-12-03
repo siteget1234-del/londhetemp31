@@ -1274,60 +1274,10 @@ export default function Home() {
         )}
       </section>
 
-      {/* Features Section - Minimal Grid Design */}
+      {/* Divider Section */}
       {!showSearch && !selectedCategory && (
-        <section className="container mx-auto px-4 py-12">
-          <div className="relative overflow-hidden rounded-3xl" style={{
-            background: 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%)',
-            backgroundImage: `
-              linear-gradient(135deg, #d1fae5 0%, #a7f3d0 50%, #6ee7b7 100%),
-              repeating-linear-gradient(0deg, transparent, transparent 35px, rgba(16, 185, 129, 0.05) 35px, rgba(16, 185, 129, 0.05) 36px),
-              repeating-linear-gradient(90deg, transparent, transparent 35px, rgba(16, 185, 129, 0.05) 35px, rgba(16, 185, 129, 0.05) 36px)
-            `
-          }}>
-            <div className="relative z-10 py-16 px-8">
-              <div className="grid grid-cols-3 gap-8 max-w-4xl mx-auto">
-                {/* Feature 1: Certified Products */}
-                <div className="flex flex-col items-center text-center space-y-4 group" data-testid="feature-certified">
-                  <div className="transform group-hover:scale-110 transition-all duration-300">
-                    <svg className="w-20 h-20 text-emerald-700 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-emerald-900 mb-1">प्रमाणित उत्पादने</h3>
-                    <p className="text-sm text-emerald-800 font-semibold">100% खरे</p>
-                  </div>
-                </div>
-
-                {/* Feature 2: Fast Delivery */}
-                <div className="flex flex-col items-center text-center space-y-4 group" data-testid="feature-delivery">
-                  <div className="transform group-hover:scale-110 transition-all duration-300">
-                    <svg className="w-20 h-20 text-teal-700 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-teal-900 mb-1">जलद डिलिव्हरी</h3>
-                    <p className="text-sm text-teal-800 font-semibold">त्वरित सेवा</p>
-                  </div>
-                </div>
-
-                {/* Feature 3: Expert Advice */}
-                <div className="flex flex-col items-center text-center space-y-4 group" data-testid="feature-advice">
-                  <div className="transform group-hover:scale-110 transition-all duration-300">
-                    <svg className="w-20 h-20 text-emerald-700 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                    </svg>
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-bold text-emerald-900 mb-1">तज्ञ सल्ला</h3>
-                    <p className="text-sm text-emerald-800 font-semibold">मोफत</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        <section className="container mx-auto px-4 py-8">
+          <div className="border-t-2 border-emerald-200"></div>
         </section>
       )}
 
