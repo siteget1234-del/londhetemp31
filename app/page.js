@@ -1350,7 +1350,7 @@ export default function Home() {
                 <div key={blog.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col">
                   <div className="relative w-full bg-gray-100" style={{ paddingBottom: `${(1 / aspect) * 100}%` }}>
                     <img 
-                      src={blog.image || 'https://via.placeholder.com/400x300?text=Blog+Image'} 
+                      src={applyCloudinaryOptimization(blog.image) || 'https://via.placeholder.com/400x300?text=Blog+Image'} 
                       alt="Blog"
                       className="absolute inset-0 w-full h-full object-cover"
                     />
