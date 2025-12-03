@@ -105,10 +105,12 @@ export default function AdminDashboard() {
   const [blogForm, setBlogForm] = useState({
     id: '',
     image: '',
-    text: ''
+    text: '',
+    layout: 'standard' // Layout options: 'standard', 'portrait', 'square', 'wide'
   });
   const [editingBlog, setEditingBlog] = useState(false);
   const [uploadingBlogImage, setUploadingBlogImage] = useState(false);
+  const [blogImageFile, setBlogImageFile] = useState(null); // Store file for cropping
 
   // Import/Export States
   const [showImportModal, setShowImportModal] = useState(false);
