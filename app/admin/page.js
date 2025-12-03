@@ -2749,7 +2749,7 @@ export default function AdminDashboard() {
           </div>
         )}
 
-        {/* Overview Tab */}}
+        {/* Overview Tab */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Stats Cards */}
