@@ -345,23 +345,36 @@ export default function AdminDashboard() {
       
       // Determine target size and progress setter
       const isProduct = cropType === 'product';
+      const isBanner = cropType === 'banner';
       const targetSize = isProduct ? 20 : 50;
       const progressSetter = isProduct ? setCompressionProgress : setBannerCompressionProgress;
       
-      // Skip compression if image is already under target size
-      if (fileSizeKB < targetSize) {
+      // For banners: Skip compression entirely (Cloudinary will handle it)
+      if (isBanner) {
         progressSetter({ 
           step: 1, 
-          message: `Image already optimized (${fileSizeKB.toFixed(2)}KB). Skipping compression...`, 
+          message: 'Preparing banner for upload...', 
           progress: 50 
         });
         // Use the cropped file as-is without compression
         fileToUpload = croppedFile;
       } else {
-        // Two-Step Compression
-        fileToUpload = await compressImageTwoStep(croppedFile, cropType, (progress) => {
-          progressSetter(progress);
-        });
+        // For products: Apply compression logic
+        // Skip compression if image is already under target size
+        if (fileSizeKB < targetSize) {
+          progressSetter({ 
+            step: 1, 
+            message: `Image already optimized (${fileSizeKB.toFixed(2)}KB). Skipping compression...`, 
+            progress: 50 
+          });
+          // Use the cropped file as-is without compression
+          fileToUpload = croppedFile;
+        } else {
+          // Two-Step Compression
+          fileToUpload = await compressImageTwoStep(croppedFile, cropType, (progress) => {
+            progressSetter(progress);
+          });
+        }
       }
 
       // Upload image to Cloudinary
@@ -371,7 +384,8 @@ export default function AdminDashboard() {
         progress: 95 
       });
       
-      const imageUrl = await uploadToCloudinary(fileToUpload);
+      // Apply Cloudinary transformations for banners
+      const imageUrl = await uploadToCloudinary(fileToUpload, isBanner);
       
       if (cropType === 'product') {
         setProductForm(prev => ({ ...prev, image: imageUrl }));
@@ -380,7 +394,9 @@ export default function AdminDashboard() {
       }
       
       const finalSizeKB = fileToUpload.size / 1024;
-      if (fileSizeKB < targetSize) {
+      if (isBanner) {
+        showMessage('success', `Banner cropped & uploaded! Cloudinary will optimize on delivery.`);
+      } else if (fileSizeKB < targetSize) {
         showMessage('success', `Image cropped & uploaded (${fileSizeKB.toFixed(2)}KB)!`);
       } else {
         showMessage('success', `Image cropped, compressed (${finalSizeKB.toFixed(2)}KB) & uploaded!`);
