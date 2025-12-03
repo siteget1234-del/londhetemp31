@@ -2488,6 +2488,122 @@ export default function AdminDashboard() {
                           onClick={() => handleEditBanner(banner)}
                           className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
                         >
+
+        {/* Blogs Tab */}
+        {activeTab === 'blogs' && (
+          <div className="space-y-6">
+            {/* Add/Edit Blog Form */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h2 className="text-2xl font-bold text-gray-800 mb-6">
+                {editingBlog ? 'Edit Blog' : 'Add New Blog'}
+              </h2>
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Blog Image *</label>
+                  <div className="space-y-3">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={handleBlogImageUpload}
+                      disabled={uploadingBlogImage}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                    />
+                    
+                    {uploadingBlogImage && (
+                      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                        <p className="text-sm font-semibold text-blue-800">Uploading image...</p>
+                      </div>
+                    )}
+                    
+                    {blogForm.image && (
+                      <div className="relative w-full h-48">
+                        <img src={blogForm.image} alt="Blog Preview" className="w-full h-full object-cover rounded-lg" />
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Blog Text *</label>
+                  <textarea
+                    value={blogForm.text}
+                    onChange={(e) => setBlogForm(prev => ({ ...prev, text: e.target.value }))}
+                    placeholder="Enter blog content..."
+                    rows={6}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                </div>
+                <div className="flex space-x-3">
+                  <button
+                    onClick={handleAddBlog}
+                    disabled={saving || uploadingBlogImage}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 rounded-lg transition flex items-center justify-center space-x-2 disabled:opacity-50"
+                  >
+                    <Plus className="w-5 h-5" />
+                    <span>{saving ? 'Saving...' : editingBlog ? 'Update Blog' : 'Add Blog'}</span>
+                  </button>
+                  {editingBlog && (
+                    <button
+                      onClick={() => {
+                        setBlogForm({ id: '', image: '', text: '' });
+                        setEditingBlog(false);
+                      }}
+                      className="px-6 bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-3 rounded-lg transition"
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Blogs List */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <h3 className="text-xl font-bold text-gray-800 mb-4">All Blogs ({shopData.blogs.length})</h3>
+              {shopData.blogs.length === 0 ? (
+                <p className="text-gray-500 text-center py-8">No blogs added yet</p>
+              ) : (
+                <div className="space-y-4">
+                  {shopData.blogs.map(blog => (
+                    <div key={blog.id} className="border border-gray-200 rounded-lg p-4 hover:shadow-lg transition">
+                      <div className="flex items-start space-x-4">
+                        <div className="relative w-32 h-32 flex-shrink-0 bg-gray-100 rounded-lg overflow-hidden">
+                          {blog.image ? (
+                            <img src={blog.image} alt="Blog" className="w-full h-full object-cover" />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-gray-400">
+                              No image
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-sm text-gray-700 mb-3 line-clamp-3">{blog.text}</p>
+                          <div className="flex space-x-2">
+                            <button
+                              onClick={() => handleEditBlog(blog)}
+                              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition flex items-center space-x-1 text-sm"
+                            >
+                              <Edit2 className="w-4 h-4" />
+                              <span>Edit</span>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteBlog(blog.id)}
+                              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition flex items-center space-x-1 text-sm"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                              <span>Delete</span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+
                           <Edit2 className="w-4 h-4" />
                           <span>Edit</span>
                         </button>
