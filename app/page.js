@@ -1261,7 +1261,7 @@ export default function Home() {
       {/* Features Section */}
       {!showSearch && !selectedCategory && (
         <section className="container mx-auto px-4 py-8">
-          <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl shadow-xl p-8 border-2 border-emerald-200">
+          <div className="bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-3xl shadow-xl p-8 border-2 border-teal-200">
             <div className="grid grid-cols-3 gap-6">
               {/* Feature 1: Certified Products */}
               <div className="flex flex-col items-center text-center space-y-3" data-testid="feature-certified">
