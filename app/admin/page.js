@@ -2749,27 +2749,7 @@ export default function AdminDashboard() {
           </div>
         )}
 
-
-                          <Edit2 className="w-4 h-4" />
-                          <span>Edit</span>
-                        </button>
-                        <button
-                          onClick={() => handleDeleteBanner(banner.id)}
-                          className="flex-1 bg-red-500 hover:bg-red-600 text-white py-2 rounded-lg transition flex items-center justify-center space-x-1"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                          <span>Delete</span>
-                        </button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Overview Tab */}
+        {/* Overview Tab */}}
         {activeTab === 'overview' && (
           <div className="space-y-6">
             {/* Stats Cards */}
