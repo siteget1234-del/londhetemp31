@@ -101,6 +101,15 @@ export default function AdminDashboard() {
   const [uploadingBannerImage, setUploadingBannerImage] = useState(false);
   const [bannerCompressionProgress, setBannerCompressionProgress] = useState(null);
 
+  // Blog Form
+  const [blogForm, setBlogForm] = useState({
+    id: '',
+    image: '',
+    text: ''
+  });
+  const [editingBlog, setEditingBlog] = useState(false);
+  const [uploadingBlogImage, setUploadingBlogImage] = useState(false);
+
   // Import/Export States
   const [showImportModal, setShowImportModal] = useState(false);
   const [importFile, setImportFile] = useState(null);
