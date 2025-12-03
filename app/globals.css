@@ -155,3 +155,39 @@ code {
 .animate-fade-in {
     animation: fade-in 0.3s ease-out;
 }
+
+/* Diagonal shimmer animation for offer pills */
+@keyframes shimmer-diagonal {
+    0% {
+        transform: translateX(-100%) translateY(100%) rotate(-45deg);
+    }
+    100% {
+        transform: translateX(200%) translateY(-200%) rotate(-45deg);
+    }
+}
+
+.offer-pill-shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.offer-pill-shimmer::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        135deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(255, 255, 255, 0.3) 50%,
+        rgba(255, 255, 255, 0.5) 55%,
+        rgba(255, 255, 255, 0.3) 60%,
+        transparent 70%,
+        transparent 100%
+    );
+    animation: shimmer-diagonal 3s ease-in-out infinite;
+    pointer-events: none;
+}
