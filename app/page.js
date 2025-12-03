@@ -547,7 +547,7 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gray-50 pb-24">
         {/* Header */}
-        <header className="bg-emerald-700 text-white sticky top-0 z-50 shadow-lg">
+        <header className="bg-gradient-to-r from-emerald-600 via-emerald-500 to-teal-500 text-white sticky top-0 z-50 shadow-2xl">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <button 
