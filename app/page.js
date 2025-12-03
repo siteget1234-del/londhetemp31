@@ -1223,15 +1223,15 @@ export default function Home() {
                     
                     {/* Special Offer Text or Discount */}
                     {hasSpecialOffer ? (
-                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-emerald-300 rounded-lg px-2 py-1.5 flex items-center space-x-1.5">
-                        <span className="text-base">💰</span>
+                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-emerald-300 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
+                        <span className="text-xs">💰</span>
                         <p className="text-[10px] font-bold text-emerald-800" data-testid="product-offer-price">
                           ऑफर: ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
                         </p>
                       </div>
                     ) : discountPercent ? (
-                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-emerald-300 rounded-lg px-2 py-1.5 flex items-center space-x-1.5">
-                        <span className="text-base">💰</span>
+                      <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-emerald-300 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
+                        <span className="text-xs">💰</span>
                         <p className="text-[10px] font-bold text-emerald-800" data-testid="product-discount">
                           खास {discountPercent}% सूट
                         </p>
