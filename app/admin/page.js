@@ -347,6 +347,8 @@ export default function AdminDashboard() {
           message: `Image already optimized (${fileSizeKB.toFixed(2)}KB). Skipping compression...`, 
           progress: 50 
         });
+        // Use the cropped file as-is without compression
+        fileToUpload = croppedFile;
       } else {
         // Two-Step Compression
         fileToUpload = await compressImageTwoStep(croppedFile, cropType, (progress) => {
