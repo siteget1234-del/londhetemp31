@@ -373,7 +373,7 @@ export default function AdminDashboard() {
       // For blogs: Validate 200KB limit
       if (isBlog) {
         if (fileSizeKB > 200) {
-          showMessage('error', `Cropped image (${fileSizeKB.toFixed(0)}KB) still exceeds 200KB. Please select a smaller original image.`);
+          showMessage('error', `Cropped WebP image (${fileSizeKB.toFixed(0)}KB) still exceeds 200KB. Please select a smaller original image.`);
           setUploadingBlogImage(false);
           setCropFile(null);
           setCropType(null);
@@ -383,28 +383,28 @@ export default function AdminDashboard() {
         // Upload blog image directly
         const imageUrl = await uploadToCloudinary(croppedFile, false);
         setBlogForm(prev => ({ ...prev, image: imageUrl }));
-        showMessage('success', `Blog image cropped & uploaded (${fileSizeKB.toFixed(0)}KB)!`);
+        showMessage('success', `Blog image cropped to WebP & uploaded (${fileSizeKB.toFixed(0)}KB)!`);
       }
       // For banners: Skip compression entirely (Cloudinary will handle it)
       else if (isBanner) {
         progressSetter({ 
           step: 1, 
-          message: 'Preparing banner for upload...', 
+          message: 'Preparing WebP banner for upload...', 
           progress: 50 
         });
-        // Use the cropped file as-is without compression
+        // Use the cropped WebP file as-is without compression
         fileToUpload = croppedFile;
         
         // Upload image to Cloudinary
         progressSetter({ 
           step: 3, 
-          message: 'Uploading to cloud...', 
+          message: 'Uploading WebP to cloud...', 
           progress: 95 
         });
         
         const imageUrl = await uploadToCloudinary(fileToUpload, true);
         setBannerForm(prev => ({ ...prev, image: imageUrl }));
-        showMessage('success', `Banner cropped & uploaded! Cloudinary will optimize on delivery.`);
+        showMessage('success', `Banner cropped to WebP & uploaded! Cloudinary will optimize on delivery.`);
         progressSetter(null);
       } else {
         // For products: Apply compression logic
