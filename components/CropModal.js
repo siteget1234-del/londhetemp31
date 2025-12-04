@@ -5,6 +5,7 @@ import { X } from 'lucide-react';
 /**
  * CropModal Component
  * Allows users to crop images to specific aspect ratios before upload
+ * Enhanced: Exports as WebP format for better compression
  * 
  * @param {File} file - The image file to crop
  * @param {number} aspectRatio - Aspect ratio (e.g., 4/3, 16/9)
@@ -59,7 +60,7 @@ export default function CropModal({ file, aspectRatio, title, onCropComplete, on
         <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <div>
             <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
-            <p className="text-sm text-gray-600 mt-1">Crop your image to the correct screen size</p>
+            <p className="text-sm text-gray-600 mt-1">Crop your image to the correct screen size • WebP format for best quality</p>
           </div>
           <button
             onClick={onCancel}
@@ -119,7 +120,7 @@ export default function CropModal({ file, aspectRatio, title, onCropComplete, on
               disabled={processing}
               className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {processing ? 'Processing...' : 'Crop & Continue'}
+              {processing ? 'Processing...' : 'Crop & Convert to WebP'}
             </button>
           </div>
         </div>
@@ -130,11 +131,16 @@ export default function CropModal({ file, aspectRatio, title, onCropComplete, on
 
 /**
  * Helper function to create cropped image
+ * Enhanced: Exports as WebP format with high quality (0.98)
  */
 async function getCroppedImg(imageSrc, pixelCrop, fileName) {
   const image = await createImage(imageSrc);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
+
+  // Enable image smoothing for better quality
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
 
   canvas.width = pixelCrop.width;
   canvas.height = pixelCrop.height;
@@ -152,6 +158,7 @@ async function getCroppedImg(imageSrc, pixelCrop, fileName) {
   );
 
   return new Promise((resolve, reject) => {
+    // Export as WebP with high quality (0.98)
     canvas.toBlob((blob) => {
       if (!blob) {
         reject(new Error('Canvas is empty'));
@@ -159,7 +166,7 @@ async function getCroppedImg(imageSrc, pixelCrop, fileName) {
       }
       blob.name = fileName;
       resolve(blob);
-    }, 'image/jpeg', 0.95);
+    }, 'image/webp', 0.98);
   });
 }
 
