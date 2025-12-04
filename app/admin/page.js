@@ -407,18 +407,18 @@ export default function AdminDashboard() {
         showMessage('success', `Banner cropped to WebP & uploaded! Cloudinary will optimize on delivery.`);
         progressSetter(null);
       } else {
-        // For products: Apply compression logic
+        // For products: Apply WebP compression logic
         // Skip compression if image is already under target size
         if (fileSizeKB < targetSize) {
           progressSetter({ 
             step: 1, 
-            message: `Image already optimized (${fileSizeKB.toFixed(2)}KB). Skipping compression...`, 
+            message: `WebP image already optimized (${fileSizeKB.toFixed(2)}KB). Skipping compression...`, 
             progress: 50 
           });
-          // Use the cropped file as-is without compression
+          // Use the cropped WebP file as-is without compression
           fileToUpload = croppedFile;
         } else {
-          // Two-Step Compression
+          // Enhanced Two-Step WebP Compression
           fileToUpload = await compressImageTwoStep(croppedFile, cropType, (progress) => {
             progressSetter(progress);
           });
@@ -427,7 +427,7 @@ export default function AdminDashboard() {
         // Upload image to Cloudinary
         progressSetter({ 
           step: 3, 
-          message: 'Uploading to cloud...', 
+          message: 'Uploading WebP to cloud...', 
           progress: 95 
         });
         
@@ -436,9 +436,9 @@ export default function AdminDashboard() {
         
         const finalSizeKB = fileToUpload.size / 1024;
         if (fileSizeKB < targetSize) {
-          showMessage('success', `Image cropped & uploaded (${fileSizeKB.toFixed(2)}KB)!`);
+          showMessage('success', `Image cropped to WebP & uploaded (${fileSizeKB.toFixed(2)}KB)!`);
         } else {
-          showMessage('success', `Image cropped, compressed (${finalSizeKB.toFixed(2)}KB) & uploaded!`);
+          showMessage('success', `Image cropped to WebP, compressed (${finalSizeKB.toFixed(2)}KB) & uploaded!`);
         }
         progressSetter(null);
       }
