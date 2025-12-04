@@ -356,8 +356,9 @@ export default function AdminDashboard() {
     }
     
     try {
-      // Convert blob to file
-      const croppedFile = new File([croppedBlob], cropFile.name, { type: 'image/jpeg' });
+      // Convert blob to file - Now as WebP format
+      const webpFileName = cropFile.name.replace(/\.[^/.]+$/, '.webp');
+      const croppedFile = new File([croppedBlob], webpFileName, { type: 'image/webp' });
       
       const fileSizeKB = croppedFile.size / 1024;
       let fileToUpload = croppedFile;
