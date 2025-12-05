@@ -288,6 +288,7 @@ export default function AdminDashboard() {
         shop_number: shopData.shop_number,
         shop_address: shopData.shop_address,
         social_links: JSON.stringify(shopData.social_links),
+        delivery: shopData.delivery,
         products: shopData.products,
         banners: shopData.banners,
         updated_at: new Date().toISOString()
