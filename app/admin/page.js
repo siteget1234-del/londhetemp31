@@ -274,6 +274,48 @@ export default function AdminDashboard() {
     setTimeout(() => setMessage({ type: '', text: '' }), 3000);
   };
 
+  // Delivery Setup Functions
+  const handleAddSlab = () => {
+    if (!newSlab.weight || !newSlab.price) {
+      showMessage('error', 'Please select weight and enter price');
+      return;
+    }
+
+    // Check if slab already exists
+    if (shopData.delivery.slabs.some(slab => slab.weight === newSlab.weight)) {
+      showMessage('error', 'This weight slab already exists');
+      return;
+    }
+
+    setShopData(prev => ({
+      ...prev,
+      delivery: {
+        ...prev.delivery,
+        slabs: [...prev.delivery.slabs, { weight: newSlab.weight, price: parseFloat(newSlab.price) }]
+      }
+    }));
+
+    setNewSlab({ weight: '', price: '' });
+    showMessage('success', 'Delivery slab added');
+  };
+
+  const handleRemoveSlab = (weight) => {
+    setShopData(prev => ({
+      ...prev,
+      delivery: {
+        ...prev.delivery,
+        slabs: prev.delivery.slabs.filter(slab => slab.weight !== weight)
+      }
+    }));
+    showMessage('success', 'Delivery slab removed');
+  };
+
+  // Get available weight options (excluding already added slabs)
+  const getAvailableWeightOptions = () => {
+    const usedWeights = shopData.delivery.slabs.map(slab => slab.weight);
+    return WEIGHT_OPTIONS.filter(weight => !usedWeights.includes(weight));
+  };
+
   const handleSaveShopInfo = async () => {
     if (!shopData.shop_name || !shopData.shop_number || !shopData.shop_address) {
       showMessage('error', 'Please fill all shop information fields');
