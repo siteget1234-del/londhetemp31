@@ -1671,13 +1671,23 @@ export default function AdminDashboard() {
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Profile Management</h2>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Mobile Number</label>
+                <input
+                  type="text"
+                  value={user?.email ? user.email.replace('@gmail.com', '') : ''}
+                  disabled
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">Email (for authentication)</label>
                 <input
                   type="email"
                   value={user?.email || ''}
                   disabled
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-600"
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg bg-gray-50 text-gray-500 text-sm"
                 />
+                <p className="text-xs text-gray-500 mt-1">Auto-generated from mobile number</p>
               </div>
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2">User ID</label>
@@ -1690,7 +1700,7 @@ export default function AdminDashboard() {
               </div>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                 <p className="text-sm text-blue-800">
-                  <strong>Note:</strong> To change your email or password, please use Supabase authentication settings.
+                  <strong>Note:</strong> To change your mobile number or password, please use Supabase authentication settings.
                 </p>
               </div>
             </div>
