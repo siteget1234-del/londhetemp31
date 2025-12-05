@@ -1787,6 +1787,104 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               </div>
+
+              {/* Delivery Setup Section */}
+              <div className="border-t pt-4 mt-4">
+                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                  <span>🚚</span>
+                  <span>Delivery Setup</span>
+                </h3>
+                
+                {/* Delivery Partner Name */}
+                <div className="mb-4">
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Delivery Partner Name
+                  </label>
+                  <input
+                    type="text"
+                    value={shopData.delivery?.partnerName || ''}
+                    onChange={(e) => setShopData(prev => ({ 
+                      ...prev, 
+                      delivery: { ...prev.delivery, partnerName: e.target.value }
+                    }))}
+                    placeholder="Enter delivery partner name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Add New Slab */}
+                <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                  <label className="block text-sm font-semibold text-gray-700 mb-3">
+                    Add Delivery Slab
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div>
+                      <select
+                        value={newSlab.weight}
+                        onChange={(e) => setNewSlab(prev => ({ ...prev, weight: e.target.value }))}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      >
+                        <option value="">Select Weight</option>
+                        {getAvailableWeightOptions().map(weight => (
+                          <option key={weight} value={weight}>{weight}</option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <input
+                        type="number"
+                        value={newSlab.price}
+                        onChange={(e) => setNewSlab(prev => ({ ...prev, price: e.target.value }))}
+                        placeholder="Price (₹)"
+                        min="0"
+                        step="0.01"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                      />
+                    </div>
+                    <button
+                      onClick={handleAddSlab}
+                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-lg transition flex items-center justify-center space-x-2"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>Add Slab</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Display Added Slabs */}
+                {shopData.delivery?.slabs && shopData.delivery.slabs.length > 0 && (
+                  <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Delivery Slabs ({shopData.delivery.slabs.length})
+                    </label>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {shopData.delivery.slabs
+                        .sort((a, b) => parseFloat(a.weight) - parseFloat(b.weight))
+                        .map((slab) => (
+                          <div 
+                            key={slab.weight}
+                            className="flex items-center justify-between bg-white border border-gray-200 rounded-lg p-3"
+                          >
+                            <div className="flex items-center space-x-3">
+                              <span className="text-2xl">📦</span>
+                              <div>
+                                <p className="font-semibold text-gray-800">{slab.weight}</p>
+                                <p className="text-sm text-emerald-600 font-medium">₹{slab.price}</p>
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => handleRemoveSlab(slab.weight)}
+                              className="text-red-500 hover:text-red-700 transition"
+                              title="Remove slab"
+                            >
+                              <X className="w-5 h-5" />
+                            </button>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
               
               <button
                 onClick={handleSaveShopInfo}
