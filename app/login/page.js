@@ -74,18 +74,21 @@ export default function LoginPage() {
           {/* Login Form */}
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">Email</label>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">Mobile Number</label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <Smartphone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="Enter your email"
+                  type="tel"
+                  value={formData.mobile}
+                  onChange={(e) => setFormData(prev => ({ ...prev, mobile: e.target.value.replace(/\D/g, '') }))}
+                  placeholder="Enter mobile number (e.g., 9067551748)"
                   required
+                  pattern="[0-9]{10}"
+                  maxLength="10"
                   className="w-full pl-11 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                 />
               </div>
+              <p className="text-xs text-gray-500 mt-1">10-digit mobile number</p>
             </div>
 
             <div>
