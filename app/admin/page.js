@@ -235,12 +235,25 @@ export default function AdminDashboard() {
           }
         }
         
+        // Parse delivery from JSONB or set default
+        let delivery = { partnerName: '', slabs: [] };
+        if (data.delivery) {
+          try {
+            delivery = typeof data.delivery === 'string' 
+              ? JSON.parse(data.delivery) 
+              : data.delivery;
+          } catch (e) {
+            console.error('Error parsing delivery:', e);
+          }
+        }
+        
         setShopData({
           id: data.id,
           shop_name: data.shop_name || '',
           shop_number: data.shop_number || '',
           shop_address: data.shop_address || '',
           social_links: socialLinks,
+          delivery: delivery,
           products: data.products || [],
           banners: data.banners || [],
           blogs: data.blogs || [],
