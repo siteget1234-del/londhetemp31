@@ -35,6 +35,10 @@ export default function AdminDashboard() {
       facebook: '',
       youtube: ''
     },
+    delivery: {
+      partnerName: '',
+      slabs: []
+    },
     products: [],
     banners: [],
     blogs: [],
@@ -43,6 +47,15 @@ export default function AdminDashboard() {
       totalOrders: 0,
       orderHistory: []
     }
+  });
+
+  // Delivery Setup States
+  const [newSlab, setNewSlab] = useState({ weight: '', price: '' });
+  
+  // Generate weight options from 0.5kg to 20kg in 0.5kg increments
+  const WEIGHT_OPTIONS = Array.from({ length: 40 }, (_, i) => {
+    const weight = (i + 1) * 0.5;
+    return `${weight}kg`;
   });
 
   // Pending Products Queue (from Local Storage)
