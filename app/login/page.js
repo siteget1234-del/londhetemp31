@@ -32,8 +32,11 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      // Convert mobile number to email format for Supabase
+      const email = `${formData.mobile}@gmail.com`;
+      
       const { data, error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
+        email: email,
         password: formData.password
       });
 
