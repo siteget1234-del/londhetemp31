@@ -80,6 +80,8 @@ export default function AdminDashboard() {
     name: '',
     price: '',
     mrp: '',
+    weight: '', // Product weight (stored in grams)
+    weightUnit: 'gram', // Display unit: 'gram' or 'kg'
     offer: '',
     category: '',
     image: '',
