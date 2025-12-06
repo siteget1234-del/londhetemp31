@@ -2467,6 +2467,11 @@ export default function AdminDashboard() {
                               <div className="flex-1">
                                 <h4 className="font-bold text-gray-800 mb-1 pr-20">{product.name}</h4>
                                 <p className="text-emerald-600 font-bold text-lg mb-1">₹{product.price}</p>
+                                {product.weight && (
+                                  <p className="text-sm text-purple-600 font-semibold mb-1">
+                                    ⚖️ Weight: {formatWeight(product.weight)}
+                                  </p>
+                                )}
                                 {product.stockQuantity !== undefined && (
                                   <p className="text-sm text-blue-600 font-semibold mb-1">
                                     📦 Stock: {product.stockQuantity} units
