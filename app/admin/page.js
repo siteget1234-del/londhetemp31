@@ -1953,6 +1953,31 @@ export default function AdminDashboard() {
                     />
                   </div>
                   <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">Product Weight (उत्पादन वजन) *</label>
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        value={productForm.weight}
+                        onChange={(e) => setProductForm(prev => ({ ...prev, weight: e.target.value }))}
+                        placeholder="Weight"
+                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                        min="1"
+                        step="1"
+                      />
+                      <select
+                        value={productForm.weightUnit}
+                        onChange={(e) => setProductForm(prev => ({ ...prev, weightUnit: e.target.value }))}
+                        className="px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent bg-white"
+                      >
+                        <option value="gram">Gram</option>
+                        <option value="kg">Kg</option>
+                      </select>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">Whole numbers only. Will be stored in grams.</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4">
+                  <div>
                     <label className="block text-sm font-semibold text-gray-700 mb-2">Product Quantity (स्टॉक प्रमाण) *</label>
                     <input
                       type="number"
