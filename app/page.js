@@ -365,7 +365,16 @@ export default function Home() {
     return calculateCartTotal(cart);
   }, [cart]);
 
-  const totalAmount = cartTotals.total;
+  // Calculate cart weight and delivery charges
+  const cartWeight = useMemo(() => {
+    return calculateCartWeight(cart);
+  }, [cart]);
+
+  const deliveryCharge = useMemo(() => {
+    return calculateDeliveryCharge(cartWeight, shopData?.delivery?.slabs || []);
+  }, [cartWeight, shopData?.delivery?.slabs]);
+
+  const totalAmount = cartTotals.total + deliveryCharge;
   const cartItemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   const generateWhatsAppMessage = () => {
