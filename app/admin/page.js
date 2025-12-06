@@ -1506,6 +1506,7 @@ export default function AdminDashboard() {
           name: rowData.name || '',
           price: parseFloat(rowData.price) || 0,
           mrp: rowData.mrp ? parseFloat(rowData.mrp) : null,
+          weight: rowData.weight_grams ? parseInt(rowData.weight_grams) : null, // Weight in grams
           offer: rowData.offer || '',
           category: rowData.category || '',
           image: rowData.image || '',
@@ -1530,8 +1531,8 @@ export default function AdminDashboard() {
         };
 
         // Validate required fields
-        if (!product.name || !product.price || !product.category) {
-          console.warn(`Skipping row ${i + 1}: missing required fields (name, price, or category)`);
+        if (!product.name || !product.price || !product.category || !product.weight) {
+          console.warn(`Skipping row ${i + 1}: missing required fields (name, price, category, or weight)`);
           continue;
         }
 
