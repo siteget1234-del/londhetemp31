@@ -1403,6 +1403,7 @@ export default function AdminDashboard() {
         // Pricing & Stock
         '250',
         '300',
+        '5000', // Weight in grams (5 kg)
         '16% OFF',
         '50',
         // Media
