@@ -731,6 +731,12 @@ export default function AdminDashboard() {
       return;
     }
 
+    // Validate weight
+    if (!productForm.weight || parseInt(productForm.weight) <= 0) {
+      showMessage('error', 'Please enter a valid product weight (whole numbers only)');
+      return;
+    }
+
     // No product limit - unlimited products allowed
     // const totalProducts = shopData.products.length + pendingProducts.length;
     // if (!editingProduct && totalProducts >= 100) {
@@ -743,11 +749,18 @@ export default function AdminDashboard() {
       // Generate search keywords
       const searchKeywords = generateSearchKeywords(productForm.name);
       
+      // Convert weight to grams (always store in grams)
+      let weightInGrams = parseInt(productForm.weight);
+      if (productForm.weightUnit === 'kg') {
+        weightInGrams = weightInGrams * 1000;
+      }
+      
       const newProduct = {
         id: editingProduct ? productForm.id : uuidv4(),
         name: productForm.name,
         price: parseFloat(productForm.price),
         mrp: productForm.mrp ? parseFloat(productForm.mrp) : null,
+        weight: weightInGrams, // Always stored in grams
         offer: productForm.offer || '',
         category: productForm.category,
         image: productForm.image,
