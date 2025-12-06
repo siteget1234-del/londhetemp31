@@ -805,6 +805,8 @@ export default function AdminDashboard() {
         name: '', 
         price: '', 
         mrp: '', 
+        weight: '',
+        weightUnit: 'gram',
         offer: '', 
         category: '', 
         image: '', 
