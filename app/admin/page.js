@@ -839,6 +839,16 @@ export default function AdminDashboard() {
     }
   };
 
+  // Helper function to format weight for display
+  const formatWeight = (weightInGrams) => {
+    if (!weightInGrams) return '';
+    
+    if (weightInGrams >= 1000 && weightInGrams % 1000 === 0) {
+      return `${weightInGrams / 1000} kg`;
+    }
+    return `${weightInGrams} g`;
+  };
+
   const handleEditProduct = (product, productType = 'pending') => {
     // Convert weight from grams to display format
     let displayWeight = product.weight || '';
