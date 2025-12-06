@@ -1354,7 +1354,7 @@ export default function AdminDashboard() {
       // Basic Product Information
       'id', 'name', 'category', 'featured',
       // Pricing & Stock
-      'price', 'mrp', 'offer', 'stockQuantity',
+      'price', 'mrp', 'weight_grams', 'offer', 'stockQuantity',
       // Media
       'image', 'videoUrl',
       // Specifications (महत्वाचे गुणधर्म)
@@ -1375,6 +1375,7 @@ export default function AdminDashboard() {
         // Pricing & Stock
         '120',
         '150',
+        '1000', // Weight in grams (1 kg)
         '20% OFF',
         '100',
         // Media
