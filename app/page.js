@@ -1776,9 +1776,24 @@ export default function Home() {
                       <span className="font-bold">- ₹{Math.round(cartTotals.discount)}</span>
                     </div>
                   )}
+                  <div className="border-t border-gray-200 pt-2"></div>
+                  <div className="flex items-center justify-between text-gray-700">
+                    <span className="font-semibold">उत्पादने एकूण:</span>
+                    <span className="font-bold">₹{Math.round(cartTotals.total)}</span>
+                  </div>
+                  <div className="flex items-center justify-between text-gray-700">
+                    <div className="flex items-center space-x-1">
+                      <span className="text-base">📦</span>
+                      <span className="font-semibold">डिलिव्हरी शुल्क</span>
+                      <span className="text-xs text-gray-500">({(cartWeight / 1000).toFixed(2)}kg)</span>
+                    </div>
+                    <span className="font-bold">
+                      {deliveryCharge > 0 ? `₹${deliveryCharge}` : 'विनामूल्य'}
+                    </span>
+                  </div>
                   <div className="border-t-2 border-dashed border-gray-300 pt-2"></div>
                   <div className="flex items-center justify-between text-xl">
-                    <span className="font-bold text-gray-800">एकूण रक्कम:</span>
+                    <span className="font-bold text-gray-800">एकूण देय रक्कम:</span>
                     <span className="font-bold text-emerald-700">₹{Math.round(totalAmount)}</span>
                   </div>
                   <p className="text-xs text-gray-600 text-center">देय रक्कमेमध्ये जीएसटी व अन्य करांचा समावेश</p>
