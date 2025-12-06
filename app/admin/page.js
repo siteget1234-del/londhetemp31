@@ -840,9 +840,23 @@ export default function AdminDashboard() {
   };
 
   const handleEditProduct = (product, productType = 'pending') => {
+    // Convert weight from grams to display format
+    let displayWeight = product.weight || '';
+    let displayUnit = 'gram';
+    
+    if (displayWeight) {
+      // If weight is divisible by 1000 and >= 1000, display as kg
+      if (displayWeight >= 1000 && displayWeight % 1000 === 0) {
+        displayWeight = displayWeight / 1000;
+        displayUnit = 'kg';
+      }
+    }
+    
     // Ensure specialOffer is properly initialized
     const formattedProduct = {
       ...product,
+      weight: displayWeight,
+      weightUnit: displayUnit,
       specialOffer: product.specialOffer || {
         offerName: '',
         quantity: '',
