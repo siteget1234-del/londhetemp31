@@ -5,7 +5,7 @@ import { ShoppingCart, Search, Phone, Plus, X, ChevronLeft, ChevronRight, Minus,
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase, getCurrentUser } from '@/lib/supabase';
-import { calculateOfferPricing, calculateCartTotal, formatDiscount } from '@/lib/offerCalculations';
+import { calculateOfferPricing, calculateCartTotal, formatDiscount, calculateCartWeight, calculateDeliveryCharge } from '@/lib/offerCalculations';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 
 // Predefined Categories - Always show these 4
