@@ -401,7 +401,19 @@ export default function Home() {
       message += `\nमूल्य: ₹${Math.round(cartTotals.subtotal)}\n`;
       message += `डिस्काउंट: -₹${Math.round(cartTotals.discount)}\n`;
     }
-    message += `\nएकूण: ₹${Math.round(totalAmount)}`;
+    
+    // Add product total before delivery
+    message += `\nउत्पादने एकूण: ₹${Math.round(cartTotals.total)}\n`;
+    
+    // Add delivery charges with weight info
+    if (deliveryCharge > 0) {
+      const weightInKg = (cartWeight / 1000).toFixed(2);
+      message += `डिलिव्हरी शुल्क (${weightInKg}kg): ₹${deliveryCharge}\n`;
+    } else {
+      message += `डिलिव्हरी शुल्क: विनामूल्य\n`;
+    }
+    
+    message += `\nएकूण देय रक्कम: ₹${Math.round(totalAmount)}`;
     return encodeURIComponent(message);
   };
 
