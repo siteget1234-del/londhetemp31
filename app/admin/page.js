@@ -3055,7 +3055,7 @@ export default function AdminDashboard() {
                   {editingBlog && (
                     <button
                       onClick={() => {
-                        setBlogForm({ id: '', image: '', text: '', layout: 'standard', selectedCrop: '' });
+                        setBlogForm({ id: '', image: '', text: '', layout: 'standard', selectedCrop: '', attachedProducts: [] });
                         setEditingBlog(false);
                       }}
                       className="px-6 bg-gray-300 hover:bg-gray-400 text-gray-700 font-bold py-3 rounded-lg transition"
