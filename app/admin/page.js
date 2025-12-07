@@ -1262,7 +1262,7 @@ export default function AdminDashboard() {
       if (error) throw error;
 
       setShopData(prev => ({ ...prev, blogs: updatedBlogs }));
-      setBlogForm({ id: '', image: '', text: '', layout: 'standard', selectedCrop: '' });
+      setBlogForm({ id: '', image: '', text: '', layout: 'standard', selectedCrop: '', attachedProducts: [] });
       setEditingBlog(false);
       showMessage('success', editingBlog ? 'Blog updated!' : 'Blog added successfully!');
     } catch (error) {
