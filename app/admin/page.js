@@ -1241,6 +1241,7 @@ export default function AdminDashboard() {
         text: blogForm.text,
         layout: blogForm.layout,
         selectedCrop: blogForm.selectedCrop || '', // Add crop filter
+        attachedProducts: blogForm.attachedProducts || [], // Attached products for crops
         createdAt: editingBlog ? blogForm.createdAt : new Date().toISOString()
       };
 
