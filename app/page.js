@@ -343,6 +343,32 @@ export default function Home() {
     } else {
       setCart([...cart, { ...product, quantity, offerType }]);
     }
+    return true;
+  };
+
+  // Add all products to cart
+  const addAllToCart = (productsToAdd) => {
+    try {
+      let updatedCart = [...cart];
+      let addedCount = 0;
+      
+      productsToAdd.forEach(product => {
+        const existingItemIndex = updatedCart.findIndex(item => item.id === product.id);
+        
+        if (existingItemIndex !== -1) {
+          updatedCart[existingItemIndex].quantity += 1;
+        } else {
+          updatedCart.push({ ...product, quantity: 1, offerType: 'regular' });
+        }
+        addedCount++;
+      });
+      
+      setCart(updatedCart);
+      return addedCount;
+    } catch (error) {
+      console.error('Error adding all to cart:', error);
+      return 0;
+    }
   };
 
   const removeFromCart = (productId) => {
