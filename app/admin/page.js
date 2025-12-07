@@ -3029,6 +3029,166 @@ export default function AdminDashboard() {
                   </p>
                 </div>
 
+                {/* Product Attachment Section - Only show when specific crop is selected */}
+                {blogForm.selectedCrop && (
+                  <div className="border-2 border-emerald-200 rounded-lg p-4 bg-emerald-50">
+                    <label className="block text-sm font-semibold text-gray-700 mb-3 flex items-center space-x-2">
+                      <Package className="w-5 h-5 text-emerald-600" />
+                      <span>उत्पादने जोडा (Attach Products)</span>
+                    </label>
+                    <p className="text-xs text-gray-600 mb-3">
+                      या पिकाच्या blog खाली दाखवण्यासाठी उत्पादने निवडा
+                    </p>
+                    
+                    {/* Selected Products Display */}
+                    {blogForm.attachedProducts.length > 0 && (
+                      <div className="mb-3 space-y-2">
+                        <p className="text-sm font-semibold text-emerald-700">
+                          निवडलेली उत्पादने ({blogForm.attachedProducts.length}):
+                        </p>
+                        <div className="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto">
+                          {blogForm.attachedProducts.map(productId => {
+                            const product = shopData.products.find(p => p.id === productId);
+                            if (!product) return null;
+                            return (
+                              <div 
+                                key={productId}
+                                className="flex items-center justify-between bg-white p-2 rounded-lg border border-emerald-200"
+                              >
+                                <div className="flex items-center space-x-3">
+                                  {product.image && (
+                                    <img 
+                                      src={product.image} 
+                                      alt={product.name}
+                                      className="w-12 h-12 object-cover rounded"
+                                    />
+                                  )}
+                                  <div>
+                                    <p className="text-sm font-semibold text-gray-800">{product.name}</p>
+                                    <p className="text-xs text-gray-500">₹{product.price}</p>
+                                  </div>
+                                </div>
+                                <button
+                                  onClick={() => {
+                                    setBlogForm(prev => ({
+                                      ...prev,
+                                      attachedProducts: prev.attachedProducts.filter(id => id !== productId)
+                                    }));
+                                  }}
+                                  className="text-red-500 hover:text-red-700 p-1"
+                                  data-testid={`remove-product-${productId}`}
+                                >
+                                  <X className="w-4 h-4" />
+                                </button>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {/* Add Products Button */}
+                    <button
+                      type="button"
+                      onClick={() => setShowProductSelector(true)}
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-4 rounded-lg transition flex items-center justify-center space-x-2"
+                      data-testid="select-products-btn"
+                    >
+                      <Plus className="w-4 h-4" />
+                      <span>उत्पादने निवडा</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* Product Selector Modal */}
+                {showProductSelector && (
+                  <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full max-h-[80vh] overflow-hidden flex flex-col">
+                      {/* Modal Header */}
+                      <div className="flex items-center justify-between p-6 border-b">
+                        <h3 className="text-xl font-bold text-gray-800">उत्पादने निवडा</h3>
+                        <button
+                          onClick={() => setShowProductSelector(false)}
+                          className="text-gray-400 hover:text-gray-600 transition"
+                        >
+                          <X className="w-6 h-6" />
+                        </button>
+                      </div>
+                      
+                      {/* Modal Body */}
+                      <div className="flex-1 overflow-y-auto p-6">
+                        {shopData.products.length === 0 ? (
+                          <div className="text-center py-12">
+                            <Package className="w-16 h-16 text-gray-300 mx-auto mb-3" />
+                            <p className="text-gray-500">उत्पादने उपलब्ध नाहीत</p>
+                          </div>
+                        ) : (
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            {shopData.products.map(product => {
+                              const isSelected = blogForm.attachedProducts.includes(product.id);
+                              return (
+                                <div
+                                  key={product.id}
+                                  onClick={() => {
+                                    setBlogForm(prev => ({
+                                      ...prev,
+                                      attachedProducts: isSelected
+                                        ? prev.attachedProducts.filter(id => id !== product.id)
+                                        : [...prev.attachedProducts, product.id]
+                                    }));
+                                  }}
+                                  className={`cursor-pointer border-2 rounded-lg p-3 transition ${
+                                    isSelected 
+                                      ? 'border-emerald-500 bg-emerald-50' 
+                                      : 'border-gray-200 hover:border-emerald-300'
+                                  }`}
+                                  data-testid={`product-selector-${product.id}`}
+                                >
+                                  {product.image && (
+                                    <img 
+                                      src={product.image} 
+                                      alt={product.name}
+                                      className="w-full h-32 object-cover rounded mb-2"
+                                    />
+                                  )}
+                                  <h4 className="font-semibold text-sm text-gray-800 mb-1">{product.name}</h4>
+                                  <p className="text-xs text-gray-600 mb-2">{product.category}</p>
+                                  <div className="flex items-center justify-between">
+                                    <span className="text-emerald-600 font-bold">₹{product.price}</span>
+                                    {isSelected && (
+                                      <div className="bg-emerald-500 text-white rounded-full p-1">
+                                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        </svg>
+                                      </div>
+                                    )}
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Modal Footer */}
+                      <div className="border-t p-6 bg-gray-50">
+                        <div className="flex items-center justify-between">
+                          <p className="text-sm text-gray-600">
+                            निवडलेली: <span className="font-bold text-emerald-600">{blogForm.attachedProducts.length}</span> उत्पादने
+                          </p>
+                          <button
+                            onClick={() => setShowProductSelector(false)}
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 px-6 rounded-lg transition"
+                            data-testid="done-selecting-btn"
+                          >
+                            पूर्ण (Done)
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {/* Rich Text Editor */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
