@@ -222,8 +222,8 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     addToCart(product, 1, 'regular');
-                                    // Open the cart directly
-                                    setShowCart(true);
+                                    // Go back to main page and open the cart
+                                    openCart();
                                   }}
                                   className="w-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
                                   data-testid="buy-now-btn"
