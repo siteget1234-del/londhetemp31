@@ -1311,7 +1311,7 @@ export default function Home() {
             <p className="text-gray-600">शेती संबंधित माहिती, तंत्रज्ञान, सल्ले</p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {blogs.map(blog => {
+            {blogs.filter(blog => !blog.selectedCrop).map(blog => {
               // Define layout aspect ratios
               const layoutAspects = {
                 standard: 16/9,
