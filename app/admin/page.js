@@ -1238,6 +1238,7 @@ export default function AdminDashboard() {
         image: blogForm.image,
         text: blogForm.text,
         layout: blogForm.layout,
+        selectedCrop: blogForm.selectedCrop || '', // Add crop filter
         createdAt: editingBlog ? blogForm.createdAt : new Date().toISOString()
       };
 
