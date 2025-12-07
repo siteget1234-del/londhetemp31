@@ -75,14 +75,70 @@ export default function CropPage() {
     try {
       const savedCart = localStorage.getItem('cart');
       if (savedCart) {
-        const cart = JSON.parse(savedCart);
-        const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const cartData = JSON.parse(savedCart);
+        setCart(cartData);
+        const count = cartData.reduce((sum, item) => sum + item.quantity, 0);
         setCartItemCount(count);
       }
     } catch (error) {
       console.error('Error loading cart:', error);
     }
   }, []);
+
+  // Add to cart function
+  const addToCart = (product) => {
+    try {
+      const existingCart = [...cart];
+      const existingItemIndex = existingCart.findIndex(item => item.id === product.id);
+      
+      if (existingItemIndex !== -1) {
+        existingCart[existingItemIndex].quantity += 1;
+      } else {
+        existingCart.push({ ...product, quantity: 1 });
+      }
+      
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+      setCart(existingCart);
+      
+      const count = existingCart.reduce((sum, item) => sum + item.quantity, 0);
+      setCartItemCount(count);
+      
+      return true;
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+      return false;
+    }
+  };
+
+  // Add all products to cart
+  const addAllToCart = (products) => {
+    try {
+      let existingCart = [...cart];
+      let addedCount = 0;
+      
+      products.forEach(product => {
+        const existingItemIndex = existingCart.findIndex(item => item.id === product.id);
+        
+        if (existingItemIndex !== -1) {
+          existingCart[existingItemIndex].quantity += 1;
+        } else {
+          existingCart.push({ ...product, quantity: 1 });
+        }
+        addedCount++;
+      });
+      
+      localStorage.setItem('cart', JSON.stringify(existingCart));
+      setCart(existingCart);
+      
+      const count = existingCart.reduce((sum, item) => sum + item.quantity, 0);
+      setCartItemCount(count);
+      
+      return addedCount;
+    } catch (error) {
+      console.error('Error adding all to cart:', error);
+      return 0;
+    }
+  };
 
   const fetchShopData = async () => {
     try {
