@@ -44,7 +44,6 @@ export default function Home() {
   const [productQuantity, setProductQuantity] = useState(1); // Quantity for product detail page
   const [showShareMenu, setShowShareMenu] = useState(false); // Share menu toggle
   const [copySuccess, setCopySuccess] = useState(false); // Copy link feedback
-  const [selectedCrop, setSelectedCrop] = useState(null); // Selected crop filter
   
   // Delivery Address State
   const [deliveryAddress, setDeliveryAddress] = useState(null);
