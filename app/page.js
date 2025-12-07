@@ -89,12 +89,13 @@ export default function Home() {
 
   // Handle history API for all navigation states
   useEffect(() => {
-    if (selectedProduct || showSearch || selectedCategory) {
+    if (selectedProduct || showSearch || selectedCategory || selectedCrop) {
       // Push a new state when any modal/view opens
       window.history.pushState({ 
         modalOpen: !!selectedProduct,
         searchOpen: showSearch,
-        categoryOpen: !!selectedCategory
+        categoryOpen: !!selectedCategory,
+        cropOpen: !!selectedCrop
       }, '');
       
       const handlePopState = (event) => {
@@ -102,6 +103,8 @@ export default function Home() {
         if (selectedProduct) {
           setSelectedProduct(null);
           setProductQuantity(1);
+        } else if (selectedCrop) {
+          setSelectedCrop(null);
         } else if (selectedCategory) {
           setSelectedCategory(null);
         } else if (showSearch) {
@@ -116,7 +119,7 @@ export default function Home() {
         window.removeEventListener('popstate', handlePopState);
       };
     }
-  }, [selectedProduct, showSearch, selectedCategory]);
+  }, [selectedProduct, showSearch, selectedCategory, selectedCrop]);
 
   // Reset quantity when product changes
   useEffect(() => {
