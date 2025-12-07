@@ -44,6 +44,7 @@ export default function CropPage() {
   const [user, setUser] = useState(null);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
+  const [cart, setCart] = useState([]);
   
   // Find crop data
   const cropData = CROPS_DATA.find(c => c.name === cropName);
