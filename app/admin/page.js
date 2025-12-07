@@ -168,6 +168,7 @@ export default function AdminDashboard() {
   const [editingBlog, setEditingBlog] = useState(false);
   const [uploadingBlogImage, setUploadingBlogImage] = useState(false);
   const [blogImageFile, setBlogImageFile] = useState(null); // Store file for cropping
+  const [showProductSelector, setShowProductSelector] = useState(false); // Product selector modal
 
   // Import/Export States
   const [showImportModal, setShowImportModal] = useState(false);
