@@ -438,6 +438,15 @@ export default function CropPage() {
 
       {/* Custom Styles for Blog Content */}
       <style jsx>{`
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        
         .blog-content {
           font-size: 15px;
           line-height: 1.6;
