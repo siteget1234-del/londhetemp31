@@ -133,8 +133,8 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
                             onClick={() => {
                               const count = addAllToCart(attachedProducts);
                               if (count > 0) {
-                                // Open the cart directly
-                                setShowCart(true);
+                                // Go back to main page and open the cart
+                                openCart();
                               }
                             }}
                             className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
