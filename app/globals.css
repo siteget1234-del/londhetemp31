@@ -191,3 +191,13 @@ code {
     animation: shimmer-diagonal 3s ease-in-out infinite;
     pointer-events: none;
 }
+
+/* Hide scrollbar for crop selector */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+
+.scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
