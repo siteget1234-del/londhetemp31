@@ -1333,18 +1333,10 @@ export default function Home() {
                   <button
                     key={index}
                     onClick={() => {
-                      // Scroll to crop-based section with this crop filter
-                      setSelectedCrop(crop.name);
-                      setTimeout(() => {
-                        const cropSection = document.getElementById('crop-based-section');
-                        if (cropSection) {
-                          cropSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                      }, 100);
+                      // Navigate to dedicated crop page
+                      router.push(`/crops/${encodeURIComponent(crop.name)}`);
                     }}
-                    className={`flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 ${
-                      selectedCrop === crop.name ? 'transform scale-110' : 'hover:transform hover:scale-105'
-                    }`}
+                    className="flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 hover:transform hover:scale-105"
                     data-testid={`crop-selector-${crop.name}`}
                   >
                     <div className={`w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden ${
