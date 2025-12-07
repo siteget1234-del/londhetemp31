@@ -1310,6 +1310,52 @@ export default function Home() {
             <h2 className="text-3xl font-bold text-gray-800 mb-2">कृषी माहिती</h2>
             <p className="text-gray-600">शेती संबंधित माहिती, तंत्रज्ञान, सल्ले</p>
           </div>
+
+          {/* Horizontal Crop Selector */}
+          <div className="mb-12 overflow-x-auto pb-4">
+            <div className="flex space-x-4 min-w-max px-2">
+              {[
+                { name: 'बटाटा', image: '/images/crops/potato.webp' },
+                { name: 'कोबी', image: '/images/crops/cabbage.webp' },
+                { name: 'डिंक गवार', image: '/images/crops/grass.webp' },
+                { name: 'ऊस', image: '/images/crops/sugarcane.webp' },
+                { name: 'कापूस', image: '/images/crops/cotton.webp' },
+                { name: 'टोमॅटो', image: '/images/crops/tomato.webp' },
+                { name: 'कांदा', image: '/images/crops/onion.webp' },
+                { name: 'गहू', image: '/images/crops/wheat.webp' }
+              ].map((crop, index) => (
+                <button
+                  key={index}
+                  onClick={() => {
+                    // Filter blogs by selected crop - similar to category navigation
+                    const cropBlogs = blogs.filter(blog => blog.selectedCrop === crop.name);
+                    if (cropBlogs.length > 0) {
+                      // Scroll to crop section or handle navigation
+                      const cropSection = document.getElementById('crop-based-section');
+                      if (cropSection) {
+                        cropSection.scrollIntoView({ behavior: 'smooth' });
+                      }
+                    }
+                  }}
+                  className="flex-shrink-0 flex flex-col items-center space-y-2 hover:transform hover:scale-110 transition-all duration-300"
+                  data-testid={`crop-selector-${crop.name}`}
+                >
+                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-100 to-teal-100 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
+                    <img 
+                      src={crop.image} 
+                      alt={crop.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.src = 'https://via.placeholder.com/80?text=' + encodeURIComponent(crop.name);
+                      }}
+                    />
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700 text-center whitespace-nowrap">{crop.name}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {blogs.filter(blog => !blog.selectedCrop).map(blog => {
               // Define layout aspect ratios
