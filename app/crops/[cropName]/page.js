@@ -309,7 +309,7 @@ export default function CropPage() {
             <p className="text-gray-400 text-sm">लवकरच आम्ही या पिकासाठी माहिती जोडू</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="space-y-8">
             {blogs.map(blog => {
               // Define layout aspect ratios
               const layoutAspects = {
@@ -320,25 +320,115 @@ export default function CropPage() {
               };
               const aspect = layoutAspects[blog.layout || 'standard'];
               
+              // Get attached products
+              const attachedProducts = blog.attachedProducts && blog.attachedProducts.length > 0
+                ? shopData.products.filter(p => blog.attachedProducts.includes(p.id))
+                : [];
+              
               return (
-                <div 
-                  key={blog.id} 
-                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col"
-                  data-testid={`crop-blog-${blog.id}`}
-                >
-                  <div className="relative w-full bg-gray-100" style={{ paddingBottom: `${(1 / aspect) * 100}%` }}>
-                    <img 
-                      src={applyCloudinaryOptimization(blog.image) || 'https://via.placeholder.com/400x300?text=Blog+Image'} 
-                      alt={`${cropName} Blog`}
-                      className="absolute inset-0 w-full h-full object-cover"
-                    />
+                <div key={blog.id} className="space-y-6">
+                  {/* Blog Card */}
+                  <div 
+                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col"
+                    data-testid={`crop-blog-${blog.id}`}
+                  >
+                    <div className="relative w-full bg-gray-100" style={{ paddingBottom: `${(1 / aspect) * 100}%` }}>
+                      <img 
+                        src={applyCloudinaryOptimization(blog.image) || 'https://via.placeholder.com/400x300?text=Blog+Image'} 
+                        alt={`${cropName} Blog`}
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
+                    </div>
+                    <div className="p-6 flex-1">
+                      <div 
+                        className="text-gray-700 leading-relaxed blog-content"
+                        dangerouslySetInnerHTML={{ __html: blog.text }}
+                      />
+                    </div>
                   </div>
-                  <div className="p-6 flex-1">
-                    <div 
-                      className="text-gray-700 leading-relaxed blog-content"
-                      dangerouslySetInnerHTML={{ __html: blog.text }}
-                    />
-                  </div>
+
+                  {/* Attached Products Section - Only for crops blogs */}
+                  {attachedProducts.length > 0 && (
+                    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 shadow-lg">
+                      {/* Header with Buy All Button */}
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-xl font-bold text-gray-800 flex items-center space-x-2">
+                          <Package className="w-6 h-6 text-emerald-600" />
+                          <span>संबंधित उत्पादने</span>
+                        </h3>
+                        {attachedProducts.length > 1 && (
+                          <button
+                            onClick={() => {
+                              const count = addAllToCart(attachedProducts);
+                              if (count > 0) {
+                                alert(`${count} उत्पादने कार्टमध्ये जोडली!`);
+                              }
+                            }}
+                            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
+                            data-testid={`buy-all-btn-${blog.id}`}
+                          >
+                            <ShoppingCart className="w-5 h-5" />
+                            <span>सर्व खरेदी करा</span>
+                          </button>
+                        )}
+                      </div>
+
+                      {/* Products Horizontal Scroll */}
+                      <div className="relative">
+                        <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+                          {attachedProducts.map(product => (
+                            <div 
+                              key={product.id}
+                              className="flex-shrink-0 w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-emerald-200"
+                              data-testid={`attached-product-${product.id}`}
+                            >
+                              {/* Product Image */}
+                              <div className="relative w-full h-48 bg-gray-100">
+                                <img 
+                                  src={applyCloudinaryOptimization(product.image) || 'https://via.placeholder.com/256x192?text=Product'} 
+                                  alt={product.name}
+                                  className="w-full h-full object-cover"
+                                />
+                                {product.offer && (
+                                  <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
+                                    {product.offer}
+                                  </div>
+                                )}
+                              </div>
+                              
+                              {/* Product Details */}
+                              <div className="p-4">
+                                <h4 className="font-bold text-gray-800 mb-2 line-clamp-2 text-sm">{product.name}</h4>
+                                <div className="flex items-center justify-between mb-3">
+                                  <div>
+                                    <span className="text-xl font-bold text-emerald-600">₹{product.price}</span>
+                                    {product.mrp && (
+                                      <span className="text-sm text-gray-400 line-through ml-2">₹{product.mrp}</span>
+                                    )}
+                                  </div>
+                                </div>
+                                
+                                {/* Add to Cart Button */}
+                                <button
+                                  onClick={() => {
+                                    const success = addToCart(product);
+                                    if (success) {
+                                      alert('उत्पादन कार्टमध्ये जोडले!');
+                                    }
+                                  }}
+                                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg transition flex items-center justify-center space-x-2"
+                                  data-testid={`add-to-cart-${product.id}`}
+                                >
+                                  <ShoppingCart className="w-4 h-4" />
+                                  <span>कार्टमध्ये टाका</span>
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             })}
