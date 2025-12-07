@@ -1136,7 +1136,10 @@ export default function Home() {
         cart={cart}
         addToCart={addToCart}
         addAllToCart={addAllToCart}
-        setShowCart={setShowCart}
+        openCart={() => {
+          setSelectedCrop(null);
+          setShowCart(true);
+        }}
       />
     );
   }
