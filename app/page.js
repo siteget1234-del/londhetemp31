@@ -1008,6 +1008,10 @@ export default function Home() {
             <button
               onClick={() => {
                 addToCart(selectedProduct, productQuantity, currentOfferType);
+                // Close the product detail modal
+                setSelectedProduct(null);
+                setProductQuantity(1);
+                // Open the cart
                 setShowCart(true);
               }}
               className="w-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-4 rounded-xl transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
