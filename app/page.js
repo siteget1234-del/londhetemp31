@@ -91,13 +91,14 @@ export default function Home() {
 
   // Handle history API for all navigation states
   useEffect(() => {
-    if (selectedProduct || showSearch || selectedCategory || selectedCrop) {
+    if (selectedProduct || showSearch || selectedCategory || selectedCrop || showAllCrops) {
       // Push a new state when any modal/view opens
       window.history.pushState({ 
         modalOpen: !!selectedProduct,
         searchOpen: showSearch,
         categoryOpen: !!selectedCategory,
-        cropOpen: !!selectedCrop
+        cropOpen: !!selectedCrop,
+        allCropsOpen: showAllCrops
       }, '');
       
       const handlePopState = (event) => {
@@ -107,6 +108,8 @@ export default function Home() {
           setProductQuantity(1);
         } else if (selectedCrop) {
           setSelectedCrop(null);
+        } else if (showAllCrops) {
+          setShowAllCrops(false);
         } else if (selectedCategory) {
           setSelectedCategory(null);
         } else if (showSearch) {
@@ -121,7 +124,7 @@ export default function Home() {
         window.removeEventListener('popstate', handlePopState);
       };
     }
-  }, [selectedProduct, showSearch, selectedCategory, selectedCrop]);
+  }, [selectedProduct, showSearch, selectedCategory, selectedCrop, showAllCrops]);
 
   // Reset quantity when product changes
   useEffect(() => {
