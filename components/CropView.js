@@ -18,7 +18,7 @@ const CROPS_DATA = [
   { name: 'गवार', image: '/images/crops/गवार.webp' }
 ];
 
-export default function CropView({ cropName, back, shopData, blogs, cart, addToCart, addAllToCart, setShowCart }) {
+export default function CropView({ cropName, back, shopData, blogs, cart, addToCart, addAllToCart, openCart }) {
   // Find crop data
   const cropData = CROPS_DATA.find(c => c.name === cropName);
   
