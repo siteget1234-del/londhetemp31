@@ -3268,14 +3268,20 @@ export default function AdminDashboard() {
                       </div>
                       <div className="p-4">
                         {/* Selected Crop Badge */}
-                        {blog.selectedCrop && (
-                          <div className="mb-2">
+                        <div className="mb-2 flex flex-wrap gap-2">
+                          {blog.selectedCrop && (
                             <span className="inline-flex items-center bg-emerald-100 text-emerald-800 text-xs font-semibold px-2 py-1 rounded">
                               <span className="mr-1">🌾</span>
                               {blog.selectedCrop}
                             </span>
-                          </div>
-                        )}
+                          )}
+                          {blog.attachedProducts && blog.attachedProducts.length > 0 && (
+                            <span className="inline-flex items-center bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded">
+                              <Package className="w-3 h-3 mr-1" />
+                              {blog.attachedProducts.length} उत्पादने
+                            </span>
+                          )}
+                        </div>
                         <div 
                           className="text-sm text-gray-700 mb-3 line-clamp-2"
                           dangerouslySetInnerHTML={{ __html: blog.text }}
