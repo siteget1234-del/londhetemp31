@@ -194,7 +194,7 @@ export default function AllCropsPage() {
               )}
               {/* Cart Button */}
               <button 
-                onClick={() => router.push('/')}
+                onClick={() => router.push('/?openCart=true')}
                 className="relative p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
                 data-testid="cart-button"
               >
