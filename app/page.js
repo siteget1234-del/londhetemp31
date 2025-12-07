@@ -1472,10 +1472,21 @@ export default function Home() {
 
       {/* Crop-Based Information Section */}
       {!showSearch && !selectedCategory && (
-        <section className="container mx-auto px-4 py-12 bg-gradient-to-b from-white to-gray-50">
+        <section id="crop-based-section" className="container mx-auto px-4 py-12 bg-gradient-to-b from-white to-gray-50 scroll-mt-20">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800 mb-2">आपल्या पिकाच्या पोस्ट पहा</h2>
             <p className="text-gray-600">या पोस्ट आपल्या पिकाच्या आधारे फिल्टर केल्या आहेत</p>
+            {selectedCrop && (
+              <div className="mt-4 flex items-center justify-center space-x-2">
+                <span className="text-lg font-semibold text-emerald-700">निवडलेले पीक: {selectedCrop}</span>
+                <button
+                  onClick={() => setSelectedCrop(null)}
+                  className="text-sm text-gray-600 hover:text-gray-800 underline"
+                >
+                  सर्व पहा
+                </button>
+              </div>
+            )}
           </div>
 
           {/* Crop Categories Cards */}
