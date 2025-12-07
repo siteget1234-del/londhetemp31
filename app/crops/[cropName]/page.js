@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { ChevronLeft, ShoppingCart, Search, Menu, LogOut, Settings } from 'lucide-react';
+import { ChevronLeft, ShoppingCart, Search, Menu, LogOut, Settings, Package } from 'lucide-react';
 import Link from 'next/link';
 import { supabase, getCurrentUser } from '@/lib/supabase';
 
