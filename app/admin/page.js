@@ -162,7 +162,8 @@ export default function AdminDashboard() {
     image: '',
     text: '',
     layout: 'standard', // Layout options: 'standard', 'portrait', 'square', 'wide'
-    selectedCrop: '' // Selected crop for filtering
+    selectedCrop: '', // Selected crop for filtering
+    attachedProducts: [] // Product IDs attached to this crop-blog
   });
   const [editingBlog, setEditingBlog] = useState(false);
   const [uploadingBlogImage, setUploadingBlogImage] = useState(false);
