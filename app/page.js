@@ -1136,6 +1136,7 @@ export default function Home() {
         cart={cart}
         addToCart={addToCart}
         addAllToCart={addAllToCart}
+        setShowCart={setShowCart}
       />
     );
   }
