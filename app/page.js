@@ -1378,7 +1378,7 @@ export default function Home() {
                     <button
                       key={`crop-${index}`}
                       onClick={() => {
-                        router.push(`/crops/${encodeURIComponent(crop.name)}`);
+                        setSelectedCrop(crop.name);
                       }}
                       className="flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 hover:transform hover:scale-105"
                       data-testid={`crop-selector-${crop.name}`}
