@@ -1678,74 +1678,120 @@ export default function AdminDashboard() {
       )}
 
       <div className="container mx-auto px-4 py-8">
-        {/* Tabs */}
-        <div className="bg-white rounded-xl shadow-md p-2 mb-6 flex space-x-2 overflow-x-auto">
-          <button
-            onClick={() => setActiveTab('profile')}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
-              activeTab === 'profile' 
-                ? 'bg-emerald-600 text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            <User className="w-5 h-5" />
-            <span>Profile</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('shop')}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
-              activeTab === 'shop' 
-                ? 'bg-emerald-600 text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            <Store className="w-5 h-5" />
-            <span>Shop Info</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('products')}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
-              activeTab === 'products' 
-                ? 'bg-emerald-600 text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            <Package className="w-5 h-5" />
-            <span>Products ({shopData.products.length})</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('banners')}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
-              activeTab === 'banners' 
-                ? 'bg-emerald-600 text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            <ImageIcon className="w-5 h-5" />
-            <span>Banners ({shopData.banners.length})</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('blogs')}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
-              activeTab === 'blogs' 
-                ? 'bg-emerald-600 text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            <ImageIcon className="w-5 h-5" />
-            <span>Blogs ({shopData.blogs.length})</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('overview')}
-            className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-semibold transition whitespace-nowrap ${
-              activeTab === 'overview' 
-                ? 'bg-emerald-600 text-white' 
-                : 'text-gray-600 hover:bg-gray-100'
-            }`}
-          >
-            <BarChart3 className="w-5 h-5" />
-            <span>Overview</span>
-          </button>
+        {/* Icon-Only Tabs */}
+        <div className="bg-white rounded-xl shadow-md p-4 mb-6">
+          <div className="flex items-center justify-around">
+            {/* Profile Tab */}
+            <button
+              onClick={() => setActiveTab('profile')}
+              className={`flex flex-col items-center space-y-1 px-4 py-3 rounded-lg font-semibold transition ${
+                activeTab === 'profile' 
+                  ? 'bg-emerald-50 text-emerald-600' 
+                  : 'text-gray-500 hover:bg-gray-50'
+              }`}
+              data-testid="tab-profile"
+            >
+              <User className={`${activeTab === 'profile' ? 'w-7 h-7' : 'w-6 h-6'}`} />
+              {activeTab === 'profile' && (
+                <span className="text-xs font-semibold">Profile</span>
+              )}
+            </button>
+
+            {/* Shop Info Tab */}
+            <button
+              onClick={() => setActiveTab('shop')}
+              className={`flex flex-col items-center space-y-1 px-4 py-3 rounded-lg font-semibold transition ${
+                activeTab === 'shop' 
+                  ? 'bg-emerald-50 text-emerald-600' 
+                  : 'text-gray-500 hover:bg-gray-50'
+              }`}
+              data-testid="tab-shop"
+            >
+              <Store className={`${activeTab === 'shop' ? 'w-7 h-7' : 'w-6 h-6'}`} />
+              {activeTab === 'shop' && (
+                <span className="text-xs font-semibold">Shop Info</span>
+              )}
+            </button>
+
+            {/* Products Tab */}
+            <button
+              onClick={() => setActiveTab('products')}
+              className={`flex flex-col items-center space-y-1 px-4 py-3 rounded-lg font-semibold transition relative ${
+                activeTab === 'products' 
+                  ? 'bg-emerald-50 text-emerald-600' 
+                  : 'text-gray-500 hover:bg-gray-50'
+              }`}
+              data-testid="tab-products"
+            >
+              <Package className={`${activeTab === 'products' ? 'w-7 h-7' : 'w-6 h-6'}`} />
+              {shopData.products.length > 0 && (
+                <span className={`absolute -top-1 -right-1 ${activeTab === 'products' ? 'bg-emerald-600' : 'bg-gray-400'} text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold`}>
+                  {shopData.products.length}
+                </span>
+              )}
+              {activeTab === 'products' && (
+                <span className="text-xs font-semibold">Products</span>
+              )}
+            </button>
+
+            {/* Banners Tab */}
+            <button
+              onClick={() => setActiveTab('banners')}
+              className={`flex flex-col items-center space-y-1 px-4 py-3 rounded-lg font-semibold transition relative ${
+                activeTab === 'banners' 
+                  ? 'bg-emerald-50 text-emerald-600' 
+                  : 'text-gray-500 hover:bg-gray-50'
+              }`}
+              data-testid="tab-banners"
+            >
+              <ImageIcon className={`${activeTab === 'banners' ? 'w-7 h-7' : 'w-6 h-6'}`} />
+              {shopData.banners.length > 0 && (
+                <span className={`absolute -top-1 -right-1 ${activeTab === 'banners' ? 'bg-emerald-600' : 'bg-gray-400'} text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold`}>
+                  {shopData.banners.length}
+                </span>
+              )}
+              {activeTab === 'banners' && (
+                <span className="text-xs font-semibold">Banners</span>
+              )}
+            </button>
+
+            {/* Blogs Tab */}
+            <button
+              onClick={() => setActiveTab('blogs')}
+              className={`flex flex-col items-center space-y-1 px-4 py-3 rounded-lg font-semibold transition relative ${
+                activeTab === 'blogs' 
+                  ? 'bg-emerald-50 text-emerald-600' 
+                  : 'text-gray-500 hover:bg-gray-50'
+              }`}
+              data-testid="tab-blogs"
+            >
+              <Layout className={`${activeTab === 'blogs' ? 'w-7 h-7' : 'w-6 h-6'}`} />
+              {shopData.blogs.length > 0 && (
+                <span className={`absolute -top-1 -right-1 ${activeTab === 'blogs' ? 'bg-emerald-600' : 'bg-gray-400'} text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold`}>
+                  {shopData.blogs.length}
+                </span>
+              )}
+              {activeTab === 'blogs' && (
+                <span className="text-xs font-semibold">Blogs</span>
+              )}
+            </button>
+
+            {/* Overview Tab */}
+            <button
+              onClick={() => setActiveTab('overview')}
+              className={`flex flex-col items-center space-y-1 px-4 py-3 rounded-lg font-semibold transition ${
+                activeTab === 'overview' 
+                  ? 'bg-emerald-50 text-emerald-600' 
+                  : 'text-gray-500 hover:bg-gray-50'
+              }`}
+              data-testid="tab-overview"
+            >
+              <BarChart3 className={`${activeTab === 'overview' ? 'w-7 h-7' : 'w-6 h-6'}`} />
+              {activeTab === 'overview' && (
+                <span className="text-xs font-semibold">Overview</span>
+              )}
+            </button>
+          </div>
         </div>
 
         {/* Profile Tab */}
