@@ -1028,6 +1028,21 @@ export default function Home() {
     );
   }
 
+  // Show CropView if a crop is selected
+  if (selectedCrop) {
+    return (
+      <CropView 
+        cropName={selectedCrop}
+        back={() => setSelectedCrop(null)}
+        shopData={shopData}
+        blogs={blogs}
+        cart={cart}
+        addToCart={addToCart}
+        addAllToCart={addAllToCart}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
