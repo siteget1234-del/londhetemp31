@@ -1033,6 +1033,94 @@ export default function Home() {
     );
   }
 
+  // Show AllCropsView if showAllCrops is true
+  if (showAllCrops) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        {/* Header */}
+        <header className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white sticky top-0 z-50 shadow-2xl">
+          <div className="container mx-auto px-4 py-3">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <button 
+                  onClick={() => {
+                    if (window.history.state?.allCropsOpen) {
+                      window.history.back();
+                    } else {
+                      setShowAllCrops(false);
+                    }
+                  }}
+                  className="flex items-center space-x-2 hover:bg-emerald-600 px-3 py-2 rounded-lg transition"
+                  data-testid="back-to-home-btn"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                  <span>मुख्यपृष्ठ</span>
+                </button>
+              </div>
+              <div className="flex items-center space-x-2">
+                {/* Admin Dropdown Menu (only for logged in users) */}
+                {user && (
+                  <div className="relative">
+                    <button 
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      className="p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
+                    >
+                      <Menu className="w-6 h-6" />
+                    </button>
+                    {showUserMenu && (
+                      <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
+                        <button
+                          onClick={() => {
+                            router.push('/admin');
+                            setShowUserMenu(false);
+                          }}
+                          className="w-full text-left px-4 py-2 text-gray-700 hover:bg-emerald-50 flex items-center space-x-2"
+                        >
+                          <Settings className="w-4 h-4" />
+                          <span>अ‍ॅडमिन डॅशबोर्ड</span>
+                        </button>
+                        <button
+                          onClick={handleSignOut}
+                          className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center space-x-2"
+                        >
+                          <LogOut className="w-4 h-4" />
+                          <span>साइन आउट</span>
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+                {/* Cart Button */}
+                <button 
+                  onClick={() => setShowCart(true)}
+                  className="relative p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
+                  data-testid="cart-button"
+                >
+                  <ShoppingCart className="w-6 h-6" />
+                  {cartItemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">
+                      {cartItemCount}
+                    </span>
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <AllCropsView 
+          blogs={blogs}
+          onBack={() => setShowAllCrops(false)}
+          onSelectCrop={(cropName) => {
+            setSelectedCrop(cropName);
+            setShowAllCrops(false);
+          }}
+          shopData={shopData}
+        />
+      </div>
+    );
+  }
+
   // Show CropView if a crop is selected
   if (selectedCrop) {
     return (
