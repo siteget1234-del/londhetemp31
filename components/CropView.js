@@ -25,6 +25,11 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
   // Filter blogs for this specific crop
   const cropBlogs = blogs.filter(blog => blog.selectedCrop === cropName);
 
+  // Scroll to top when crop page opens
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [cropName]);
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
