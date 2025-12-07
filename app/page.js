@@ -272,23 +272,21 @@ export default function Home() {
 
   // Handle product URL parameter and cart opening
   useEffect(() => {
-    if (products.length > 0) {
-      const urlParams = new URLSearchParams(window.location.search);
-      const productId = urlParams.get('product');
-      const openCart = urlParams.get('openCart');
-      
-      if (productId) {
-        const product = products.find(p => p.id === productId);
-        if (product) {
-          setSelectedProduct(product);
-        }
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('product');
+    const openCart = urlParams.get('openCart');
+    
+    if (productId && products.length > 0) {
+      const product = products.find(p => p.id === productId);
+      if (product) {
+        setSelectedProduct(product);
       }
-      
-      if (openCart === 'true') {
-        setShowCart(true);
-        // Remove the parameter from URL
-        window.history.replaceState({}, '', '/');
-      }
+    }
+    
+    if (openCart === 'true') {
+      setShowCart(true);
+      // Remove the parameter from URL
+      window.history.replaceState({}, '', '/');
     }
   }, [products]);
 
