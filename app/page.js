@@ -1314,49 +1314,77 @@ export default function Home() {
           {/* Horizontal Crop Selector */}
           <div className="mb-12 overflow-x-auto pb-4 scrollbar-hide">
             <div className="flex space-x-6 min-w-max px-2">
-              {[
-                { name: 'बटाटा', image: '/images/crops/बटाटा.webp' },
-                { name: 'कोबी', image: '/images/crops/कोबी.webp' },
-                { name: 'डिंक गवार', image: '/images/crops/डिंकगवार.webp' },
-                { name: 'ऊस', image: '/images/crops/ऊस.webp' },
-                { name: 'कापूस', image: '/images/crops/कापूस.webp' },
-                { name: 'टोमॅटो', image: '/images/crops/टोमॅटो.webp' },
-                { name: 'कांदा', image: '/images/crops/कांदा.webp' },
-                { name: 'गहू', image: '/images/crops/गहू.webp' },
-                { name: 'भात', image: '/images/crops/भात.webp' },
-                { name: 'गवार', image: '/images/crops/गवार.webp' }
-              ].map((crop, index) => {
-                const cropBlogCount = blogs.filter(blog => blog.selectedCrop === crop.name).length;
+              {(() => {
+                const allCrops = [
+                  { name: 'बटाटा', image: '/images/crops/बटाटा.webp' },
+                  { name: 'कोबी', image: '/images/crops/कोबी.webp' },
+                  { name: 'डिंक गवार', image: '/images/crops/डिंकगवार.webp' },
+                  { name: 'ऊस', image: '/images/crops/ऊस.webp' },
+                  { name: 'कापूस', image: '/images/crops/कापूस.webp' },
+                  { name: 'टोमॅटो', image: '/images/crops/टोमॅटो.webp' },
+                  { name: 'कांदा', image: '/images/crops/कांदा.webp' },
+                  { name: 'गहू', image: '/images/crops/गहू.webp' },
+                  { name: 'भात', image: '/images/crops/भात.webp' },
+                  { name: 'गवार', image: '/images/crops/गवार.webp' }
+                ];
                 
-                return (
+                // Filter crops with at least 1 post
+                const cropsWithPosts = allCrops
+                  .map(crop => ({
+                    ...crop,
+                    postCount: blogs.filter(blog => blog.selectedCrop === crop.name).length
+                  }))
+                  .filter(crop => crop.postCount > 0)
+                  .sort((a, b) => b.postCount - a.postCount);
+                
+                // Get top 5 crops (not 6, because 6th will be "All Crops")
+                const topCrops = cropsWithPosts.slice(0, 5);
+                
+                return [
+                  ...topCrops.map((crop, index) => (
+                    <button
+                      key={`crop-${index}`}
+                      onClick={() => {
+                        router.push(`/crops/${encodeURIComponent(crop.name)}`);
+                      }}
+                      className="flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 hover:transform hover:scale-105"
+                      data-testid={`crop-selector-${crop.name}`}
+                    >
+                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
+                        <img 
+                          src={crop.image} 
+                          alt={crop.name}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.target.src = 'https://via.placeholder.com/80x80/f59e0b/ffffff?text=' + encodeURIComponent(crop.name.charAt(0));
+                          }}
+                        />
+                      </div>
+                      <span className="text-sm font-semibold text-center whitespace-nowrap text-gray-700">
+                        {crop.name}
+                      </span>
+                    </button>
+                  )),
+                  // Add "सर्व पीके" button as 6th item
                   <button
-                    key={index}
+                    key="all-crops"
                     onClick={() => {
-                      // Navigate to dedicated crop page
-                      router.push(`/crops/${encodeURIComponent(crop.name)}`);
+                      router.push('/all-crops');
                     }}
                     className="flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 hover:transform hover:scale-105"
-                    data-testid={`crop-selector-${crop.name}`}
+                    data-testid="crop-selector-all"
                   >
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
-                      <img 
-                        src={crop.image} 
-                        alt={crop.name}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          e.target.src = 'https://via.placeholder.com/80x80/f59e0b/ffffff?text=' + encodeURIComponent(crop.name.charAt(0));
-                        }}
-                      />
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-100 via-teal-100 to-green-100 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
+                      <svg className="w-12 h-12 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                      </svg>
                     </div>
                     <span className="text-sm font-semibold text-center whitespace-nowrap text-gray-700">
-                      {crop.name}
+                      सर्व पीके
                     </span>
-                    {cropBlogCount > 0 && (
-                      <span className="text-xs text-emerald-600 font-medium">{cropBlogCount} पोस्ट</span>
-                    )}
                   </button>
-                );
-              })}
+                ];
+              })()}
             </div>
           </div>
 
