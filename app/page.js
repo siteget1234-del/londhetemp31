@@ -1049,7 +1049,7 @@ export default function Home() {
       <header className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white sticky top-0 z-50 shadow-2xl">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2" onClick={() => { setSelectedCategory(null); setShowSearch(false); setSearchQuery(''); }} style={{ cursor: 'pointer' }}>
+            <div className="flex items-center space-x-2" onClick={() => { setSelectedCategory(null); setSelectedCrop(null); setShowSearch(false); setSearchQuery(''); }} style={{ cursor: 'pointer' }}>
               <div className="text-3xl">🏪</div>
               <div>
                 <h1 className="text-lg md:text-xl font-bold leading-tight">{shopData?.shop_name || 'Shop Name'}</h1>
