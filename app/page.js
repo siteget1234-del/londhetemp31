@@ -1502,9 +1502,14 @@ export default function Home() {
               { name: 'फुले', crops: ['गुलाब', 'झेंडू', 'निशिगंध'], icon: '🌸', image: 'https://customer-assets.emergentagent.com/job_greetings-1483/artifacts/d9ze41ct_Screenshot_20251206-163005.png' }
             ].map(category => {
               // Filter blogs for this category's crops
-              const categoryBlogs = blogs.filter(blog => 
+              let categoryBlogs = blogs.filter(blog => 
                 category.crops.includes(blog.selectedCrop)
               );
+
+              // If a specific crop is selected, further filter
+              if (selectedCrop) {
+                categoryBlogs = categoryBlogs.filter(blog => blog.selectedCrop === selectedCrop);
+              }
 
               // Only show category if it has blogs
               if (categoryBlogs.length === 0) return null;
