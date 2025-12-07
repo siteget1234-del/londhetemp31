@@ -3058,6 +3058,15 @@ export default function AdminDashboard() {
                         </div>
                       </div>
                       <div className="p-4">
+                        {/* Selected Crop Badge */}
+                        {blog.selectedCrop && (
+                          <div className="mb-2">
+                            <span className="inline-flex items-center bg-emerald-100 text-emerald-800 text-xs font-semibold px-2 py-1 rounded">
+                              <span className="mr-1">🌾</span>
+                              {blog.selectedCrop}
+                            </span>
+                          </div>
+                        )}
                         <div 
                           className="text-sm text-gray-700 mb-3 line-clamp-2"
                           dangerouslySetInnerHTML={{ __html: blog.text }}
