@@ -1313,47 +1313,63 @@ export default function Home() {
           </div>
 
           {/* Horizontal Crop Selector */}
-          <div className="mb-12 overflow-x-auto pb-4">
-            <div className="flex space-x-4 min-w-max px-2">
+          <div className="mb-12 overflow-x-auto pb-4 scrollbar-hide">
+            <div className="flex space-x-6 min-w-max px-2">
               {[
-                { name: 'बटाटा', image: '/images/crops/potato.webp' },
-                { name: 'कोबी', image: '/images/crops/cabbage.webp' },
-                { name: 'डिंक गवार', image: '/images/crops/grass.webp' },
-                { name: 'ऊस', image: '/images/crops/sugarcane.webp' },
-                { name: 'कापूस', image: '/images/crops/cotton.webp' },
-                { name: 'टोमॅटो', image: '/images/crops/tomato.webp' },
-                { name: 'कांदा', image: '/images/crops/onion.webp' },
-                { name: 'गहू', image: '/images/crops/wheat.webp' }
-              ].map((crop, index) => (
-                <button
-                  key={index}
-                  onClick={() => {
-                    // Filter blogs by selected crop - similar to category navigation
-                    const cropBlogs = blogs.filter(blog => blog.selectedCrop === crop.name);
-                    if (cropBlogs.length > 0) {
-                      // Scroll to crop section or handle navigation
-                      const cropSection = document.getElementById('crop-based-section');
-                      if (cropSection) {
-                        cropSection.scrollIntoView({ behavior: 'smooth' });
-                      }
-                    }
-                  }}
-                  className="flex-shrink-0 flex flex-col items-center space-y-2 hover:transform hover:scale-110 transition-all duration-300"
-                  data-testid={`crop-selector-${crop.name}`}
-                >
-                  <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-100 to-teal-100 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
-                    <img 
-                      src={crop.image} 
-                      alt={crop.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        e.target.src = 'https://via.placeholder.com/80?text=' + encodeURIComponent(crop.name);
-                      }}
-                    />
-                  </div>
-                  <span className="text-sm font-semibold text-gray-700 text-center whitespace-nowrap">{crop.name}</span>
-                </button>
-              ))}
+                { name: 'बटाटा', image: '/images/crops/बटाटा.webp' },
+                { name: 'कोबी', image: '/images/crops/कोबी.webp' },
+                { name: 'डिंक गवार', image: '/images/crops/डिंकगवार.webp' },
+                { name: 'ऊस', image: '/images/crops/ऊस.webp' },
+                { name: 'कापूस', image: '/images/crops/कापूस.webp' },
+                { name: 'टोमॅटो', image: '/images/crops/टोमॅटो.webp' },
+                { name: 'कांदा', image: '/images/crops/कांदा.webp' },
+                { name: 'गहू', image: '/images/crops/गहू.webp' },
+                { name: 'भात', image: '/images/crops/भात.webp' },
+                { name: 'गवार', image: '/images/crops/गवार.webp' }
+              ].map((crop, index) => {
+                const cropBlogCount = blogs.filter(blog => blog.selectedCrop === crop.name).length;
+                
+                return (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      // Scroll to crop-based section with this crop filter
+                      setSelectedCrop(crop.name);
+                      setTimeout(() => {
+                        const cropSection = document.getElementById('crop-based-section');
+                        if (cropSection) {
+                          cropSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                      }, 100);
+                    }}
+                    className={`flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 ${
+                      selectedCrop === crop.name ? 'transform scale-110' : 'hover:transform hover:scale-105'
+                    }`}
+                    data-testid={`crop-selector-${crop.name}`}
+                  >
+                    <div className={`w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden ${
+                      selectedCrop === crop.name ? 'border-emerald-500' : 'border-white'
+                    }`}>
+                      <img 
+                        src={crop.image} 
+                        alt={crop.name}
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.target.src = 'https://via.placeholder.com/80x80/f59e0b/ffffff?text=' + encodeURIComponent(crop.name.charAt(0));
+                        }}
+                      />
+                    </div>
+                    <span className={`text-sm font-semibold text-center whitespace-nowrap ${
+                      selectedCrop === crop.name ? 'text-emerald-700' : 'text-gray-700'
+                    }`}>
+                      {crop.name}
+                    </span>
+                    {cropBlogCount > 0 && (
+                      <span className="text-xs text-emerald-600 font-medium">{cropBlogCount} पोस्ट</span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
