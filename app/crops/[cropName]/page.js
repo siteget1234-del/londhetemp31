@@ -373,59 +373,95 @@ export default function CropPage() {
                         )}
                       </div>
 
-                      {/* Products Horizontal Scroll */}
-                      <div className="relative">
-                        <div className="flex overflow-x-auto gap-4 pb-4 scrollbar-hide" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-                          {attachedProducts.map(product => (
+                      {/* Products Grid - Matching Homepage Style */}
+                      <div className="grid grid-cols-2 gap-2">
+                        {attachedProducts.map(product => {
+                          const discountPercent = product.mrp && product.price < product.mrp 
+                            ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
+                            : null;
+                          
+                          const hasSpecialOffer = product.specialOffer?.offerName && 
+                                                 product.specialOffer?.quantity && 
+                                                 product.specialOffer?.offerPricePerUnit;
+                          
+                          return (
                             <div 
                               key={product.id}
-                              className="flex-shrink-0 w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 border-2 border-emerald-200"
+                              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.03] active:scale-[0.98] border border-gray-100"
                               data-testid={`attached-product-${product.id}`}
                             >
                               {/* Product Image */}
-                              <div className="relative w-full h-48 bg-gray-100">
+                              <div className="relative">
                                 <img 
-                                  src={applyCloudinaryOptimization(product.image) || 'https://via.placeholder.com/256x192?text=Product'} 
+                                  src={product.image || 'https://via.placeholder.com/400x300?text=Product+Image'} 
                                   alt={product.name}
-                                  className="w-full h-full object-cover"
+                                  className="w-full h-28 object-cover"
                                 />
-                                {product.offer && (
-                                  <div className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">
-                                    {product.offer}
-                                  </div>
-                                )}
                               </div>
                               
-                              {/* Product Details */}
-                              <div className="p-4">
-                                <h4 className="font-bold text-gray-800 mb-2 line-clamp-2 text-sm">{product.name}</h4>
-                                <div className="flex items-center justify-between mb-3">
-                                  <div>
-                                    <span className="text-xl font-bold text-emerald-600">₹{product.price}</span>
-                                    {product.mrp && (
-                                      <span className="text-sm text-gray-400 line-through ml-2">₹{product.mrp}</span>
-                                    )}
-                                  </div>
+                              {/* Product Info */}
+                              <div className="p-2 space-y-1.5">
+                                {/* Product Name */}
+                                <h3 className="text-sm font-normal text-gray-800 line-clamp-2 leading-tight min-h-[2.5rem]" data-testid="product-name">
+                                  {product.name}
+                                </h3>
+                                
+                                {/* Price Section */}
+                                <div className="flex items-center space-x-1.5">
+                                  <span className="text-base font-bold text-gray-900" data-testid="product-price">
+                                    ₹{product.price}
+                                  </span>
+                                  {product.mrp && product.mrp > product.price && (
+                                    <span className="text-xs text-gray-500 line-through" data-testid="product-mrp">
+                                      ₹{product.mrp}
+                                    </span>
+                                  )}
                                 </div>
                                 
-                                {/* Add to Cart Button */}
+                                {/* Offer Badge */}
+                                {product.offer && (
+                                  <div className="bg-red-50 border border-red-200 rounded-md px-1.5 py-0.5">
+                                    <span className="text-[10px] font-bold text-red-600" data-testid="product-offer">
+                                      {product.offer}
+                                    </span>
+                                  </div>
+                                )}
+                                
+                                {/* Special Offer Text or Discount */}
+                                {hasSpecialOffer ? (
+                                  <div className="offer-pill-shimmer bg-gradient-to-r from-green-50 to-emerald-50 border border-emerald-300 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
+                                    <span className="text-xs">💰</span>
+                                    <p className="text-[10px] font-bold text-emerald-800" data-testid="product-offer-price">
+                                      ऑफर: ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
+                                    </p>
+                                  </div>
+                                ) : discountPercent ? (
+                                  <div className="offer-pill-shimmer bg-gradient-to-r from-green-50 to-emerald-50 border border-emerald-300 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
+                                    <span className="text-xs">💰</span>
+                                    <p className="text-[10px] font-bold text-emerald-800" data-testid="product-discount">
+                                      खास {discountPercent}% सूट
+                                    </p>
+                                  </div>
+                                ) : null}
+                                
+                                {/* Buy Now Button - Full Width Dark Green */}
                                 <button
-                                  onClick={() => {
+                                  onClick={(e) => {
+                                    e.stopPropagation();
                                     const success = addToCart(product);
                                     if (success) {
                                       alert('उत्पादन कार्टमध्ये जोडले!');
                                     }
                                   }}
-                                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg transition flex items-center justify-center space-x-2"
-                                  data-testid={`add-to-cart-${product.id}`}
+                                  className="w-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
+                                  data-testid="buy-now-btn"
                                 >
-                                  <ShoppingCart className="w-4 h-4" />
-                                  <span>कार्टमध्ये टाका</span>
+                                  खरेदी करा
                                 </button>
                               </div>
                             </div>
-                          ))}
-                        </div>
+                          );
+                        })}
                       </div>
                     </div>
                   )}
