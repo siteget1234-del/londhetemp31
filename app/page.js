@@ -1339,9 +1339,7 @@ export default function Home() {
                     className="flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 hover:transform hover:scale-105"
                     data-testid={`crop-selector-${crop.name}`}
                   >
-                    <div className={`w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden ${
-                      selectedCrop === crop.name ? 'border-emerald-500' : 'border-white'
-                    }`}>
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
                       <img 
                         src={crop.image} 
                         alt={crop.name}
@@ -1351,9 +1349,7 @@ export default function Home() {
                         }}
                       />
                     </div>
-                    <span className={`text-sm font-semibold text-center whitespace-nowrap ${
-                      selectedCrop === crop.name ? 'text-emerald-700' : 'text-gray-700'
-                    }`}>
+                    <span className="text-sm font-semibold text-center whitespace-nowrap text-gray-700">
                       {crop.name}
                     </span>
                     {cropBlogCount > 0 && (
