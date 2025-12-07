@@ -2956,6 +2956,30 @@ export default function AdminDashboard() {
                   </div>
                 </div>
 
+                {/* Crop Selection Dropdown */}
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    पीक निवड (Crop Selection)
+                  </label>
+                  <select
+                    value={blogForm.selectedCrop}
+                    onChange={(e) => setBlogForm(prev => ({ ...prev, selectedCrop: e.target.value }))}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  >
+                    <option value="">सर्व पिके (All Crops)</option>
+                    {CROP_CATEGORIES.map(category => (
+                      <optgroup key={category.name} label={category.name}>
+                        {category.crops.map(crop => (
+                          <option key={crop} value={crop}>{crop}</option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </select>
+                  <p className="text-xs text-gray-500 mt-2">
+                    💡 विशिष्ट पिकासाठी blog filter करण्यासाठी पीक निवडा. रिक्त ठेवल्यास सर्व users साठी दाखवेल.
+                  </p>
+                </div>
+
                 {/* Rich Text Editor */}
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
