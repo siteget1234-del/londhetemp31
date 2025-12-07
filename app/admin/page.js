@@ -120,12 +120,49 @@ export default function AdminDashboard() {
   const [uploadingBannerImage, setUploadingBannerImage] = useState(false);
   const [bannerCompressionProgress, setBannerCompressionProgress] = useState(null);
 
+  // Crop Categories and List
+  const CROP_CATEGORIES = [
+    {
+      name: 'नगदी पिके',
+      crops: ['ऊस', 'कापूस', 'कॉफी', 'तंबाखू', 'केसरी', 'अळशी']
+    },
+    {
+      name: 'भाज्या',
+      crops: ['वांगी', 'कोबी', 'पत्ता कोबी', 'टोमॅटो', 'डिंक गवार', 'कांदा', 'बटाटा', 'गवार', 'कारले', 'चवळी', 'तिखट मिरची', 'भेंडी', 'दुधी भोपळा', 'कॉलीफ्लॉवर', 'आले', 'घेवडा', 'दोडका', 'हळद', 'डांगर भोपळा', 'ढोबळी मिरची', 'शेवगा', 'काकडी', 'गाजर', 'मुळा', 'पालक', 'ब्रॉकली', 'घोसाळे', 'टिंडा', 'ढेमसे', 'लसूण', 'कोथिंबीर', 'मेथी पाला', 'कांद्याची पात']
+    },
+    {
+      name: 'डाळी',
+      crops: ['उडीद', 'चणा', 'मुग', 'तूर', 'मसूर', 'राजमा']
+    },
+    {
+      name: 'तेलबिया',
+      crops: ['तीळ', 'एरंड', 'भुईमूग', 'मोहरी', 'सोयाबीन', 'सूर्यफूल', 'कुसुम']
+    },
+    {
+      name: 'तृणधान्ये',
+      crops: ['बाजरी', 'मका', 'भात', 'गहू', 'गोड मका', 'ज्वार', 'नाचणी', 'वरई', 'जव']
+    },
+    {
+      name: 'फळे',
+      crops: ['कलिंगड', 'पपई', 'आंबा', 'डाळिंब', 'खरबूज', 'केळे', 'द्राक्षे', 'मोसंबी', 'संत्रा', 'लिंबू', 'काजू', 'अंजीर', 'पेरू', 'सीताफळ', 'बीट', 'रामफळ', 'जांभूळ', 'बोर', 'कोकम', 'फणस', 'नारळ', 'सुपारी', 'ड्रॅगन फ्रूट', 'अवोकाडो']
+    },
+    {
+      name: 'मसाले',
+      crops: ['जिरे', 'बडीशेप', 'मेथी', 'धणे', 'काळी मिरी', 'तमालपत्र', 'लवंग']
+    },
+    {
+      name: 'फुले',
+      crops: ['गुलाब', 'झेंडू', 'निशिगंध']
+    }
+  ];
+
   // Blog Form
   const [blogForm, setBlogForm] = useState({
     id: '',
     image: '',
     text: '',
-    layout: 'standard' // Layout options: 'standard', 'portrait', 'square', 'wide'
+    layout: 'standard', // Layout options: 'standard', 'portrait', 'square', 'wide'
+    selectedCrop: '' // Selected crop for filtering
   });
   const [editingBlog, setEditingBlog] = useState(false);
   const [uploadingBlogImage, setUploadingBlogImage] = useState(false);
