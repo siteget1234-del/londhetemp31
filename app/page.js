@@ -1560,8 +1560,8 @@ export default function Home() {
                     className="flex-shrink-0 flex flex-col items-center space-y-2 transition-all duration-300 hover:transform hover:scale-105"
                     data-testid="crop-selector-all"
                   >
-                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-emerald-100 via-teal-100 to-green-100 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
-                      <svg className="w-12 h-12 text-emerald-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#177B3B]/20 via-[#01582E]/20 to-[#177B3B]/30 border-4 border-white shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
+                      <svg className="w-12 h-12 text-[#177B3B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                       </svg>
                     </div>
