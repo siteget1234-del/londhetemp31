@@ -1317,7 +1317,7 @@ export default function Home() {
               <button
                 key={category.slug}
                 onClick={() => setSelectedCategory(category.name)}
-                className="bg-gradient-to-br from-white to-gray-50 p-3 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 flex flex-col items-center space-y-2 relative border-2 border-[#177B3B]/30 hover:border-[#177B3B]"
+                className="bg-gradient-to-br from-white to-gray-50 p-3 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 flex flex-col items-center space-y-2 relative border border-[#177B3B]/30 hover:border-[#177B3B]"
               >
                 <div className="w-12 h-12 flex items-center justify-center">
                   <img 
