@@ -23,8 +23,7 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['mongodb'],
-    // ✅ Enable optimizeCss for better performance
-    optimizeCss: true,
+    // Note: optimizeCss requires critters package - disabled for now
   },
   // ✅ Compiler optimizations
   compiler: {
