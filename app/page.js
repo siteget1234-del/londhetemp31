@@ -1147,25 +1147,39 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white sticky top-0 z-50 shadow-2xl">
-        <div className="container mx-auto px-4 py-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-2" onClick={() => { setSelectedCategory(null); setSelectedCrop(null); setShowAllCrops(false); setShowSearch(false); setSearchQuery(''); }} style={{ cursor: 'pointer' }}>
-              <div className="text-3xl">🏪</div>
+      <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white sticky top-0 z-50 shadow-2xl rounded-b-[32px]">
+        <div className="container mx-auto px-4 py-4">
+          {/* Top Row: Logo, Shop Info, Cart */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center space-x-3" onClick={() => { setSelectedCategory(null); setSelectedCrop(null); setShowAllCrops(false); setShowSearch(false); setSearchQuery(''); }} style={{ cursor: 'pointer' }}>
+              {/* Logo Placeholder */}
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+                <img 
+                  src="/images/logo.png" 
+                  alt="Logo" 
+                  className="w-10 h-10 object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentElement.innerHTML = '<span class="text-2xl">🌾</span>';
+                  }}
+                />
+              </div>
               <div>
-                <h1 className="text-lg md:text-xl font-bold leading-tight">{shopData?.shop_name || 'Shop Name'}</h1>
-                <p className="text-xs text-emerald-100">{shopData?.shop_address || 'Shop Address'}</p>
+                <h1 className="text-base md:text-lg font-bold leading-tight uppercase tracking-wide">{shopData?.shop_name || 'SHOP NAME'}</h1>
+                <p className="text-xs text-white/90 uppercase">{shopData?.shop_address || 'SHOP ADDRESS'}</p>
               </div>
             </div>
+            
+            {/* Right Side: Menu & Cart */}
             <div className="flex items-center space-x-2">
-              {/* Admin Dropdown Menu (only for logged in users) */}
+              {/* Admin Menu */}
               {user && (
                 <div className="relative">
                   <button 
                     onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
+                    className="p-2.5 hover:bg-white/10 rounded-xl transition-all duration-200 active:scale-95 bg-white/5 backdrop-blur-sm"
                   >
-                    <Menu className="w-6 h-6" />
+                    <Menu className="w-5 h-5" />
                   </button>
                   {showUserMenu && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
@@ -1190,15 +1204,16 @@ export default function Home() {
                   )}
                 </div>
               )}
-              {/* Cart Button */}
+              
+              {/* Cart Button with Badge */}
               <button 
                 onClick={() => setShowCart(true)}
-                className="relative p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
+                className="relative p-2.5 hover:bg-white/10 rounded-xl transition-all duration-200 active:scale-95 bg-white/5 backdrop-blur-sm"
                 data-testid="cart-button"
               >
-                <ShoppingCart className="w-6 h-6" />
+                <ShoppingCart className="w-5 h-5" />
                 {cartItemCount > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                     {cartItemCount}
                   </span>
                 )}
@@ -1206,13 +1221,12 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Search Bar */}
-          <div className="mt-3">
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          {/* Search Bar Row */}
+          <div className="relative">
+            <div className="relative bg-white/95 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg">
               <input
                 type="text"
-                placeholder="उत्पादने शोधा..."
+                placeholder="Search for products, brands and more"
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
@@ -1220,8 +1234,11 @@ export default function Home() {
                   setSelectedCategory(null);
                 }}
                 onFocus={() => setShowSearch(true)}
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-300 shadow-md transition-all duration-200"
+                className="w-full pl-5 pr-14 py-3 text-gray-700 placeholder-gray-500 focus:outline-none bg-transparent"
               />
+              <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#177B3B] hover:bg-[#01582E] p-2.5 rounded-xl transition-all duration-200">
+                <Search className="w-5 h-5 text-white" />
+              </button>
             </div>
           </div>
         </div>
