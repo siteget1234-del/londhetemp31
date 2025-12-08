@@ -1325,7 +1325,7 @@ export default function Home() {
                     alt={category.name}
                     className="w-full h-full object-contain"
                     style={{
-                      filter: 'invert(29%) sepia(64%) saturate(1174%) hue-rotate(129deg) brightness(93%) contrast(88%)'
+                      filter: 'brightness(0) saturate(100%) invert(32%) sepia(98%) saturate(558%) hue-rotate(103deg) brightness(93%) contrast(89%)'
                     }}
                   />
                 </div>
