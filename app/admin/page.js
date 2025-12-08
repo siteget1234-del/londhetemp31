@@ -3577,13 +3577,13 @@ export default function AdminDashboard() {
           file={cropFile}
           aspectRatio={
             cropType === 'product' ? 4 / 3 : 
-            cropType === 'banner' ? 16 / 9 : 
+            cropType === 'banner' ? 21 / 9 : 
             cropType === 'blog' ? BLOG_LAYOUTS[blogForm.layout].aspect : 
             1
           }
           title={
             cropType === 'product' ? 'Crop Product Image (4:3 ratio)' : 
-            cropType === 'banner' ? 'Crop Banner Image (16:9 ratio)' : 
+            cropType === 'banner' ? 'Crop Banner Image (21:9 ratio - Ultra Wide)' : 
             cropType === 'blog' ? `Crop Blog Image (${BLOG_LAYOUTS[blogForm.layout].name})` : 
             'Crop Image'
           }
