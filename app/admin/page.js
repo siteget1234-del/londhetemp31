@@ -3128,7 +3128,7 @@ export default function AdminDashboard() {
                         ) : (
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                             {shopData.products.map(product => {
-                              const isSelected = blogForm.attachedProducts.includes(product.id);
+                              const isSelected = blogForm.attachedProducts?.includes(product.id);
                               return (
                                 <div
                                   key={product.id}
