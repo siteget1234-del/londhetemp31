@@ -3044,13 +3044,13 @@ export default function AdminDashboard() {
                     </p>
                     
                     {/* Selected Products Display */}
-                    {blogForm.attachedProducts.length > 0 && (
+                    {blogForm.attachedProducts?.length > 0 && (
                       <div className="mb-3 space-y-2">
                         <p className="text-sm font-semibold text-emerald-700">
-                          निवडलेली उत्पादने ({blogForm.attachedProducts.length}):
+                          निवडलेली उत्पादने ({blogForm.attachedProducts?.length}):
                         </p>
                         <div className="grid grid-cols-1 gap-2 max-h-60 overflow-y-auto">
-                          {blogForm.attachedProducts.map(productId => {
+                          {blogForm.attachedProducts?.map(productId => {
                             const product = shopData.products.find(p => p.id === productId);
                             if (!product) return null;
                             return (
