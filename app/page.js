@@ -1448,16 +1448,16 @@ export default function Home() {
                     
                     {/* Special Offer Text or Discount */}
                     {hasSpecialOffer ? (
-                      <div className="offer-pill-shimmer bg-gradient-to-r from-green-50 to-emerald-50 border border-emerald-300 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
+                      <div className="offer-pill-shimmer bg-gradient-to-r from-[#177B3B]/10 to-[#01582E]/10 border border-[#177B3B]/40 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
                         <span className="text-xs">💰</span>
-                        <p className="text-[10px] font-bold text-emerald-800" data-testid="product-offer-price">
+                        <p className="text-[10px] font-bold text-[#177B3B]" data-testid="product-offer-price">
                           ऑफर: ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
                         </p>
                       </div>
                     ) : discountPercent ? (
-                      <div className="offer-pill-shimmer bg-gradient-to-r from-green-50 to-emerald-50 border border-emerald-300 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
+                      <div className="offer-pill-shimmer bg-gradient-to-r from-[#177B3B]/10 to-[#01582E]/10 border border-[#177B3B]/40 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
                         <span className="text-xs">💰</span>
-                        <p className="text-[10px] font-bold text-emerald-800" data-testid="product-discount">
+                        <p className="text-[10px] font-bold text-[#177B3B]" data-testid="product-discount">
                           खास {discountPercent}% सूट
                         </p>
                       </div>
@@ -1470,7 +1470,7 @@ export default function Home() {
                         addToCart(product, 1, 'regular');
                         setShowCart(true);
                       }}
-                      className="w-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
+                      className="w-full bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
                       data-testid="buy-now-btn"
                     >
                       खरेदी करा
@@ -1486,7 +1486,7 @@ export default function Home() {
       {/* Divider Section */}
       {!showSearch && !selectedCategory && (
         <section className="container mx-auto px-4 py-8">
-          <div className="border-t-2 border-emerald-200"></div>
+          <div className="border-t-2 border-[#177B3B]/30"></div>
         </section>
       )}
 
