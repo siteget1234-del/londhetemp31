@@ -1290,20 +1290,6 @@ export default function Home() {
                   />
                 ))}
               </div>
-              
-              {/* Arrow buttons */}
-              <button
-                onClick={() => setCurrentBanner((currentBanner - 1 + banners.length) % banners.length)}
-                className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition z-20 shadow-md"
-              >
-                <ChevronLeft className="w-4 h-4 text-gray-700" />
-              </button>
-              <button
-                onClick={() => setCurrentBanner((currentBanner + 1) % banners.length)}
-                className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition z-20 shadow-md"
-              >
-                <ChevronRight className="w-4 h-4 text-gray-700" />
-              </button>
             </>
           )}
         </section>
