@@ -1341,46 +1341,46 @@ export default function Home() {
 
       {/* Products Section */}
       <section className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          {showSearch && searchQuery ? (
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => {
-                  if (window.history.state?.searchOpen) {
-                    window.history.back();
-                  } else {
-                    setShowSearch(false);
-                    setSearchQuery('');
-                  }
-                }}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 active:scale-95"
-              >
-                <ChevronLeft className="w-6 h-6 text-gray-700" />
-              </button>
-              <h2 className="text-2xl font-bold text-gray-800">
-                शोध परिणाम ({searchResults.length})
-              </h2>
-            </div>
-          ) : selectedCategory ? (
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => {
-                  if (window.history.state?.categoryOpen) {
-                    window.history.back();
-                  } else {
-                    setSelectedCategory(null);
-                  }
-                }}
-                className="p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 active:scale-95"
-              >
-                <ChevronLeft className="w-6 h-6 text-gray-700" />
-              </button>
-              <h2 className="text-2xl font-bold text-gray-800">{selectedCategory}</h2>
-            </div>
-          ) : (
-            <h2 className="text-2xl font-bold text-gray-800">खास उत्पादने</h2>
-          )}
-        </div>
+        {(showSearch && searchQuery) || selectedCategory ? (
+          <div className="mb-6">
+            {showSearch && searchQuery ? (
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => {
+                    if (window.history.state?.searchOpen) {
+                      window.history.back();
+                    } else {
+                      setShowSearch(false);
+                      setSearchQuery('');
+                    }
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 active:scale-95"
+                >
+                  <ChevronLeft className="w-6 h-6 text-gray-700" />
+                </button>
+                <h2 className="text-2xl font-bold text-gray-800">
+                  शोध परिणाम ({searchResults.length})
+                </h2>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => {
+                    if (window.history.state?.categoryOpen) {
+                      window.history.back();
+                    } else {
+                      setSelectedCategory(null);
+                    }
+                  }}
+                  className="p-2 hover:bg-gray-100 rounded-lg transition-all duration-200 active:scale-95"
+                >
+                  <ChevronLeft className="w-6 h-6 text-gray-700" />
+                </button>
+                <h2 className="text-2xl font-bold text-gray-800">{selectedCategory}</h2>
+              </div>
+            )}
+          </div>
+        ) : null}
 
         {displayProducts.length === 0 ? (
           <div className="text-center py-12">
