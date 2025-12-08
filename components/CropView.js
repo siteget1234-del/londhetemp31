@@ -33,11 +33,11 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white py-4 px-4">
+      <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-4 px-4 rounded-b-[32px] shadow-2xl">
         <div className="flex items-center justify-between">
           <button 
             onClick={back}
-            className="flex items-center space-x-2 hover:bg-emerald-600 px-3 py-2 rounded-lg transition"
+            className="flex items-center space-x-2 hover:bg-white/10 px-3 py-2 rounded-xl transition bg-white/5 backdrop-blur-sm"
             data-testid="back-from-crop-btn"
           >
             <ChevronLeft className="w-5 h-5" />
