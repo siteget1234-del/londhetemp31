@@ -3177,7 +3177,7 @@ export default function AdminDashboard() {
                       <div className="border-t p-6 bg-gray-50">
                         <div className="flex items-center justify-between">
                           <p className="text-sm text-gray-600">
-                            निवडलेली: <span className="font-bold text-emerald-600">{blogForm.attachedProducts.length}</span> उत्पादने
+                            निवडलेली: <span className="font-bold text-emerald-600">{blogForm.attachedProducts?.length || 0}</span> उत्पादने
                           </p>
                           <button
                             onClick={() => setShowProductSelector(false)}
