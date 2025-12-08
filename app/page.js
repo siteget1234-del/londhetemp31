@@ -1324,6 +1324,9 @@ export default function Home() {
                     src={category.icon} 
                     alt={category.name}
                     className="w-full h-full object-contain"
+                    style={{
+                      filter: 'invert(29%) sepia(64%) saturate(1174%) hue-rotate(129deg) brightness(93%) contrast(88%)'
+                    }}
                   />
                 </div>
                 <h3 className="text-xs font-semibold text-gray-800 text-center leading-tight">{category.name}</h3>
