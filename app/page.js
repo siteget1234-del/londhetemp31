@@ -1152,16 +1152,12 @@ export default function Home() {
           {/* Top Row: Logo, Shop Info, Cart */}
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3" onClick={() => { setSelectedCategory(null); setSelectedCrop(null); setShowAllCrops(false); setShowSearch(false); setSearchQuery(''); }} style={{ cursor: 'pointer' }}>
-              {/* Logo Placeholder */}
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg">
+              {/* Logo */}
+              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden">
                 <img 
                   src="/images/logo.png" 
                   alt="Logo" 
-                  className="w-10 h-10 object-contain"
-                  onError={(e) => {
-                    e.target.style.display = 'none';
-                    e.target.parentElement.innerHTML = '<span class="text-2xl">🌾</span>';
-                  }}
+                  className="w-full h-full object-contain p-1"
                 />
               </div>
               <div>
