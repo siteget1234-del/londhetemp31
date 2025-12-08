@@ -648,12 +648,12 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gray-50 pb-24">
         {/* Header */}
-        <header className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white sticky top-0 z-50 shadow-2xl">
+        <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white sticky top-0 z-50 shadow-2xl rounded-b-[32px]">
           <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <button 
                 onClick={handleCloseModal}
-                className="flex items-center space-x-2 hover:bg-emerald-600 px-3 py-2 rounded-lg transition"
+                className="flex items-center space-x-2 hover:bg-white/10 px-3 py-2 rounded-xl transition bg-white/5 backdrop-blur-sm"
                 data-testid="back-btn"
               >
                 <ChevronLeft className="w-5 h-5" />
