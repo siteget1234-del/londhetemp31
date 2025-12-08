@@ -444,20 +444,33 @@ export default function CropPage() {
                                   </div>
                                 ) : null}
                                 
-                                {/* Buy Now Button - Full Width Dark Green */}
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    const success = addToCart(product);
-                                    if (success) {
-                                      alert('उत्पादन कार्टमध्ये जोडले!');
-                                    }
-                                  }}
-                                  className="w-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
-                                  data-testid="buy-now-btn"
-                                >
-                                  खरेदी करा
-                                </button>
+                                {/* Buy Now Button with Cart Button */}
+                                <div className="flex items-center space-x-1.5">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const success = addToCart(product);
+                                      if (success) {
+                                        alert('उत्पादन कार्टमध्ये जोडले!');
+                                      }
+                                    }}
+                                    className="flex-1 bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
+                                    data-testid="buy-now-btn"
+                                  >
+                                    खरेदी करा
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      addToCart(product);
+                                    }}
+                                    className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold p-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 flex items-center justify-center"
+                                    data-testid="add-to-cart-btn"
+                                    title="कार्टमध्ये जोडा"
+                                  >
+                                    <ShoppingCart className="w-5 h-5" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           );
