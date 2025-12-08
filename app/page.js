@@ -1153,13 +1153,13 @@ export default function Home() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center space-x-3" onClick={() => { setSelectedCategory(null); setSelectedCrop(null); setShowAllCrops(false); setShowSearch(false); setSearchQuery(''); }} style={{ cursor: 'pointer' }}>
               {/* Logo */}
-              <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-lg overflow-hidden">
-                <img 
-                  src="/images/logo.png" 
-                  alt="Logo" 
-                  className="w-full h-full object-contain p-1"
-                />
-              </div>
+              <div className="w-12 h-12 flex items-center justify-center overflow-hidden">
+  <img 
+    src="/images/logo.png" 
+    alt="Logo" 
+    className="w-full h-full object-contain"
+  />
+</div>
               <div>
                 <h1 className="text-base md:text-lg font-bold leading-tight uppercase tracking-wide">{shopData?.shop_name || 'SHOP NAME'}</h1>
                 <p className="text-xs text-white/90 uppercase">{shopData?.shop_address || 'SHOP ADDRESS'}</p>
