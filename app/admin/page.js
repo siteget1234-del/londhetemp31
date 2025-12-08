@@ -1274,7 +1274,10 @@ export default function AdminDashboard() {
   };
 
   const handleEditBlog = (blog) => {
-    setBlogForm(blog);
+    setBlogForm({
+      ...blog,
+      attachedProducts: blog.attachedProducts || [] // Ensure attachedProducts is always an array
+    });
     setEditingBlog(true);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
