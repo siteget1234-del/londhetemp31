@@ -1042,8 +1042,8 @@ export default function Home() {
     return (
       <div className="min-h-screen bg-gray-50">
         {/* Header */}
-        <header className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white sticky top-0 z-50 shadow-2xl">
-          <div className="container mx-auto px-4 py-3">
+        <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white sticky top-0 z-50 shadow-2xl rounded-b-[32px]">
+          <div className="container mx-auto px-4 py-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-3">
                 <button 
@@ -1054,7 +1054,7 @@ export default function Home() {
                       setShowAllCrops(false);
                     }
                   }}
-                  className="flex items-center space-x-2 hover:bg-emerald-600 px-3 py-2 rounded-lg transition"
+                  className="flex items-center space-x-2 hover:bg-white/10 px-3 py-2 rounded-xl transition bg-white/5 backdrop-blur-sm"
                   data-testid="back-to-home-btn"
                 >
                   <ChevronLeft className="w-5 h-5" />
@@ -1067,9 +1067,9 @@ export default function Home() {
                   <div className="relative">
                     <button 
                       onClick={() => setShowUserMenu(!showUserMenu)}
-                      className="p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
+                      className="p-2.5 hover:bg-white/10 rounded-xl transition-all duration-200 active:scale-95 bg-white/5 backdrop-blur-sm"
                     >
-                      <Menu className="w-6 h-6" />
+                      <Menu className="w-5 h-5" />
                     </button>
                     {showUserMenu && (
                       <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
@@ -1097,12 +1097,12 @@ export default function Home() {
                 {/* Cart Button */}
                 <button 
                   onClick={() => setShowCart(true)}
-                  className="relative p-2 hover:bg-emerald-600 rounded-full transition-all duration-200 active:scale-95"
+                  className="relative p-2.5 hover:bg-white/10 rounded-xl transition-all duration-200 active:scale-95 bg-white/5 backdrop-blur-sm"
                   data-testid="cart-button"
                 >
-                  <ShoppingCart className="w-6 h-6" />
+                  <ShoppingCart className="w-5 h-5" />
                   {cartItemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold animate-pulse">
+                    <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center font-bold">
                       {cartItemCount}
                     </span>
                   )}
