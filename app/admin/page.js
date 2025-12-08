@@ -3075,7 +3075,7 @@ export default function AdminDashboard() {
                                   onClick={() => {
                                     setBlogForm(prev => ({
                                       ...prev,
-                                      attachedProducts: prev.attachedProducts.filter(id => id !== productId)
+                                      attachedProducts: (prev.attachedProducts || []).filter(id => id !== productId)
                                     }));
                                   }}
                                   className="text-red-500 hover:text-red-700 p-1"
