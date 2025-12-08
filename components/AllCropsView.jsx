@@ -38,14 +38,7 @@ const CROP_CATEGORIES = [
   }
 ];
 
-// Flatten all crops with their categories
-const CROPS_DATA = CROP_CATEGORIES.flatMap(category => 
-  category.crops.map(crop => ({
-    name: crop,
-    image: `/images/crops/${crop}.webp`,
-    category: category.name
-  }))
-);
+// This will be computed dynamically in the component using blogs data
 
 export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) {
   // Group crops by category with post counts, showing only crops with posts
