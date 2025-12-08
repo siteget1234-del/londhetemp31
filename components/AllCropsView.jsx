@@ -43,7 +43,22 @@ const CROP_CATEGORIES = [
 export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) {
   // Group crops by category with post counts, showing only crops with posts
   const groupedCrops = useMemo(() => {
-    const cropsWithCounts = CROPS_DATA.map(crop => ({
+    // Build dynamic CROPS_DATA with first blog images
+    const CROPS_DATA_DYNAMIC = CROP_CATEGORIES.flatMap(category => 
+      category.crops.map(crop => {
+        // Find first blog post for this crop
+        const cropBlogs = blogs.filter(blog => blog.selectedCrop === crop);
+        const firstBlogImage = cropBlogs.length > 0 ? cropBlogs[0].image : null;
+        
+        return {
+          name: crop,
+          image: firstBlogImage || `/images/crops/${crop}.webp`, // Use first blog image or fallback to static
+          category: category.name
+        };
+      })
+    );
+    
+    const cropsWithCounts = CROPS_DATA_DYNAMIC.map(crop => ({
       ...crop,
       postCount: blogs.filter(blog => blog.selectedCrop === crop.name).length
     })).filter(crop => crop.postCount > 0); // Only show crops with at least 1 post
