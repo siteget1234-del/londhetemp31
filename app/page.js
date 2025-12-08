@@ -1243,7 +1243,7 @@ export default function Home() {
       {/* Banner Carousel */}
       {!showSearch && !selectedCategory && banners.length > 0 && (
         <section className="relative overflow-hidden bg-gray-50 px-4 pt-6">
-          <div className="relative h-32 rounded-3xl overflow-hidden shadow-lg">
+          <div className="relative h-40 rounded-3xl overflow-hidden">
             {banners.map((banner, index) => {
               const BannerContent = () => (
                 <div className="relative h-full flex items-center justify-center overflow-hidden bg-gray-100">
