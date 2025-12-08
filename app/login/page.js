@@ -120,9 +120,8 @@ export default function LoginPage() {
             >
               {loading ? 'Signing in...' : 'Sign In'}
             </button>
-          </form>
-
-          
+          </form>         
+        </div> 
 
         {/* Back to Shop */}
         <div className="text-center mt-6">
