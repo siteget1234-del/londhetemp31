@@ -70,7 +70,7 @@ export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) 
               <div key={category}>
                 {/* Category Header */}
                 <div className="mb-6">
-                  <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-emerald-500 pb-2">
+                  <h2 className="text-2xl font-bold text-gray-800 border-b-2 border-[#177B3B] pb-2">
                     {category}
                   </h2>
                 </div>
@@ -84,7 +84,7 @@ export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) 
                       className="flex flex-col items-center space-y-2 transition-all duration-300 hover:transform hover:scale-105 bg-white p-4 rounded-xl shadow-md hover:shadow-xl"
                       data-testid={`crop-card-${crop.name}`}
                     >
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 border-emerald-200 shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
+                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 border-4 border-[#177B3B]/30 shadow-lg hover:shadow-xl flex items-center justify-center overflow-hidden">
                         <img 
                           src={crop.image} 
                           alt={crop.name}
