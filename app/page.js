@@ -901,7 +901,7 @@ export default function Home() {
                 <span className="font-bold text-gray-800 text-xl w-10 text-center" data-testid="detail-quantity-value">{productQuantity}</span>
                 <button
                   onClick={() => setProductQuantity(productQuantity + 1)}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white w-9 h-9 rounded-md flex items-center justify-center font-bold transition shadow-sm"
+                  className="bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white w-9 h-9 rounded-md flex items-center justify-center font-bold transition shadow-sm"
                   data-testid="detail-quantity-plus"
                 >
                   <Plus className="w-5 h-5" />
@@ -1014,7 +1014,7 @@ export default function Home() {
                 // Open the cart
                 setShowCart(true);
               }}
-              className="w-full bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white font-bold py-4 rounded-xl transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
+              className="w-full bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold py-4 rounded-xl transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center space-x-2"
               data-testid="detail-buy-now-btn"
             >
               <span className="text-lg">खरेदी करा</span>
@@ -1317,7 +1317,7 @@ export default function Home() {
               <button
                 key={category.slug}
                 onClick={() => setSelectedCategory(category.name)}
-                className="bg-gradient-to-br from-white to-gray-50 p-3 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 flex flex-col items-center space-y-2 relative border border-emerald-100 hover:border-emerald-300"
+                className="bg-gradient-to-br from-white to-gray-50 p-3 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-110 active:scale-95 flex flex-col items-center space-y-2 relative border-2 border-[#177B3B]/30 hover:border-[#177B3B]"
               >
                 <div className="w-12 h-12 flex items-center justify-center">
                   <img 
@@ -1327,7 +1327,7 @@ export default function Home() {
                   />
                 </div>
                 <h3 className="text-xs font-semibold text-gray-800 text-center leading-tight">{category.name}</h3>
-                <span className={`text-[10px] font-bold ${category.count > 0 ? 'text-emerald-600' : 'text-gray-400'}`}>
+                <span className={`text-[10px] font-bold ${category.count > 0 ? 'text-[#177B3B]' : 'text-gray-400'}`}>
                   {category.count > 0 ? `${category.count} उत्पादने` : '0 उत्पादने'}
                 </span>
               </button>
