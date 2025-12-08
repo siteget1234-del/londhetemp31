@@ -286,14 +286,14 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
       `}</style>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white py-8 mt-12 shadow-2xl">
+      <footer className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-8 mt-12 rounded-t-[32px]">
         <div className="container mx-auto px-4">
           <div className="text-center">
             <h3 className="text-xl font-bold mb-2">{shopData?.shop_name || 'Shop Name'}</h3>
-            <p className="text-emerald-100 text-sm mb-4">{shopData?.shop_address || 'Shop Address'}</p>
+            <p className="text-white/80 text-sm mb-4">{shopData?.shop_address || 'Shop Address'}</p>
             <a 
               href={`tel:${shopData?.shop_number}`}
-              className="text-white hover:text-emerald-100 transition"
+              className="text-white hover:text-white/80 transition"
             >
               📞 {shopData?.shop_number || '0000000000'}
             </a>
