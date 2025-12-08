@@ -33,7 +33,7 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-4 px-4 rounded-b-[32px] shadow-2xl">
+      <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-4 px-4">
         <div className="flex items-center justify-between">
           <button 
             onClick={back}
