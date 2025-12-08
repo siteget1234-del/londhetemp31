@@ -1841,12 +1841,12 @@ export default function Home() {
         <div className="fixed inset-0 z-50 overflow-hidden">
           <div className="absolute inset-0 bg-black bg-opacity-50" onClick={() => setShowCart(false)}></div>
           <div className="absolute right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
-            <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white p-5 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white p-5 flex items-center justify-between">
               <div>
                 <h2 className="text-2xl font-bold">माझी कार्ट</h2>
-                <p className="text-sm text-emerald-100">{cartItemCount} वस्तू</p>
+                <p className="text-sm text-white/80">{cartItemCount} वस्तू</p>
               </div>
-              <button onClick={() => setShowCart(false)} className="hover:bg-emerald-600 p-2 rounded-full transition">
+              <button onClick={() => setShowCart(false)} className="hover:bg-[#177B3B]/80 p-2 rounded-full transition">
                 <X className="w-6 h-6" />
               </button>
             </div>
@@ -1860,7 +1860,7 @@ export default function Home() {
                 </div>
                 <button
                   onClick={deliveryAddress ? handleEditAddress : () => setShowAddressDialog(true)}
-                  className="text-emerald-700 hover:text-emerald-800 font-bold text-sm flex items-center space-x-1"
+                  className="text-[#177B3B] hover:text-[#01582E] font-bold text-sm flex items-center space-x-1"
                   data-testid="add-address-btn"
                 >
                   <Plus className="w-4 h-4" />
@@ -1914,7 +1914,7 @@ export default function Home() {
                               <div>
                                 <h3 className="font-bold text-gray-800 text-sm leading-tight">{item.name}</h3>
                                 {currentOfferType === 'bulk' && hasSpecialOffer && (
-                                  <span className="inline-block mt-1 bg-emerald-100 text-emerald-700 text-[10px] px-2 py-0.5 rounded-full font-bold">
+                                  <span className="inline-block mt-1 bg-[#177B3B]/10 text-[#177B3B] text-[10px] px-2 py-0.5 rounded-full font-bold">
                                     🎁 {item.specialOffer.offerName}
                                   </span>
                                 )}
@@ -1959,17 +1959,17 @@ export default function Home() {
                                     onClick={() => updateCartOfferType(item.id, 'bulk')}
                                     className={`flex-1 text-left rounded-md px-2 py-1.5 border text-xs transition ${
                                       currentOfferType === 'bulk' 
-                                        ? 'bg-emerald-50 border-emerald-500 font-bold' 
+                                        ? 'bg-[#177B3B]/10 border-[#177B3B] font-bold' 
                                         : 'bg-gray-50 border-gray-300'
                                     }`}
                                     data-testid="cart-offer-bulk"
                                   >
                                     <div className="flex items-center space-x-1">
                                       <div className={`w-3 h-3 rounded-full border-2 flex items-center justify-center ${
-                                        currentOfferType === 'bulk' ? 'border-emerald-600' : 'border-gray-400'
+                                        currentOfferType === 'bulk' ? 'border-[#177B3B]' : 'border-gray-400'
                                       }`}>
                                         {currentOfferType === 'bulk' && (
-                                          <div className="w-1.5 h-1.5 rounded-full bg-emerald-600"></div>
+                                          <div className="w-1.5 h-1.5 rounded-full bg-[#177B3B]"></div>
                                         )}
                                       </div>
                                       <span>बल्क ऑफर</span>
@@ -1983,18 +1983,18 @@ export default function Home() {
                             {currentOfferType === 'bulk' && hasSpecialOffer && pricing.discount > 0 ? (
                               <div className="mb-2 space-y-1">
                                 <div className="flex items-center space-x-2">
-                                  <p className="text-emerald-600 font-bold text-base">₹{Math.round(pricing.total)}</p>
+                                  <p className="text-[#177B3B] font-bold text-base">₹{Math.round(pricing.total)}</p>
                                   <p className="text-gray-400 text-xs line-through">₹{Math.round(pricing.subtotal)}</p>
                                 </div>
                                 {pricing.itemsAtOfferPrice > 0 && (
-                                  <p className="text-xs text-emerald-700">
+                                  <p className="text-xs text-[#177B3B]">
                                     {pricing.itemsAtOfferPrice} @ ₹{item.specialOffer.offerPricePerUnit}
                                     {pricing.itemsAtRegularPrice > 0 && ` + ${pricing.itemsAtRegularPrice} @ ₹${item.price}`}
                                   </p>
                                 )}
                               </div>
                             ) : (
-                              <p className="text-emerald-600 font-bold text-base mb-2">₹{item.price} × {item.quantity}</p>
+                              <p className="text-[#177B3B] font-bold text-base mb-2">₹{item.price} × {item.quantity}</p>
                             )}
                             
                             {/* Quantity Controls */}
@@ -2010,7 +2010,7 @@ export default function Home() {
                                 <span className="font-bold text-gray-800 w-8 text-center" data-testid="cart-quantity-value">{item.quantity}</span>
                                 <button
                                   onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                                  className="bg-emerald-600 hover:bg-emerald-700 text-white w-7 h-7 rounded-md flex items-center justify-center font-bold transition"
+                                  className="bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white w-7 h-7 rounded-md flex items-center justify-center font-bold transition"
                                   data-testid="cart-quantity-plus"
                                 >
                                   <Plus className="w-4 h-4" />
@@ -2035,7 +2035,7 @@ export default function Home() {
                     <span className="font-bold">₹{Math.round(cartTotals.subtotal)}</span>
                   </div>
                   {cartTotals.discount > 0 && (
-                    <div className="flex items-center justify-between text-emerald-700">
+                    <div className="flex items-center justify-between text-[#177B3B]">
                       <span className="font-semibold">डिस्काउंट:</span>
                       <span className="font-bold">- ₹{Math.round(cartTotals.discount)}</span>
                     </div>
@@ -2058,7 +2058,7 @@ export default function Home() {
                   <div className="border-t-2 border-dashed border-gray-300 pt-2"></div>
                   <div className="flex items-center justify-between text-xl">
                     <span className="font-bold text-gray-800">एकूण देय रक्कम:</span>
-                    <span className="font-bold text-emerald-700">₹{Math.round(totalAmount)}</span>
+                    <span className="font-bold text-[#177B3B]">₹{Math.round(totalAmount)}</span>
                   </div>
                   <p className="text-xs text-gray-600 text-center">देय रक्कमेमध्ये जीएसटी व अन्य करांचा समावेश</p>
                 </div>
@@ -2067,7 +2067,7 @@ export default function Home() {
                   disabled={!deliveryAddress}
                   className={`w-full font-bold py-4 rounded-xl transition flex items-center justify-center space-x-2 shadow-lg ${
                     deliveryAddress 
-                      ? 'bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 hover:from-emerald-800 hover:via-emerald-700 hover:to-teal-700 text-white' 
+                      ? 'bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white' 
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                   data-testid="whatsapp-order-btn"
@@ -2096,11 +2096,11 @@ export default function Home() {
           <div className="absolute inset-0 bg-black bg-opacity-60" onClick={() => setShowAddressDialog(false)}></div>
           <div className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
             {/* Dialog Header */}
-            <div className="bg-gradient-to-r from-emerald-700 via-emerald-600 to-teal-600 text-white p-5 flex items-center justify-between">
+            <div className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white p-5 flex items-center justify-between">
               <h2 className="text-xl font-bold">डिलिव्हरी पत्ता जोडा</h2>
               <button 
                 onClick={() => setShowAddressDialog(false)} 
-                className="hover:bg-emerald-600 p-2 rounded-full transition"
+                className="hover:bg-[#177B3B]/80 p-2 rounded-full transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -2118,7 +2118,7 @@ export default function Home() {
                   value={addressForm.name}
                   onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })}
                   placeholder="आपले पूर्ण नाव"
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-emerald-500 focus:outline-none transition"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#177B3B] focus:outline-none transition"
                   data-testid="address-name-input"
                 />
               </div>
@@ -2133,7 +2133,7 @@ export default function Home() {
                   value={addressForm.addressLine}
                   onChange={(e) => setAddressForm({ ...addressForm, addressLine: e.target.value })}
                   placeholder="जवळ, लँडमार्क, रस्ता (उदा: Near To Shetakri Chowk, बस्ती)"
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-emerald-500 focus:outline-none transition"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#177B3B] focus:outline-none transition"
                   data-testid="address-line-input"
                 />
               </div>
@@ -2148,7 +2148,7 @@ export default function Home() {
                   value={addressForm.cityVillage}
                   onChange={(e) => setAddressForm({ ...addressForm, cityVillage: e.target.value })}
                   placeholder="गाव किंवा शहराचे नाव (उदा: Savargaon, जुनर)"
-                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-emerald-500 focus:outline-none transition"
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#177B3B] focus:outline-none transition"
                   data-testid="address-city-input"
                 />
               </div>
@@ -2183,7 +2183,7 @@ export default function Home() {
                     }}
                     placeholder="६ अंकी"
                     maxLength="6"
-                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-emerald-500 focus:outline-none transition"
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-[#177B3B] focus:outline-none transition"
                     data-testid="address-pincode-input"
                   />
                 </div>
@@ -2191,7 +2191,7 @@ export default function Home() {
 
               <button
                 onClick={handleSaveAddress}
-                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-lg transition shadow-md"
+                className="w-full bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold py-3 rounded-lg transition shadow-md"
                 data-testid="save-address-btn"
               >
                 पत्ता सेव्ह करा
