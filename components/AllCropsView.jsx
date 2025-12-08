@@ -2,24 +2,50 @@
 
 import { useMemo } from 'react';
 
-// Crop data with images and categories
-const CROPS_DATA = [
-  // भाज्या (Vegetables)
-  { name: 'बटाटा', image: '/images/crops/बटाटा.webp', category: 'भाज्या' },
-  { name: 'कोबी', image: '/images/crops/कोबी.webp', category: 'भाज्या' },
-  { name: 'टोमॅटो', image: '/images/crops/टोमॅटो.webp', category: 'भाज्या' },
-  { name: 'कांदा', image: '/images/crops/कांदा.webp', category: 'भाज्या' },
-  
-  // धान्य (Grains)
-  { name: 'गहू', image: '/images/crops/गहू.webp', category: 'धान्य' },
-  { name: 'भात', image: '/images/crops/भात.webp', category: 'धान्य' },
-  { name: 'डिंक गवार', image: '/images/crops/डिंकगवार.webp', category: 'धान्य' },
-  { name: 'गवार', image: '/images/crops/गवार.webp', category: 'धान्य' },
-  
-  // नगदी पिके (Cash Crops)
-  { name: 'ऊस', image: '/images/crops/ऊस.webp', category: 'नगदी पिके' },
-  { name: 'कापूस', image: '/images/crops/कापूस.webp', category: 'नगदी पिके' }
+// Complete crop data matching admin dashboard categories
+const CROP_CATEGORIES = [
+  {
+    name: 'नगदी पिके',
+    crops: ['ऊस', 'कापूस', 'कॉफी', 'तंबाखू', 'केसरी', 'अळशी']
+  },
+  {
+    name: 'भाज्या',
+    crops: ['वांगी', 'कोबी', 'पत्ता कोबी', 'टोमॅटो', 'डिंक गवार', 'कांदा', 'बटाटा', 'गवार', 'कारले', 'चवळी', 'तिखट मिरची', 'भेंडी', 'दुधी भोपळा', 'कॉलीफ्लॉवर', 'आले', 'घेवडा', 'दोडका', 'हळद', 'डांगर भोपळा', 'ढोबळी मिरची', 'शेवगा', 'काकडी', 'गाजर', 'मुळा', 'पालक', 'ब्रॉकली', 'घोसाळे', 'टिंडा', 'ढेमसे', 'लसूण', 'कोथिंबीर', 'मेथी पाला', 'कांद्याची पात']
+  },
+  {
+    name: 'डाळी',
+    crops: ['उडीद', 'चणा', 'मुग', 'तूर', 'मसूर', 'राजमा']
+  },
+  {
+    name: 'तेलबिया',
+    crops: ['तीळ', 'एरंड', 'भुईमूग', 'मोहरी', 'सोयाबीन', 'सूर्यफूल', 'कुसुम']
+  },
+  {
+    name: 'तृणधान्ये',
+    crops: ['बाजरी', 'मका', 'भात', 'गहू', 'गोड मका', 'ज्वार', 'नाचणी', 'वरई', 'जव']
+  },
+  {
+    name: 'फळे',
+    crops: ['कलिंगड', 'पपई', 'आंबा', 'डाळिंब', 'खरबूज', 'केळे', 'द्राक्षे', 'मोसंबी', 'संत्रा', 'लिंबू', 'काजू', 'अंजीर', 'पेरू', 'सीताफळ', 'बीट', 'रामफळ', 'जांभूळ', 'बोर', 'कोकम', 'फणस', 'नारळ', 'सुपारी', 'ड्रॅगन फ्रूट', 'अवोकाडो']
+  },
+  {
+    name: 'मसाले',
+    crops: ['जिरे', 'बडीशेप', 'मेथी', 'धणे', 'काळी मिरी', 'तमालपत्र', 'लवंग']
+  },
+  {
+    name: 'फुले',
+    crops: ['गुलाब', 'झेंडू', 'निशिगंध']
+  }
 ];
+
+// Flatten all crops with their categories
+const CROPS_DATA = CROP_CATEGORIES.flatMap(category => 
+  category.crops.map(crop => ({
+    name: crop,
+    image: `/images/crops/${crop}.webp`,
+    category: category.name
+  }))
+);
 
 export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) {
   // Group crops by category with post counts, showing only crops with posts
