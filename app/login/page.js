@@ -122,16 +122,7 @@ export default function LoginPage() {
             </button>
           </form>
 
-          {/* Additional Info */}
-          <div className="mt-6 text-center">
-            <p className="text-sm text-gray-600">
-              Need an account? Register with your mobile number
-            </p>
-            <p className="text-xs text-gray-500 mt-2">
-              Note: Your mobile number is converted to {formData.mobile ? `${formData.mobile}@gmail.com` : 'XXXXXXXXXX@gmail.com'} for authentication
-            </p>
-          </div>
-        </div>
+          
 
         {/* Back to Shop */}
         <div className="text-center mt-6">
