@@ -3136,8 +3136,8 @@ export default function AdminDashboard() {
                                     setBlogForm(prev => ({
                                       ...prev,
                                       attachedProducts: isSelected
-                                        ? prev.attachedProducts.filter(id => id !== product.id)
-                                        : [...prev.attachedProducts, product.id]
+                                        ? (prev.attachedProducts || []).filter(id => id !== product.id)
+                                        : [...(prev.attachedProducts || []), product.id]
                                     }));
                                   }}
                                   className={`cursor-pointer border-2 rounded-lg p-3 transition ${
