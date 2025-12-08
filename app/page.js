@@ -300,15 +300,15 @@ export default function Home() {
     }
   }, [products]);
 
-  // Auto-slide banners
+  // Auto-slide banners every 3 seconds
   useEffect(() => {
-    if (banners.length > 0) {
+    if (banners.length > 1) {
       const timer = setInterval(() => {
         setCurrentBanner((prev) => (prev + 1) % banners.length);
       }, 3000);
       return () => clearInterval(timer);
     }
-  }, [banners]);
+  }, [banners.length]);
 
   // Enhanced search functionality with keyword mapping - Category Aware
   const searchResults = useMemo(() => {
