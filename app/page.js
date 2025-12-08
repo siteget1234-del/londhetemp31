@@ -1246,11 +1246,11 @@ export default function Home() {
 
       {/* Banner Carousel */}
       {!showSearch && !selectedCategory && banners.length > 0 && (
-        <section className="relative overflow-hidden bg-emerald-700">
-          <div className="relative h-56 md:h-72">
+        <section className="relative overflow-hidden bg-white px-4 pt-2">
+          <div className="relative h-48 rounded-2xl overflow-hidden shadow-lg">
             {banners.map((banner, index) => {
               const BannerContent = () => (
-                <div className="relative h-full flex items-center justify-center overflow-hidden bg-gray-200">
+                <div className="relative h-full flex items-center justify-center overflow-hidden bg-gray-100">
                   {banner.image ? (
                     <img src={applyCloudinaryOptimization(banner.image)} alt={`Banner ${banner.order || index + 1}`} className="w-full h-full object-cover" />
                   ) : (
@@ -1282,14 +1282,14 @@ export default function Home() {
           
           {banners.length > 1 && (
             <>
-              {/* Banner Navigation */}
-              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+              {/* Banner Navigation Dots */}
+              <div className="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
                 {banners.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentBanner(index)}
                     className={`h-2 rounded-full transition-all duration-300 ${
-                      index === currentBanner ? 'bg-white w-8' : 'bg-white/50 w-2'
+                      index === currentBanner ? 'bg-white w-6' : 'bg-white/60 w-2'
                     }`}
                   />
                 ))}
@@ -1298,15 +1298,15 @@ export default function Home() {
               {/* Arrow buttons */}
               <button
                 onClick={() => setCurrentBanner((currentBanner - 1 + banners.length) % banners.length)}
-                className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/30 p-2 rounded-full transition z-20"
+                className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition z-20 shadow-md"
               >
-                <ChevronLeft className="w-5 h-5 text-white" />
+                <ChevronLeft className="w-4 h-4 text-gray-700" />
               </button>
               <button
                 onClick={() => setCurrentBanner((currentBanner + 1) % banners.length)}
-                className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/20 hover:bg-black/30 p-2 rounded-full transition z-20"
+                className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white p-2 rounded-full transition z-20 shadow-md"
               >
-                <ChevronRight className="w-5 h-5 text-white" />
+                <ChevronRight className="w-4 h-4 text-gray-700" />
               </button>
             </>
           )}
