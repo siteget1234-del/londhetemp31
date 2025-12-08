@@ -1543,11 +1543,17 @@ export default function Home() {
 
                 // Flatten all crops with their categories
                 const allCrops = CROP_CATEGORIES.flatMap(category => 
-                  category.crops.map(crop => ({
-                    name: crop,
-                    image: `/images/crops/${crop}.webp`,
-                    category: category.name
-                  }))
+                  category.crops.map(crop => {
+                    // Find first blog post for this crop
+                    const cropBlogs = blogs.filter(blog => blog.selectedCrop === crop);
+                    const firstBlogImage = cropBlogs.length > 0 ? cropBlogs[0].image : null;
+                    
+                    return {
+                      name: crop,
+                      image: firstBlogImage || `/images/crops/${crop}.webp`, // Use first blog image or fallback to static
+                      category: category.name
+                    };
+                  })
                 );
                 
                 // Add post count and index to each crop
