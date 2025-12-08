@@ -194,19 +194,32 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
                                   </div>
                                 ) : null}
                                 
-                                {/* Buy Now Button */}
-                                <button
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    addToCart(product, 1, 'regular');
-                                    // Go back to main page and open the cart
-                                    openCart();
-                                  }}
-                                  className="w-full bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
-                                  data-testid="buy-now-btn"
-                                >
-                                  खरेदी करा
-                                </button>
+                                {/* Buy Now Button with Cart Button */}
+                                <div className="flex items-center space-x-1.5">
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      addToCart(product, 1, 'regular');
+                                      // Go back to main page and open the cart
+                                      openCart();
+                                    }}
+                                    className="flex-1 bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
+                                    data-testid="buy-now-btn"
+                                  >
+                                    खरेदी करा
+                                  </button>
+                                  <button
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      addToCart(product, 1, 'regular');
+                                    }}
+                                    className="bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold p-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 flex items-center justify-center"
+                                    data-testid="add-to-cart-btn"
+                                    title="कार्टमध्ये जोडा"
+                                  >
+                                    <ShoppingCart className="w-5 h-5" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           );
