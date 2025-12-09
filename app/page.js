@@ -285,11 +285,13 @@ export default function Home() {
     }
   };
 
-  // Handle product URL parameter and cart opening
+  // Handle product, crop, and blog URL parameters
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('product');
     const openCart = urlParams.get('openCart');
+    const cropParam = urlParams.get('crop');
+    const blogId = urlParams.get('blog');
     
     if (productId && products.length > 0) {
       const product = products.find(p => p.id === productId);
@@ -298,12 +300,26 @@ export default function Home() {
       }
     }
     
+    // Handle crop and blog navigation from URL
+    if (cropParam && blogs.length > 0) {
+      const decodedCrop = decodeURIComponent(cropParam);
+      setSelectedCrop(decodedCrop);
+      
+      // If blog ID is also present, open that specific blog
+      if (blogId) {
+        const blog = blogs.find(b => b.id === blogId && b.selectedCrop === decodedCrop);
+        if (blog) {
+          setSelectedBlog(blog);
+        }
+      }
+    }
+    
     if (openCart === 'true') {
       setShowCart(true);
       // Remove the parameter from URL
       window.history.replaceState({}, '', '/');
     }
-  }, [products]);
+  }, [products, blogs]);
 
   // Auto-slide banners every 3 seconds
   useEffect(() => {
