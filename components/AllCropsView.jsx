@@ -141,7 +141,7 @@ export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) 
       </section>
 
       {/* Footer */}
-      <footer className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-8 mt-12 rounded-t-[32px]">
+      <footer className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-8 mt-auto rounded-t-[32px]">
         <div className="container mx-auto px-4">
           <div className="text-center">
             <h3 className="text-xl font-bold mb-2">{shopData?.shop_name || 'Shop Name'}</h3>
