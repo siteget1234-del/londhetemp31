@@ -40,6 +40,7 @@ export default function Home() {
   const [showSearch, setShowSearch] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedCrop, setSelectedCrop] = useState(null); // State for crop navigation
+  const [selectedBlog, setSelectedBlog] = useState(null); // State for blog detail view
   const [showAllCrops, setShowAllCrops] = useState(false); // State for all crops view
   const [currentBanner, setCurrentBanner] = useState(0);
   const [selectedProduct, setSelectedProduct] = useState(null);
