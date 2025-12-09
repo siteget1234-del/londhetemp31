@@ -9,6 +9,7 @@ import { calculateOfferPricing, calculateCartTotal, formatDiscount, calculateCar
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import CropView from '@/components/CropView';
 import AllCropsView from '@/components/AllCropsView';
+import BlogDetailView from '@/components/BlogDetailView';
 
 // Predefined Categories - Always show these 4
 const PREDEFINED_CATEGORIES = [
