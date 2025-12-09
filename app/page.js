@@ -2257,6 +2257,126 @@ export default function Home() {
           </div>
         </div>
       )}
+
+      {/* Burger Menu Sidebar */}
+      {showSidebar && (
+        <div className="fixed inset-0 z-50 overflow-hidden">
+          {/* Backdrop */}
+          <div 
+            className="absolute inset-0 bg-black/50 transition-opacity"
+            onClick={() => setShowSidebar(false)}
+            data-testid="sidebar-backdrop"
+          />
+          
+          {/* Sidebar Panel - Slides from Right */}
+          <div className="absolute right-0 top-0 bottom-0 w-80 bg-white shadow-2xl transform transition-transform duration-300 ease-out">
+            {/* Sidebar Header */}
+            <div className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white p-6 flex items-center justify-between">
+              <h2 className="text-xl font-bold">मेनू</h2>
+              <button 
+                onClick={() => setShowSidebar(false)}
+                className="p-2 hover:bg-white/10 rounded-lg transition"
+                data-testid="close-sidebar-btn"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Sidebar Content */}
+            <div className="p-6 space-y-2">
+              {user ? (
+                // Admin User Menu
+                <>
+                  <button
+                    onClick={() => {
+                      router.push('/admin');
+                      setShowSidebar(false);
+                    }}
+                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-lg flex items-center space-x-3 transition"
+                    data-testid="sidebar-admin-dashboard"
+                  >
+                    <Settings className="w-5 h-5 text-emerald-600" />
+                    <span className="font-medium">अ‍ॅडमिन डॅशबोर्ड</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      handleSignOut();
+                      setShowSidebar(false);
+                    }}
+                    className="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg flex items-center space-x-3 transition"
+                    data-testid="sidebar-signout"
+                  >
+                    <LogOut className="w-5 h-5" />
+                    <span className="font-medium">साइन आउट</span>
+                  </button>
+                </>
+              ) : (
+                // Public/Farmer User Menu
+                <>
+                  <button
+                    onClick={() => {
+                      alert('आमच्याबद्दल: ' + (shopData?.shop_name || 'Shop Name') + '\n\n' + (shopData?.shop_address || 'Shop Address') + '\n\nफोन: ' + (shopData?.shop_number || '0000000000'));
+                      setShowSidebar(false);
+                    }}
+                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-lg flex items-center space-x-3 transition"
+                    data-testid="sidebar-about-us"
+                  >
+                    <Info className="w-5 h-5 text-emerald-600" />
+                    <span className="font-medium">आमच्याबद्दल</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      window.open(`https://wa.me/${shopData?.shop_number}?text=${encodeURIComponent('नमस्कार! मला मदत हवी आहे.')}`, '_blank');
+                      setShowSidebar(false);
+                    }}
+                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-lg flex items-center space-x-3 transition"
+                    data-testid="sidebar-contact-support"
+                  >
+                    <HelpCircle className="w-5 h-5 text-emerald-600" />
+                    <span className="font-medium">संपर्क साधा</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (navigator.share) {
+                        navigator.share({
+                          title: shopData?.shop_name || 'Shop Name',
+                          text: 'हे अ‍ॅप पहा!',
+                          url: window.location.origin
+                        }).catch(() => {});
+                      } else {
+                        navigator.clipboard.writeText(window.location.origin);
+                        alert('लिंक कॉपी केली!');
+                      }
+                      setShowSidebar(false);
+                    }}
+                    className="w-full text-left px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-lg flex items-center space-x-3 transition"
+                    data-testid="sidebar-share-app"
+                  >
+                    <Share2 className="w-5 h-5 text-emerald-600" />
+                    <span className="font-medium">अ‍ॅप शेअर करा</span>
+                  </button>
+                  
+                  {/* Divider */}
+                  <div className="border-t border-gray-200 my-4"></div>
+                  
+                  {/* Admin Login Link - Subtle */}
+                  <button
+                    onClick={() => {
+                      router.push('/login');
+                      setShowSidebar(false);
+                    }}
+                    className="w-full text-left px-4 py-2 text-gray-500 hover:text-gray-700 hover:bg-gray-50 rounded-lg flex items-center space-x-3 transition text-sm"
+                    data-testid="sidebar-admin-login"
+                  >
+                    <ExternalLink className="w-4 h-4" />
+                    <span>अ‍ॅडमिन लॉगिन</span>
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
