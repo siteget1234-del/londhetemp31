@@ -1208,40 +1208,16 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Right Side: Menu & Cart */}
+            {/* Right Side: Burger Menu & Cart */}
             <div className="flex items-center space-x-2">
-              {/* Admin Menu */}
-              {user && (
-                <div className="relative">
-                  <button 
-                    onClick={() => setShowUserMenu(!showUserMenu)}
-                    className="p-2.5 hover:bg-white/10 rounded-xl transition-all duration-200 active:scale-95 bg-white/5 backdrop-blur-sm"
-                  >
-                    <Menu className="w-5 h-5" />
-                  </button>
-                  {showUserMenu && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl py-2 z-50">
-                      <button
-                        onClick={() => {
-                          router.push('/admin');
-                          setShowUserMenu(false);
-                        }}
-                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-emerald-50 flex items-center space-x-2"
-                      >
-                        <Settings className="w-4 h-4" />
-                        <span>अ‍ॅडमिन डॅशबोर्ड</span>
-                      </button>
-                      <button
-                        onClick={handleSignOut}
-                        className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 flex items-center space-x-2"
-                      >
-                        <LogOut className="w-4 h-4" />
-                        <span>साइन आउट</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
+              {/* Burger Menu Button - Always visible */}
+              <button 
+                onClick={() => setShowSidebar(true)}
+                className="p-2.5 hover:bg-white/10 rounded-xl transition-all duration-200 active:scale-95 bg-white/5 backdrop-blur-sm"
+                data-testid="burger-menu-button"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
               
               {/* Cart Button with Badge */}
               <button 
