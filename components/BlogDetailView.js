@@ -106,7 +106,7 @@ export default function BlogDetailView({ blog, cropName, back, shopData, addToCa
       </header>
 
       {/* Blog Content Section */}
-      <section className="container mx-auto px-4 py-6">
+      <section className="container mx-auto px-4 py-6 flex-1">
         {/* Blog Card */}
         <div 
           className="bg-white rounded-xl shadow-lg overflow-hidden flex flex-col"
