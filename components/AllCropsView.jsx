@@ -91,7 +91,7 @@ export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) 
       </section>
 
       {/* Crops Grid by Category */}
-      <section className="container mx-auto px-4 py-12">
+      <section className="container mx-auto px-4 py-12 flex-1">
         {Object.keys(groupedCrops).length === 0 ? (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">🌾</div>
