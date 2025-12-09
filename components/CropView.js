@@ -18,7 +18,7 @@ const CROPS_DATA = [
   { name: 'गवार', image: '/images/crops/गवार.webp' }
 ];
 
-export default function CropView({ cropName, back, shopData, blogs, cart, addToCart, addAllToCart, openCart }) {
+export default function CropView({ cropName, back, shopData, blogs, cart, addToCart, addAllToCart, openCart, onSelectBlog }) {
   // Find crop data
   const cropData = CROPS_DATA.find(c => c.name === cropName);
   
@@ -29,6 +29,48 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [cropName]);
+
+  // Helper function to extract preview text from HTML
+  const getPreviewText = (htmlContent, maxLength = 150) => {
+    // Remove HTML tags
+    const text = htmlContent.replace(/<[^>]*>/g, '');
+    // Trim and limit length
+    return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+  };
+
+  // Helper function to extract title from blog HTML (first h1, h2, or first line)
+  const getBlogTitle = (htmlContent) => {
+    // Try to extract h1 first
+    const h1Match = htmlContent.match(/<h1[^>]*>(.*?)<\/h1>/i);
+    if (h1Match) return h1Match[1].replace(/<[^>]*>/g, '');
+    
+    // Try h2
+    const h2Match = htmlContent.match(/<h2[^>]*>(.*?)<\/h2>/i);
+    if (h2Match) return h2Match[1].replace(/<[^>]*>/g, '');
+    
+    // Fall back to first paragraph or first 60 chars
+    const pMatch = htmlContent.match(/<p[^>]*>(.*?)<\/p>/i);
+    if (pMatch) {
+      const text = pMatch[1].replace(/<[^>]*>/g, '');
+      return text.length > 60 ? text.substring(0, 60) + '...' : text;
+    }
+    
+    // Last resort: first 60 chars of plain text
+    const plainText = htmlContent.replace(/<[^>]*>/g, '');
+    return plainText.length > 60 ? plainText.substring(0, 60) + '...' : plainText;
+  };
+
+  // Format date (if createdAt exists, otherwise show default)
+  const formatDate = (blog) => {
+    if (blog.createdAt) {
+      return new Date(blog.createdAt).toLocaleDateString('mr-IN', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
+    return 'नवीनतम';
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
