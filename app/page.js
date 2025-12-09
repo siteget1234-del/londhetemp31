@@ -1186,7 +1186,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white sticky top-0 z-50 rounded-b-[32px]">
         <div className="container mx-auto px-4 py-4">
