@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { ChevronLeft, ShoppingCart, Package } from 'lucide-react';
+import { ChevronLeft } from 'lucide-react';
 import { applyCloudinaryOptimization } from '@/lib/imageOptimization';
 
 // Crop data with images
