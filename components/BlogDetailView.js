@@ -42,7 +42,7 @@ export default function BlogDetailView({ blog, cropName, back, shopData, addToCa
   const blogUrl = typeof window !== 'undefined' ? `${window.location.origin}?crop=${encodeURIComponent(cropName)}&blog=${blog.id}` : '';
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Header */}
       <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-4 px-4 sticky top-0 z-50">
         <div className="flex items-center justify-between">
