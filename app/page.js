@@ -1367,7 +1367,7 @@ export default function Home() {
       )}
 
       {/* Products Section */}
-      <section className="container mx-auto px-4 py-8">
+      <section className="container mx-auto px-4 py-8 flex-1">
         {(showSearch && searchQuery) || selectedCategory ? (
           <div className="mb-6">
             {showSearch && searchQuery ? (
