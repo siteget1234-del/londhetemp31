@@ -1130,6 +1130,25 @@ export default function Home() {
     );
   }
 
+  // Show BlogDetailView if a blog is selected
+  if (selectedBlog && selectedCrop) {
+    return (
+      <BlogDetailView
+        blog={selectedBlog}
+        cropName={selectedCrop}
+        back={() => setSelectedBlog(null)}
+        shopData={shopData}
+        addToCart={addToCart}
+        addAllToCart={addAllToCart}
+        openCart={() => {
+          setSelectedBlog(null);
+          setSelectedCrop(null);
+          setShowCart(true);
+        }}
+      />
+    );
+  }
+
   // Show CropView if a crop is selected
   if (selectedCrop) {
     return (
@@ -1145,6 +1164,7 @@ export default function Home() {
           setSelectedCrop(null);
           setShowCart(true);
         }}
+        onSelectBlog={(blog) => setSelectedBlog(blog)}
       />
     );
   }
