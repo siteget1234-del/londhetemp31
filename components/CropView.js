@@ -91,7 +91,7 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
         </div>
       </header>
 
-      {/* Blogs Section */}
+      {/* Blog Previews Section */}
       <section className="container mx-auto px-4 py-12">
         {cropBlogs.length === 0 ? (
           <div className="text-center py-12">
@@ -100,175 +100,55 @@ export default function CropView({ cropName, back, shopData, blogs, cart, addToC
             <p className="text-gray-400 text-sm">लवकरच आम्ही या पिकासाठी माहिती जोडू</p>
           </div>
         ) : (
-          <div className="space-y-8">
+          <div className="space-y-6">
             {cropBlogs.map(blog => {
-              // Define layout aspect ratios
-              const layoutAspects = {
-                standard: 16/9,
-                portrait: 4/5,
-                square: 1,
-                wide: 21/9
-              };
-              const aspect = layoutAspects[blog.layout || 'standard'];
-              
-              // Get attached products
-              const attachedProducts = blog.attachedProducts && blog.attachedProducts.length > 0
-                ? shopData.products.filter(p => blog.attachedProducts.includes(p.id))
-                : [];
+              const title = getBlogTitle(blog.text);
+              const previewText = getPreviewText(blog.text);
+              const date = formatDate(blog);
               
               return (
-                <div key={blog.id} className="space-y-6">
-                  {/* Blog Card */}
-                  <div 
-                    className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 flex flex-col"
-                    data-testid={`crop-blog-${blog.id}`}
-                  >
-                    <div className="relative w-full bg-gray-100" style={{ paddingBottom: `${(1 / aspect) * 100}%` }}>
+                <div 
+                  key={blog.id}
+                  onClick={() => onSelectBlog(blog)}
+                  className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer transform hover:scale-[1.02] active:scale-[0.98]"
+                  data-testid={`crop-blog-preview-${blog.id}`}
+                >
+                  <div className="flex gap-4 p-4">
+                    {/* Blog Image - Thumbnail */}
+                    <div className="flex-shrink-0 w-32 h-32 rounded-lg overflow-hidden bg-gray-100">
                       <img 
-                        src={applyCloudinaryOptimization(blog.image) || 'https://via.placeholder.com/400x300?text=Blog+Image'} 
-                        alt={`${cropName} Blog`}
-                        className="absolute inset-0 w-full h-full object-cover"
+                        src={applyCloudinaryOptimization(blog.image) || 'https://via.placeholder.com/128x128?text=Blog'} 
+                        alt={title}
+                        className="w-full h-full object-cover"
                       />
                     </div>
-                    <div className="p-6 flex-1">
-                      <div 
-                        className="text-gray-700 leading-relaxed blog-content"
-                        dangerouslySetInnerHTML={{ __html: blog.text }}
-                      />
+                    
+                    {/* Blog Preview Content */}
+                    <div className="flex-1 flex flex-col justify-between min-w-0">
+                      {/* Title */}
+                      <h3 className="text-lg font-bold text-gray-800 line-clamp-2 mb-2" data-testid="blog-preview-title">
+                        {title}
+                      </h3>
+                      
+                      {/* Date */}
+                      <p className="text-xs text-gray-500 mb-2" data-testid="blog-preview-date">
+                        📅 {date}
+                      </p>
+                      
+                      {/* Preview Text */}
+                      <p className="text-sm text-gray-600 line-clamp-2 mb-2" data-testid="blog-preview-text">
+                        {previewText}
+                      </p>
+                      
+                      {/* Read More Link */}
+                      <div className="flex items-center text-[#177B3B] font-semibold text-sm">
+                        <span>संपूर्ण वाचा</span>
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
-
-                  {/* Attached Products Section */}
-                  {attachedProducts.length > 0 && (
-                    <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-6 shadow-lg">
-                      {/* Header with Buy All Button */}
-                      <div className="flex items-center justify-between mb-4">
-                        <h3 className="text-xl font-bold text-gray-800 flex items-center space-x-2">
-                          <Package className="w-6 h-6 text-emerald-600" />
-                          <span>संबंधित उत्पादने</span>
-                        </h3>
-                        {attachedProducts.length > 1 && (
-                          <button
-                            onClick={() => {
-                              const count = addAllToCart(attachedProducts);
-                              if (count > 0) {
-                                // Go back to main page and open the cart
-                                openCart();
-                              }
-                            }}
-                            className="bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-all duration-300 flex items-center space-x-2 transform hover:scale-105"
-                            data-testid={`buy-all-btn-${blog.id}`}
-                          >
-                            <ShoppingCart className="w-5 h-5" />
-                            <span>सर्व खरेदी करा</span>
-                          </button>
-                        )}
-                      </div>
-
-                      {/* Products Grid */}
-                      <div className="grid grid-cols-2 gap-2">
-                        {attachedProducts.map(product => {
-                          const discountPercent = product.mrp && product.price < product.mrp 
-                            ? Math.round(((product.mrp - product.price) / product.mrp) * 100)
-                            : null;
-                          
-                          const hasSpecialOffer = product.specialOffer?.offerName && 
-                                                 product.specialOffer?.quantity && 
-                                                 product.specialOffer?.offerPricePerUnit;
-                          
-                          return (
-                            <div 
-                              key={product.id}
-                              className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer overflow-hidden transform hover:scale-[1.03] active:scale-[0.98] border border-gray-100"
-                              data-testid={`attached-product-${product.id}`}
-                            >
-                              {/* Product Image */}
-                              <div className="relative">
-                                <img 
-                                  src={product.image || 'https://via.placeholder.com/400x300?text=Product+Image'} 
-                                  alt={product.name}
-                                  className="w-full h-28 object-cover"
-                                />
-                              </div>
-                              
-                              {/* Product Info */}
-                              <div className="p-2 space-y-1.5">
-                                {/* Product Name */}
-                                <h3 className="text-sm font-normal text-gray-800 line-clamp-2 leading-tight min-h-[2.5rem]" data-testid="product-name">
-                                  {product.name}
-                                </h3>
-                                
-                                {/* Price Section */}
-                                <div className="flex items-center space-x-1.5">
-                                  <span className="text-base font-bold text-gray-900" data-testid="product-price">
-                                    ₹{product.price}
-                                  </span>
-                                  {product.mrp && product.mrp > product.price && (
-                                    <span className="text-xs text-gray-500 line-through" data-testid="product-mrp">
-                                      ₹{product.mrp}
-                                    </span>
-                                  )}
-                                </div>
-                                
-                                {/* Offer Badge */}
-                                {product.offer && (
-                                  <div className="bg-red-50 border border-red-200 rounded-md px-1.5 py-0.5">
-                                    <span className="text-[10px] font-bold text-red-600" data-testid="product-offer">
-                                      {product.offer}
-                                    </span>
-                                  </div>
-                                )}
-                                
-                                {/* Special Offer Text or Discount */}
-                                {hasSpecialOffer ? (
-                                  <div className="offer-pill-shimmer bg-gradient-to-r from-[#177B3B]/10 to-[#01582E]/10 border border-[#177B3B]/40 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
-                                    <span className="text-xs">💰</span>
-                                    <p className="text-[10px] font-bold text-[#177B3B]" data-testid="product-offer-price">
-                                      ऑफर: ₹{product.specialOffer.offerPricePerUnit}/ प्रति नग
-                                    </p>
-                                  </div>
-                                ) : discountPercent ? (
-                                  <div className="offer-pill-shimmer bg-gradient-to-r from-[#177B3B]/10 to-[#01582E]/10 border border-[#177B3B]/40 rounded-lg px-1.5 py-0.5 flex items-center space-x-1">
-                                    <span className="text-xs">💰</span>
-                                    <p className="text-[10px] font-bold text-[#177B3B]" data-testid="product-discount">
-                                      खास {discountPercent}% सूट
-                                    </p>
-                                  </div>
-                                ) : null}
-                                
-                                {/* Buy Now Button with Cart Button */}
-                                <div className="flex items-center space-x-1.5">
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      addToCart(product, 1, 'regular');
-                                      // Go back to main page and open the cart
-                                      openCart();
-                                    }}
-                                    className="flex-1 bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 text-sm"
-                                    data-testid="buy-now-btn"
-                                  >
-                                    खरेदी करा
-                                  </button>
-                                  <button
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      addToCart(product, 1, 'regular');
-                                    }}
-                                    className="bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold p-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-95 flex items-center justify-center"
-                                    data-testid="add-to-cart-btn"
-                                    title="कार्टमध्ये जोडा"
-                                  >
-                                    <ShoppingCart className="w-5 h-5" />
-                                  </button>
-                                </div>
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
                 </div>
               );
             })}
