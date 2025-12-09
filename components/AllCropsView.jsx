@@ -75,7 +75,7 @@ export default function AllCropsView({ blogs, onBack, onSelectCrop, shopData }) 
   }, [blogs]);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-emerald-50 to-teal-50 py-12">
         <div className="container mx-auto px-4">
