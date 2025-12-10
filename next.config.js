@@ -23,7 +23,8 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['mongodb'],
-    // Note: optimizeCss requires critters package - disabled for now
+    optimizeCss: true, // Enable CSS optimization
+    optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-accordion'], // Tree-shake specific packages
   },
   // ✅ Compiler optimizations
   compiler: {
@@ -31,6 +32,9 @@ const nextConfig = {
       exclude: ['error', 'warn'],
     } : false,
   },
+  // ✅ React optimizations
+  reactStrictMode: true,
+  swcMinify: true, // Use SWC minifier for faster builds
   webpack(config, { dev, isServer }) {
     if (dev) {
       // Reduce CPU/memory from file watching
