@@ -140,6 +140,17 @@ const nextConfig = {
   poweredByHeader: false,
   // ✅ Generate etags for caching
   generateEtags: true,
+  
+  // ✅ Production source maps (disabled for performance)
+  productionBrowserSourceMaps: false,
+  
+  // ✅ Optimize fonts
+  optimizeFonts: true,
 };
 
-module.exports = nextConfig;
+// Bundle analyzer configuration
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
+module.exports = withBundleAnalyzer(nextConfig);
