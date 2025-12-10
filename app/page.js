@@ -52,6 +52,10 @@ export default function Home() {
   const [copySuccess, setCopySuccess] = useState(false); // Copy link feedback
   const [showSidebar, setShowSidebar] = useState(false); // Burger menu sidebar
   
+  // PWA Install state
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
+  
   // Delivery Address State
   const [deliveryAddress, setDeliveryAddress] = useState(null);
   const [showAddressDialog, setShowAddressDialog] = useState(false);
