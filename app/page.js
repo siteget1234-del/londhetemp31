@@ -2302,7 +2302,7 @@ export default function Home() {
                   </button>
                   <button
                     onClick={() => {
-                      window.open(`https://wa.me/${shopData?.shop_number}?text=${encodeURIComponent('नमस्कार! मला मदत हवी आहे.')}`, '_blank');
+                      window.open(`https://wa.me/91${shopData?.shop_number}?text=${encodeURIComponent('नमस्कार! मला मदत हवी आहे.')}`, '_blank');
                       setShowSidebar(false);
                     }}
                     className="w-full text-left px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-lg flex items-center space-x-3 transition"
