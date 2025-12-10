@@ -3,7 +3,16 @@
 
   <url>
     <loc>https://shriagro.krishi.site/</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://shriagro.krishi.site/about</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
   </url>
 
 </urlset>
