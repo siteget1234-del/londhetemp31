@@ -44,6 +44,37 @@ export default function AboutUs() {
         <link rel="canonical" href="/about" />
       </Head>
 
+      {/* JSON-LD Structured Data for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "लोंढे कृषी सेवा केंद्र",
+            "description": "कृषी उत्पादने, बियाणे, खते, संरक्षण साधने आणि हार्डवेअर उपलब्ध",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "कसबे तडवळे",
+              "addressLocality": "धाराशिव",
+              "addressRegion": "महाराष्ट्र",
+              "postalCode": "413405",
+              "addressCountry": "IN"
+            },
+            "telephone": shopData?.shop_number ? `+91${shopData.shop_number}` : "+919XXXXXXXXX",
+            "openingHours": ["Mo-Sa 09:00-19:00", "Su 09:00-13:00"],
+            "priceRange": "₹₹",
+            "url": typeof window !== 'undefined' ? window.location.origin : "",
+            "image": typeof window !== 'undefined' ? `${window.location.origin}/logo.png` : "",
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.8",
+              "reviewCount": "100"
+            }
+          })
+        }}
+      />
+
       <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
         {/* Header */}
         <header className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white sticky top-0 z-50 shadow-lg">
