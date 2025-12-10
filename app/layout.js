@@ -42,6 +42,7 @@ export default function RootLayout({ children }) {
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://customer-assets.emergentagent.com" />
         <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        <meta name="google-site-verification" content="u-r9HkP998MQZv_is0kOAseLjYitBbQIETaoxPGVl64" />
       </head>
       <body className={inter.className}>
         <LayoutClient>{children}</LayoutClient>
