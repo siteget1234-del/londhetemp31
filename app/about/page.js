@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Head from 'next/head';
 import { ChevronLeft, MapPin, Phone, Clock, Award, Users, Leaf, Truck, ShoppingCart } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 
@@ -33,7 +34,7 @@ export default function AboutUs() {
   return (
     <>
       {/* SEO Meta Tags */}
-      <head>
+      <Head>
         <title>आमच्याबद्दल - लोंढे कृषी सेवा केंद्र | कसबे तडवळे धाराशिव</title>
         <meta name="description" content="लोंढे कृषी सेवा केंद्र - कसबे तडवळे धाराशिव 413405 येथील विश्वसनीय कृषी सेवा केंद्र. बियाणे, खते, पोषण, संरक्षण साधने आणि हार्डवेअर उत्पादने उपलब्ध. शेतकऱ्यांसाठी एक विश्वसनीय भागीदार." />
         <meta name="keywords" content="लोंढे कृषी सेवा केंद्र, कसबे तडवळे, धाराशिव, कृषी उत्पादने, बियाणे, खते, कीटकनाशके, शेती साधने, महाराष्ट्र" />
@@ -41,7 +42,7 @@ export default function AboutUs() {
         <meta property="og:description" content="लोंढे कृषी सेवा केंद्र - कसबे तडवळे धाराशिव येथील विश्वसनीय कृषी सेवा केंद्र" />
         <meta property="og:type" content="website" />
         <link rel="canonical" href="/about" />
-      </head>
+      </Head>
 
       <div className="min-h-screen bg-gradient-to-b from-emerald-50 to-white">
         {/* Header */}
