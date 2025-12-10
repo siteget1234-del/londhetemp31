@@ -229,6 +229,8 @@ export default function Home() {
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) {
+      // Fallback: Show instructions if prompt not available
+      alert('📱 To install this app:\n\n1. Open this site in Chrome browser\n2. Tap the menu (⋮) in top right\n3. Select "Install app" or "Add to Home screen"\n\nOr access via HTTPS for automatic install prompt.');
       return;
     }
 
