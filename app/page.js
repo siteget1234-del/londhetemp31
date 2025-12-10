@@ -54,7 +54,7 @@ export default function Home() {
   
   // PWA Install state
   const [deferredPrompt, setDeferredPrompt] = useState(null);
-  const [showInstallButton, setShowInstallButton] = useState(false);
+  const [showInstallButton, setShowInstallButton] = useState(true);
   
   // Delivery Address State
   const [deliveryAddress, setDeliveryAddress] = useState(null);
