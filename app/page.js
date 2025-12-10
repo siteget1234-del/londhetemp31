@@ -722,7 +722,7 @@ export default function Home() {
               </div>
               <div className="flex items-center space-x-2">
                 <a
-                  href={`https://wa.me/${shopData?.shop_number}`}
+                  href={`https://wa.me/91${shopData?.shop_number}`}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full transition-all duration-200"
