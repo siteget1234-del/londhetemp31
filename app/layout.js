@@ -1,7 +1,12 @@
 import { Inter } from 'next/font/google';
 import './globals.css';
+import LayoutClient from './layout-client';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ 
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+});
 
 export const metadata = {
   title: 'लोंढे कृषी सेवा केंद्र - कसबे तडवळे धाराशिव',
@@ -18,12 +23,29 @@ export const metadata = {
   },
 
   manifest: '/site.webmanifest',
+  
+  // Performance optimizations
+  themeColor: '#177B3B',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 5,
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="mr">
-      <body className={inter.className}>{children}</body>
+      <head>
+        {/* Preconnect to external domains for faster loading */}
+        <link rel="preconnect" href="https://customer-assets.emergentagent.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://customer-assets.emergentagent.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+      </head>
+      <body className={inter.className}>
+        <LayoutClient>{children}</LayoutClient>
+      </body>
     </html>
   );
 }
