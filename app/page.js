@@ -2291,7 +2291,7 @@ export default function Home() {
                 <>
                   <button
                     onClick={() => {
-                      alert('आमच्याबद्दल: ' + (shopData?.shop_name || 'Shop Name') + '\n\n' + (shopData?.shop_address || 'Shop Address') + '\n\nफोन: ' + (shopData?.shop_number || '0000000000'));
+                      router.push('/about');
                       setShowSidebar(false);
                     }}
                     className="w-full text-left px-4 py-3 text-gray-700 hover:bg-emerald-50 rounded-lg flex items-center space-x-3 transition"
