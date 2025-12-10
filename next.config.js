@@ -27,7 +27,7 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ['mongodb'],
-    optimizeCss: true, // Enable CSS optimization
+    // optimizeCss: true, // Disabled - requires critters package
     optimizePackageImports: ['lucide-react', '@radix-ui/react-dialog', '@radix-ui/react-accordion'], // Tree-shake specific packages
   },
   // ✅ Compiler optimizations
