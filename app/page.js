@@ -516,7 +516,7 @@ export default function Home() {
     // Track order before opening WhatsApp
     await trackOrder();
     
-    const whatsappUrl = `https://wa.me/${shopData?.shop_number}?text=${generateWhatsAppMessage()}`;
+    const whatsappUrl = `https://wa.me/91${shopData?.shop_number}?text=${generateWhatsAppMessage()}`;
     window.open(whatsappUrl, '_blank');
   };
 
