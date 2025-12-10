@@ -1845,6 +1845,23 @@ export default function Home() {
         </section>
       )}
 
+      {/* PWA Install Button - Before Footer */}
+      {!showSearch && !selectedCategory && showInstallButton && (
+        <div className="container mx-auto px-4 py-6">
+          <button
+            onClick={handleInstallClick}
+            className="w-full bg-gradient-to-r from-[#177B3B] to-[#01582E] hover:from-[#1a8e45] hover:to-[#016a37] text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 flex items-center justify-center space-x-3"
+            data-testid="pwa-install-button"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            <span className="text-lg">Download App</span>
+            <span className="text-sm bg-white/20 px-3 py-1 rounded-full">Android</span>
+          </button>
+        </div>
+      )}
+
       {/* Footer */}
       {!showSearch && !selectedCategory && (
         <footer className="bg-gradient-to-r from-[#177B3B] to-[#01582E] text-white py-8 mt-auto rounded-t-[32px]">
